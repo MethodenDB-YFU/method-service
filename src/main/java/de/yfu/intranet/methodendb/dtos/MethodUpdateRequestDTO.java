@@ -20,13 +20,23 @@ public class MethodUpdateRequestDTO {
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 	
 	private String title;
+	
 	private String content;
+	
 	private Set<MethodLevel> methodLevels;
+	
 	private Set<MethodType> methodTypes;
+	
 	private SeminarType seminarType;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date createdAt;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date modifiedAt;
+	
 	private int createdBy;
+	
 	private int modifiedBy;
 	
 	@JsonCreator

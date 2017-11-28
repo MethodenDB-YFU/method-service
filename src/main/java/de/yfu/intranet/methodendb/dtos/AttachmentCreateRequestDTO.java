@@ -19,7 +19,8 @@ public class AttachmentCreateRequestDTO {
 	private Method method;
 	
 	private String content;
-	
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date createdAt;
 	
 	private String createdBy;	
