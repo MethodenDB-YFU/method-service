@@ -8,7 +8,7 @@ cache:
   - $HOME/.m2
 
 script:
-  - mvn clean install -DskipTests
+  - mvn clean install -Dspring.profiles.active=$SPRING_PROFILE
   - mvn cobertura:cobertura
 
 after_success:
