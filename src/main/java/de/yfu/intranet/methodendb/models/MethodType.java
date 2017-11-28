@@ -38,11 +38,9 @@ public class MethodType implements Serializable {
 	
 	@JsonCreator
 	public MethodType(
-			@JsonProperty("id") int id,
 			@JsonProperty("name") String name, 
 			@JsonProperty(value="description", required=false) String description) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 	}

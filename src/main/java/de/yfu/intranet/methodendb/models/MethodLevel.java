@@ -38,11 +38,9 @@ public class MethodLevel implements Serializable {
 	
 	@JsonCreator
 	public MethodLevel(
-			@JsonProperty("id") int id,
 			@JsonProperty("name") String name, 
 			@JsonProperty(value="description", required=false) String description) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 	}

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -36,9 +37,9 @@ public class MethodUpdateRequestDTO {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date modifiedAt;
 	
-	private int createdBy;
+	private User createdBy;
 	
-	private int modifiedBy;
+	private User modifiedBy;
 	
 	@JsonCreator
 	public MethodUpdateRequestDTO(
