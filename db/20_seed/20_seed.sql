@@ -26,6 +26,14 @@ COPY seminar_type (id, foreign_id, name) FROM stdin;
 3	\N	Mittelseminar
 \.
 
+--
+-- Data for Name: mdb_user; Type: TABLE DATA; Schema: public; Owner: spring
+--
+
+COPY mdb_user (id, role) FROM stdin;
+1	EDITOR
+\.
+
 
 --
 -- Data for Name: method; Type: TABLE DATA; Schema: public; Owner: spring
@@ -111,6 +119,12 @@ COPY method_method_type (method_id, method_type_id) FROM stdin;
 1	2
 2	3
 \.
+
+--
+-- Name: mdb_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: spring
+--
+
+SELECT pg_catalog.setval('mdb_user_id_seq', 1, true);
 
 
 --

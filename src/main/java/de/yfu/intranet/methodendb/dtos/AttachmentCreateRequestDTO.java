@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.yfu.intranet.methodendb.models.Method;
+import de.yfu.intranet.methodendb.models.User;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AttachmentCreateRequestDTO {
@@ -22,14 +23,14 @@ public class AttachmentCreateRequestDTO {
 	
 	private Date createdAt;
 	
-	private String createdBy;	
+	private User createdBy;	
 	
 	@JsonCreator
 	public AttachmentCreateRequestDTO(
 			@JsonProperty(value="method", required=false) Method method, 
 			@JsonProperty(value="content") String content, 
 			@JsonProperty(value="createdAt", required=false) String createdAt, 
-			@JsonProperty(value="createdBy") String createdBy) throws ParseException {
+			@JsonProperty(value="createdBy") User createdBy) throws ParseException {
 		super();
 		this.method = method;
 		this.content = content;
@@ -61,11 +62,11 @@ public class AttachmentCreateRequestDTO {
 		this.createdAt = createdAt;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 }

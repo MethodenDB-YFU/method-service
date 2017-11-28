@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.yfu.intranet.methodendb.models.MethodLevel;
 import de.yfu.intranet.methodendb.models.MethodType;
 import de.yfu.intranet.methodendb.models.SeminarType;
+import de.yfu.intranet.methodendb.models.User;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MethodCreateRequestDTO {
@@ -29,11 +30,11 @@ public class MethodCreateRequestDTO {
 	
 	private SeminarType seminarType;
 	
-	private int createdBy;
+	private User createdBy;
 	
 	private Date createdAt;
 	
-	private int modifiedBy;
+	private User modifiedBy;
 	
 	private Date modifiedAt;
 	
@@ -44,10 +45,10 @@ public class MethodCreateRequestDTO {
 			@JsonProperty(value="method_levels") Set<MethodLevel> methodLevels,
 			@JsonProperty(value="method_types") Set<MethodType> methodTypes, 
 			@JsonProperty(value="seminar_type") SeminarType seminarType, 
-			@JsonProperty(value="created_by") int createdBy, 
+			@JsonProperty(value="created_by") User createdBy, 
 			@JsonProperty(value="created_at", required=false) String createdAt, 
 			@JsonProperty(value="modified_at", required=false) String modifiedAt,
-			@JsonProperty(value="modified_by", required=false) int modifiedBy) throws ParseException {
+			@JsonProperty(value="modified_by", required=false) User modifiedBy) throws ParseException {
 		super();
 		this.title = title;
 		this.content = content;
@@ -60,11 +61,11 @@ public class MethodCreateRequestDTO {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public int getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(int modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -108,11 +109,11 @@ public class MethodCreateRequestDTO {
 		this.seminarType = seminarType;
 	}
 
-	public int getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
