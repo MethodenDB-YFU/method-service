@@ -9,9 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.yfu.intranet.methodendb.dtos.MethodTypeCreateRequestDTO;
 import de.yfu.intranet.methodendb.dtos.MethodTypeUpdateRequestDTO;
@@ -36,13 +34,8 @@ public class MethodType implements Serializable {
 		super();
 	}
 	
-	@JsonCreator
-	public MethodType(
-			@JsonProperty("id") int id,
-			@JsonProperty("name") String name, 
-			@JsonProperty(value="description", required=false) String description) {
+	public MethodType(String name, String description) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
@@ -85,5 +78,18 @@ public class MethodType implements Serializable {
 	@Override
 	public String toString() {
 		return "MethodType [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof MethodType)) {
+			return false;
+		}
+		
+		MethodType methodType = (MethodType) obj;
+		
+		return methodType.name.equals(name) &&
+				methodType.description == description;
 	}	
 }

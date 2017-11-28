@@ -1,0 +1,41 @@
+spring:
+  profiles: test
+
+  jackson: 
+    time-zone: Europe/Berlin
+    locale: de_DE
+    serialization:
+      indent-output: true
+      write-dates-as-timestamps: false
+    property-naming-strategy: CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES
+ 
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5432/methodendb-test
+    username: spring
+    password: spring
+    driver-class-name: org.postgresql.Driver
+    
+  jpa:
+#    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp:
+           use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: none 
+      use-new-id-generator-mappings: true   
+    generate-ddl: false    
+    
+  http:
+    converters:
+      preferred-json-mapper: jackson
+  
+#logging:
+#  level:
+#    ROOT: DEBUG
+      
+server:
+  port: 8080
+
+      

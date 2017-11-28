@@ -9,9 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.yfu.intranet.methodendb.dtos.MethodLevelCreateRequestDTO;
 import de.yfu.intranet.methodendb.dtos.MethodLevelUpdateRequestDTO;
@@ -36,13 +34,8 @@ public class MethodLevel implements Serializable {
 		super();
 	}
 	
-	@JsonCreator
-	public MethodLevel(
-			@JsonProperty("id") int id,
-			@JsonProperty("name") String name, 
-			@JsonProperty(value="description", required=false) String description) {
+	public MethodLevel(String name, String description) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
@@ -85,5 +78,18 @@ public class MethodLevel implements Serializable {
 	@Override
 	public String toString() {
 		return "MethodLevel [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) return true;
+		if (!(obj instanceof MethodLevel)) {
+			return false;
+		}
+		
+		MethodLevel methodLevel = (MethodLevel) obj;
+		
+		return methodLevel.name.equals(name) &&
+				methodLevel.description == description;
 	}	
 }
