@@ -32,10 +32,12 @@ public class MethodCreateRequestDTO {
 	
 	private User createdBy;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date createdAt;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private User modifiedBy;
-	
+
 	private Date modifiedAt;
 	
 	@JsonCreator

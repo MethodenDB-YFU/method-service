@@ -22,10 +22,12 @@ public class AttachmentUpdateRequestDTO {
 	
 	private String content;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date createdAt;
 	
 	private User createdBy;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date modifiedAt;
 	
 	private User modifiedBy;
