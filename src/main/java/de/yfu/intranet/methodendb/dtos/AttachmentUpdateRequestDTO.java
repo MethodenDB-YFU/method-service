@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.yfu.intranet.methodendb.models.Method;
+import de.yfu.intranet.methodendb.models.User;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AttachmentUpdateRequestDTO {
@@ -20,22 +22,24 @@ public class AttachmentUpdateRequestDTO {
 	
 	private String content;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date createdAt;
 	
-	private String createdBy;
+	private User createdBy;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date modifiedAt;
 	
-	private String modifiedBy;
+	private User modifiedBy;
 	
 	@JsonCreator
 	public AttachmentUpdateRequestDTO(
 			@JsonProperty(value="method", required=false) Method method, 
 			@JsonProperty(value="content") String content, 
 			@JsonProperty(value="createdAt", required=false) String createdAt, 
-			@JsonProperty(value="createdBy") String createdBy,
+			@JsonProperty(value="createdBy") User createdBy,
 			@JsonProperty(value="modifiedAt", required=false) String modifiedAt,
-			@JsonProperty(value="modifiedBy") String modifiedBy) throws ParseException {
+			@JsonProperty(value="modifiedBy") User modifiedBy) throws ParseException {
 		super();
 		this.method = method;
 		this.content = content;
@@ -69,11 +73,11 @@ public class AttachmentUpdateRequestDTO {
 		this.createdAt = createdAt;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -85,11 +89,11 @@ public class AttachmentUpdateRequestDTO {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 }

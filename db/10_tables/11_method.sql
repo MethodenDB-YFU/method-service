@@ -5,5 +5,6 @@ CREATE TABLE method (
 	seminar_type_id		INT			NOT NULL,
 	created_at			TIMESTAMP 	DEFAULT now(),
 	modified_at			TIMESTAMP 	DEFAULT now(),
-	created_by			INT
+	modified_by			INT,
+	created_by			INT			NOT NULL
 );
