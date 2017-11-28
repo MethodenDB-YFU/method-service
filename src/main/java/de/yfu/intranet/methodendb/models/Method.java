@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -67,24 +69,29 @@ public class Method implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date modifiedAt;
 	
-	private int createdBy;
+	@ManyToOne(fetch=FetchType.EAGER)//, cascade=CascadeType.MERGE)
+	@JoinColumn(name="created_by")
+	private User createdBy;
+	
+	@ManyToOne(fetch=FetchType.EAGER)//, cascade=CascadeType.MERGE)
+	@JoinColumn(name="modified_by")
+	private User modifiedBy;
 
 	public Method() {
 		super();
 	}
 
-	public Method(int id, String title, String content, Set<MethodLevel> methodLevels, Set<MethodType> methodTypes,
-			SeminarType seminarType, Date createdAt, Date modifiedAt, int createdBy) {
+	public Method(String title, String content, Set<MethodLevel> methodLevels, Set<MethodType> methodTypes,
+			SeminarType seminarType, Set<Attachment> attachments, User createdBy, User modifiedBy) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.content = content;
 		this.methodLevels = methodLevels;
 		this.methodTypes = methodTypes;
 		this.seminarType = seminarType;
-		this.createdAt = createdAt;
-		this.modifiedAt = modifiedAt;
+		this.attachments = attachments;
 		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
 	}
 	
 	public Method(MethodCreateRequestDTO methodCreateRequestDTO) {
@@ -96,7 +103,7 @@ public class Method implements Serializable {
 		this.createdAt = methodCreateRequestDTO.getCreatedAt();
 		this.modifiedAt = methodCreateRequestDTO.getModifiedAt();
 		this.createdBy = methodCreateRequestDTO.getCreatedBy();
-		//this.modifiedBy = methodCreateRequestDTO.getModifiedBy();
+		this.modifiedBy = methodCreateRequestDTO.getModifiedBy();
 	}
 	
 	public Method(int methodId, MethodUpdateRequestDTO updateRequest) {
@@ -109,8 +116,16 @@ public class Method implements Serializable {
 		this.createdAt = updateRequest.getCreatedAt();
 		this.modifiedAt = updateRequest.getModifiedAt();
 		this.createdBy = updateRequest.getCreatedBy();
-//		this.modifiedBy = updateRequest.getModifiedBy();
+		this.modifiedBy = updateRequest.getModifiedBy();
 		
+	}
+
+	public User getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(User modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 	public Set<Attachment> getAttachments() {
@@ -185,11 +200,22 @@ public class Method implements Serializable {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public int getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
+	}
+	
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+		modifiedAt = new Date();
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		modifiedAt = new Date();
 	}
 }
