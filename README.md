@@ -1,4 +1,6 @@
 # Methodendatenbank
+[![Build Status](https://travis-ci.org/alexmsenger/methodendb.svg?branch=master)](https://travis-ci.org/alexmsenger/methodendb)
+
 Methodendatenbank für das YFU Intranet
 
 ## Dependencies
