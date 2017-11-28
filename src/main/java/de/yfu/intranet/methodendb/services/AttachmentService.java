@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import de.yfu.intranet.methodendb.dtos.AttachmentCreateRequestDTO;
 import de.yfu.intranet.methodendb.dtos.AttachmentUpdateRequestDTO;
@@ -11,6 +12,7 @@ import de.yfu.intranet.methodendb.exceptions.AttachmentException;
 import de.yfu.intranet.methodendb.models.Attachment;
 import de.yfu.intranet.methodendb.repositories.AttachmentRepository;
 
+@Service
 public class AttachmentService {
 	
 	@Autowired

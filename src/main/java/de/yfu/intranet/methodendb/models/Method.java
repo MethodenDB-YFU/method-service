@@ -40,7 +40,7 @@ public class Method implements Serializable {
 	
 	private String content;
 	
-	@OneToMany(mappedBy="method", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="method", fetch=FetchType.EAGER, cascade= {CascadeType.PERSIST})
 	private Set<Attachment> attachments;
 	
 	@ManyToMany(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
