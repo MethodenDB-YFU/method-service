@@ -34,7 +34,7 @@ import de.yfu.intranet.methodendb.repositories.UserRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK, classes = {MethodenDB.class})
 @ActiveProfiles(profiles = "test")
-public class MethodServiceIT {
+public class MethodServiceIntegrationTest {
 	
 	private static final String METHOD_LEVEL_NAME = "testML";
 	private static final String METHOD_TYPE_NAME = "testMT";
@@ -106,6 +106,11 @@ public class MethodServiceIT {
 		
 		List<MethodType> saved = methodTypeRepo.findAll();
 		assertTrue(saved.contains(result));
+	}
+	
+	@Test
+	public void createMethod_MergeMethodTypeAndMethodLevel() {
+		//TODO 
 	}
 	
 	@Test

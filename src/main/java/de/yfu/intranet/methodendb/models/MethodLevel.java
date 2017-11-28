@@ -9,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.yfu.intranet.methodendb.dtos.MethodLevelCreateRequestDTO;
 import de.yfu.intranet.methodendb.dtos.MethodLevelUpdateRequestDTO;
