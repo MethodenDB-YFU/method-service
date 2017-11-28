@@ -34,7 +34,7 @@ public class SeminarEndpoint {
 	}
 	
 	@GET
-	@Path("/type/{seminarTypeId: [0-9]+}")
+	@Path("/types/{seminarTypeId: [0-9]+}")
 	public SeminarType getSeminarType(@PathParam("seminarTypeId") int seminarTypeId) throws SeminarException {
 		return seminarService.getSeminarType(seminarTypeId);
 	}
