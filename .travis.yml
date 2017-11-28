@@ -9,12 +9,12 @@ cache:
 
 script:
   - mvn clean install -DskipTests
-  - bash <(curl -s https://codecov.io/bash)
 
 services:
   - postgresql
 
-# before_script:
+after_success:
+  coveralls
 
 
 
