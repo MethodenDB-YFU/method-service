@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -45,20 +47,29 @@ public class Attachment implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private Date modifiedAt;
 	
-	private String createdBy;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="created_by")
+	private User createdBy;
 	
-	private String modifiedBy;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="modified_by")
+	private User modifiedBy;
 
 	public Attachment() {
 		super();
 	}
 
-	public Attachment(Method method, String content, Date createdAt, Date modifiedAt, String createdBy, String modifiedBy) {
+	public Attachment(Method method, String content, User createdBy, User modifiedBy) {
 		super();
 		this.method = method;
 		this.content = content;
-		this.createdAt = createdAt;
-		this.modifiedAt = modifiedAt;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
+	}
+	
+	public Attachment(String content, User createdBy, User modifiedBy) {
+		super();
+		this.content = content;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
 	}
@@ -120,19 +131,30 @@ public class Attachment implements Serializable {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public String getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getModifiedBy() {
+	public User getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+	
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+		modifiedAt = new Date();
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		modifiedAt = new Date();
 	}
 }
