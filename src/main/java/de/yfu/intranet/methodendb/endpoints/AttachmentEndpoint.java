@@ -38,7 +38,6 @@ public class AttachmentEndpoint {
 	@Autowired
 	AttachmentService attachmentService;
 	
-	
 	@GET
 	public List<Attachment> getAllAttachments() throws AttachmentException {
 		return attachmentService.getAllAttachments();
