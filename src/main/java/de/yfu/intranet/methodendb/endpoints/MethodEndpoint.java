@@ -83,7 +83,7 @@ public class MethodEndpoint {
 	
 	@GET
 	@Path("/types/{typeId: [0-9]+}")
-	public MethodType getMethodType(@PathParam("methodId") int methodId) throws MethodException {
+	public MethodType getMethodType(@PathParam("typeId") int methodId) throws MethodException {
 		return methodService.getMethodType(methodId);
 	}
 	
