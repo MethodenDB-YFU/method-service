@@ -1,4 +1,4 @@
-CREATE TYPE role AS enum (
+CREATE TYPE mdb_data.mr_role AS enum (
 	'ADMIN',
 	'EDITOR',
 	'WRITER',

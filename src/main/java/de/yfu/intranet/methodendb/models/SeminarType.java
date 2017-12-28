@@ -1,57 +1,48 @@
 package de.yfu.intranet.methodendb.models;
 
-import java.io.Serializable;
-import java.util.List;
+import static de.yfu.intranet.methodendb.models.SeminarType.SEMINAR_TYPE_TABLE;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jersey.repackaged.com.google.common.base.MoreObjects;
 
 @Entity
-@Table(name="seminar_type")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name=SEMINAR_TYPE_TABLE)
 public class SeminarType implements Serializable {
 	
 	private static final long serialVersionUID = -7282902519527527587L;
+	public static final String SEMINAR_TYPE_TABLE = "st_seminar_type";
 	
 	@Id
-	@SequenceGenerator(name="seminar_type_id_seq", sequenceName="seminar_type_id_seq", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seminar_type_id_seq")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="st_id")
+	private UUID id;
 	
+	@Column(name="st_name")
 	private String name;
 	
-	@OneToMany(mappedBy="seminarType")
-	private List<Method> methods;
+	@OneToMany(mappedBy="seminarType", fetch=FetchType.EAGER)
+	@JsonIgnore
+	private Set<SeminarGoal> seminarGoals;
 
 	public SeminarType() {
 		super();
 	}
 
-	public SeminarType(int id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-	
-	@JsonCreator
-	public SeminarType(@JsonProperty("name") String name) {
-		this.name = name;
-	}
 
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -63,9 +54,35 @@ public class SeminarType implements Serializable {
 		this.name = name;
 	}
 
+	public Set<SeminarGoal> getSeminarGoals() {
+		return seminarGoals;
+	}
+
+	public void setSeminarGoals(Set<SeminarGoal> seminarGoals) {
+		this.seminarGoals = seminarGoals;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		SeminarType that = (SeminarType) o;
+		return Objects.equals(id, that.id) &&
+				Objects.equals(name, that.name) &&
+				Objects.equals(seminarGoals, that.seminarGoals);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, seminarGoals);
+	}
+
 	@Override
 	public String toString() {
-		return "SeminarType [id=" + id + ", name=" + name + "]";
+		return MoreObjects.toStringHelper(this)
+				.add("id", id)
+				.add("name", name)
+				.add("seminarGoals", seminarGoals)
+				.toString();
 	}
-	
 }
