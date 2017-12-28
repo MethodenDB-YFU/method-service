@@ -1,66 +1,43 @@
 package de.yfu.intranet.methodendb.models;
 
-import java.io.Serializable;
+import static de.yfu.intranet.methodendb.models.MethodLevel.METHOD_LEVEL_TABLE;
 
+import java.io.Serializable;
+import java.util.UUID;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import de.yfu.intranet.methodendb.dtos.MethodLevelCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodLevelUpdateRequestDTO;
 
 @Entity
-@Table(name="method_level")
+@Table(name=METHOD_LEVEL_TABLE)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MethodLevel implements Serializable {
 
 	private static final long serialVersionUID = -5685842420041777746L;
+	public static final String METHOD_LEVEL_TABLE = "ml_method_level";
 
 	@Id
-	@SequenceGenerator(name="method_level_id_seq", sequenceName="method_level_id_seq", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="method_level_id_seq")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="ml_id")
+	private UUID id;
 	
+	@Column(name="ml_name")
 	private String name;
 	
+	@Column(name="ml_description")
 	private String description;
 
-	public MethodLevel() {
-		super();
-	}
-	
-	@JsonCreator
-	public MethodLevel(
-			@JsonProperty("name") String name, 
-			@JsonProperty(value="description", required=false) String description) {
-		super();
-		this.name = name;
-		this.description = description;
-	}
-	
-	public MethodLevel(MethodLevelCreateRequestDTO methodLevelCreateRequest) {
-		this.name = methodLevelCreateRequest.getName();
-		this.description = methodLevelCreateRequest.getDescription();
-	}
-	
-	public MethodLevel(int id, MethodLevelUpdateRequestDTO methodLevelUpdateRequestDTO) {
-		this.id = id;
-		this.name = methodLevelUpdateRequestDTO.getName();
-		this.description = methodLevelUpdateRequestDTO.getDescription();
-	}
-
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -79,22 +56,4 @@ public class MethodLevel implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	@Override
-	public String toString() {
-		return "MethodLevel [id=" + id + ", name=" + name + ", description=" + description + "]";
-	}	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (!(obj instanceof MethodLevel)) {
-			return false;
-		}
-		
-		MethodLevel methodLevel = (MethodLevel) obj;
-		
-		return methodLevel.name.equals(name) &&
-				methodLevel.description == description;
-	}	
 }

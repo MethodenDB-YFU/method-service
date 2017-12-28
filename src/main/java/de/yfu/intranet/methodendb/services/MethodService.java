@@ -1,12 +1,16 @@
 package de.yfu.intranet.methodendb.services;
 
-import java.util.List;
+import static java.lang.String.format;
 
+import java.util.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import de.yfu.intranet.methodendb.dtos.MethodCreateRequestDTO;
+import de.yfu.intranet.methodendb.dtos.MethodResource;
 import de.yfu.intranet.methodendb.dtos.MethodLevelCreateRequestDTO;
 import de.yfu.intranet.methodendb.dtos.MethodLevelUpdateRequestDTO;
 import de.yfu.intranet.methodendb.dtos.MethodTypeCreateRequestDTO;
@@ -23,16 +27,68 @@ import de.yfu.intranet.methodendb.repositories.MethodTypeRepository;
 @Service
 public class MethodService {
 	
-	@Autowired
-	MethodTypeRepository methodTypeRepo;
-	
-	@Autowired
-	MethodLevelRepository methodLevelRepo;
+	private static final Logger LOGGER = LoggerFactory.getLogger(MethodService.class);
+	private final MethodTypeRepository methodTypeRepo; 
+	private final MethodLevelRepository methodLevelRepo;
+	private final MethodRepository methodRepo; 
 
 	@Autowired
-	MethodRepository methodRepo;
+	public MethodService(final MethodTypeRepository methodTypeRepository,
+			final MethodLevelRepository methodLevelRepository,
+			final MethodRepository methodRepository) {
+		this.methodTypeRepo = methodTypeRepository;
+		this.methodLevelRepo = methodLevelRepository;
+		this.methodRepo = methodRepository;
+	}
+
+	public Set<MethodType> getAllMethodTypes() {
+		Set<MethodType> methodTypes = methodTypeRepo.findAll();
+		if (methodTypes == null) {
+			LOGGER.info("No Method Types found.");
+			return Collections.emptySet();
+		}
+		return methodTypes;
+	}
+
+	public MethodType createMethodType(MethodType methodType) {
+		return methodTypeRepo.save(methodType);
+	}
+
+	public MethodType updateMethodType(MethodType methodType) throws MethodException {
+		MethodType storedMethodType = methodTypeRepo.findOne(methodType.getId());
+		if (storedMethodType != null) {
+			return methodTypeRepo.save(methodType);
+		}
+		throw new MethodException(format("No Method Type found for id [%s]. Not able to update.", methodType.getId()), HttpStatus.NOT_FOUND);
+
+	}
+
+	public Set<MethodLevel> getAllMethodLevels() {
+		Set<MethodLevel> methodLevels = methodLevelRepo.findAll();
+		if (methodLevels == null) {
+			LOGGER.info("No Method Levels found.");
+			return Collections.emptySet();
+		}
+		return methodLevels;
+	}
+
+	public MethodLevel createMethodLevel(MethodLevel methodLevel) {
+		return methodLevelRepo.save(methodLevel);
+	}
+
+	public MethodLevel updateMethodLevel(MethodLevel methodLevel) throws MethodException {
+		MethodLevel storedMethodLevel = methodLevelRepo.findOne(methodLevel.getId());
+		if (storedMethodLevel != null) {
+			return methodLevelRepo.save(methodLevel);
+		}
+		throw new MethodException(format("No Method Level found for id [%s]. Not able to update.", methodLevel.getId()), HttpStatus.NOT_FOUND);
+	}
+
+
+
 	
-	public List<Method> getAllMethods() throws MethodException {
+	public List<Method> getAllMethods(UUID userId) throws MethodException {
+		LOGGER.info("Getting all Methods for User [{}]", userId);
 		List<Method> methods = methodRepo.findAll();
 		if(methods == null) {
 			throw new MethodException("No methods found.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,7 +96,8 @@ public class MethodService {
 		return methods;
 	}
 	
-	public Method getMethod(int methodId) throws MethodException {
+	public Method getMethod(UUID userId, UUID methodId) throws MethodException {
+		LOGGER.info("Getting Method [{}] for User [{}]", methodId, userId);
 		Method method = methodRepo.findOne(methodId);
 		if(method == null) {
 			throw new MethodException(String.format("Could not find method with id [%s]", methodId), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -48,49 +105,21 @@ public class MethodService {
 		return method;
 	}
 
-	public Method createMethod(MethodCreateRequestDTO methodCreateRequestDTO) {
-		Method method = new Method(methodCreateRequestDTO);
+	public Method createMethod(UUID userId, MethodResource methodResource) {
+		Method method = new Method(userId, methodResource);
 		return methodRepo.save(method);
 	}
 	
-	public void updateMethod(int methodId, MethodUpdateRequestDTO updateRequest) {
-		Method method = new Method(methodId, updateRequest);
-		methodRepo.save(method);
+	public Method createMethod(Method method) {
+		return methodRepo.save(method);
 	}
 	
-	public List<MethodType> getAllMethodTypes() {
-		return methodTypeRepo.findAll();
-	}
-	
-	public MethodType getMethodType(int methodTypeId) {
-		return methodTypeRepo.findOne(methodTypeId);
-	}
-	
-	public MethodType createMethodType(MethodTypeCreateRequestDTO methodTypeCreateRequest) {
-		MethodType methodType = new MethodType(methodTypeCreateRequest);
-		return methodTypeRepo.save(methodType);
+	public Method updateMethod(Method method) throws MethodException {
+		Method storedMethod = methodRepo.findOne(method.getId());
+		if (storedMethod != null) {
+			return methodRepo.save(method);
+		}
+		throw new MethodException(format("No Method found for ID [%s].", method.getId()), HttpStatus.NOT_FOUND);
 	}
 
-	public MethodType updateMethodType(int typeId, MethodTypeUpdateRequestDTO updateRequest) {
-		MethodType methodType = new MethodType(typeId, updateRequest);
-		return methodTypeRepo.save(methodType);		
-	}
-	
-	public List<MethodLevel> getAllMethodLevels() {
-		return methodLevelRepo.findAll();
-	}
-	
-	public MethodLevel getMethodLevel(int methodLevelId) {
-		return methodLevelRepo.findOne(methodLevelId);
-	}
-
-	public MethodLevel createMethodLevel(MethodLevelCreateRequestDTO methodLevelCreateRequest) {
-		MethodLevel methodLevel = new MethodLevel(methodLevelCreateRequest);
-		return methodLevelRepo.save(methodLevel);
-	}
-	
-	public MethodLevel updateMethodLevel(int levelId, MethodLevelUpdateRequestDTO methodLevelUpdateRequest) {
-		MethodLevel methodLevel = new MethodLevel(levelId, methodLevelUpdateRequest);
-		return methodLevelRepo.save(methodLevel);
-	}
 }
