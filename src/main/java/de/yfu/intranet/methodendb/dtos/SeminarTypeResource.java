@@ -1,5 +1,6 @@
 package de.yfu.intranet.methodendb.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import de.yfu.intranet.methodendb.models.SeminarGoal;
 import jersey.repackaged.com.google.common.base.MoreObjects;
 
@@ -8,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeminarTypeResource {
 
     private UUID id;

@@ -11,11 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import de.yfu.intranet.methodendb.dtos.MethodResource;
-import de.yfu.intranet.methodendb.dtos.MethodLevelCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodLevelUpdateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodTypeCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodTypeUpdateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodUpdateRequestDTO;
 import de.yfu.intranet.methodendb.exceptions.MethodException;
 import de.yfu.intranet.methodendb.models.Method;
 import de.yfu.intranet.methodendb.models.MethodLevel;
@@ -85,11 +80,9 @@ public class MethodService {
 	}
 
 
-
-	
-	public List<Method> getAllMethods(UUID userId) throws MethodException {
+	public Set<Method> getAllMethods(UUID userId) throws MethodException {
 		LOGGER.info("Getting all Methods for User [{}]", userId);
-		List<Method> methods = methodRepo.findAll();
+		Set<Method> methods = methodRepo.findAll();
 		if(methods == null) {
 			throw new MethodException("No methods found.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -104,11 +97,6 @@ public class MethodService {
 		}
 		return method;
 	}
-
-	public Method createMethod(UUID userId, MethodResource methodResource) {
-		Method method = new Method(userId, methodResource);
-		return methodRepo.save(method);
-	}
 	
 	public Method createMethod(Method method) {
 		return methodRepo.save(method);
@@ -122,4 +110,12 @@ public class MethodService {
 		throw new MethodException(format("No Method found for ID [%s].", method.getId()), HttpStatus.NOT_FOUND);
 	}
 
+    public void deleteMethod(UUID userId, UUID methodId) throws MethodException {
+		Method storedMethod = methodRepo.findOne(methodId);
+		if (storedMethod == null) {
+			throw new MethodException(format("No Method found for ID [%s].", methodId), HttpStatus.NOT_FOUND);
+		}
+		LOGGER.info("Deleting Method [{}] by request of User [{}].", methodId, userId);
+		methodRepo.delete(methodId);
+    }
 }

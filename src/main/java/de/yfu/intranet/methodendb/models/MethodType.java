@@ -2,7 +2,6 @@ package de.yfu.intranet.methodendb.models;
 
 import static de.yfu.intranet.methodendb.models.MethodType.METHOD_TYPE_TABLE;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -12,16 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name=METHOD_TYPE_TABLE)
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class MethodType implements Serializable {
+public class MethodType {
 	
-	private static final long serialVersionUID = -62539155603047652L;
 	public static final String METHOD_TYPE_TABLE = "mt_method_type";
 
 	@Id

@@ -1,14 +1,17 @@
 package de.yfu.intranet.methodendb.models;
 
-import java.io.Serializable;
+import static de.yfu.intranet.methodendb.models.User.USER_TABLE;
 
+import java.util.Objects;
+import java.util.UUID;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnTransformer;
@@ -17,34 +20,31 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-@Table(name="mdb_user")
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class User implements Serializable {
-	
-	private static final long serialVersionUID = -561697869584626674L;
+import jersey.repackaged.com.google.common.base.MoreObjects;
 
-	public enum Role {
+@Entity
+@Table(name=USER_TABLE)
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class User {
+	
+	public static final String USER_TABLE = "mu_user";
+
+	public static enum Role {
 		ADMIN, EDITOR, WRITER, READER
 	}
 	
 	@Id
-	@SequenceGenerator(name="mdb_user_id_seq", sequenceName="mdb_user_id_seq", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="mdb_user_id_seq")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="mu_id")
+	private UUID id;
 	
-	@ColumnTransformer(read = "role::varchar", write = "?::role")
+	@ColumnTransformer(read = "mu_role::varchar", write = "?::mdb_data.mr_role")
 	@Enumerated(EnumType.STRING)
+	@Column(name="mu_role")
 	private Role role;
 
 	public User() {
 		super();
-	}
-
-	@JsonCreator
-	public User(@JsonProperty("role") Role role) {
-		super();
-		this.role = role;
 	}
 
 	public Role getRole() {
@@ -55,18 +55,33 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
 	@Override
-	public String toString() {
-		return "User [id=" + id + ", role=" + role + "]";
+	public int hashCode() {
+		return Objects.hash(id, role);
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(id, other.id) && Objects.equals(role, other.role);
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("id", id).add("role", role).toString();
+	}
 }

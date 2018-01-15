@@ -1,5 +1,6 @@
 package de.yfu.intranet.methodendb.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import de.yfu.intranet.methodendb.models.Method;
 import de.yfu.intranet.methodendb.models.SeminarType;
 import jersey.repackaged.com.google.common.base.MoreObjects;
@@ -9,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeminarGoalResource {
 
     private UUID id;
@@ -17,7 +19,6 @@ public class SeminarGoalResource {
     private String description;
     @NotNull
     private SeminarType seminarType;
-    private Set<Method> methods;
 
     public UUID getId() {
         return id;
@@ -51,14 +52,6 @@ public class SeminarGoalResource {
         this.seminarType = seminarType;
     }
 
-    public Set<Method> getMethods() {
-        return methods;
-    }
-
-    public void setMethods(Set<Method> methods) {
-        this.methods = methods;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,14 +60,13 @@ public class SeminarGoalResource {
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(seminarType, that.seminarType) &&
-                Objects.equals(methods, that.methods);
+                Objects.equals(seminarType, that.seminarType);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, seminarType, methods);
+        return Objects.hash(id, name, description, seminarType);
     }
 
     @Override
@@ -84,7 +76,6 @@ public class SeminarGoalResource {
                 .add("name", name)
                 .add("description", description)
                 .add("seminarType", seminarType)
-                .add("methods", methods)
                 .toString();
     }
 }

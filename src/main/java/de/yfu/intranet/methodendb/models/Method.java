@@ -29,9 +29,8 @@ import de.yfu.intranet.methodendb.dtos.MethodResource;
 
 @Entity
 @Table(name=METHOD_TABLE)
-public class Method implements Serializable {
+public class Method {
 
-	private static final long serialVersionUID = 1104549652651553182L;
 	public static final String METHOD_TABLE = "mm_method";
 	
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
@@ -47,8 +46,8 @@ public class Method implements Serializable {
 	@Column(name="mm_content")
 	private String content;
 	
-	@OneToMany(mappedBy="method", cascade=CascadeType.PERSIST)
-	@Column(name="mm_attachment_id")
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JoinColumn(name = "ma_method_id", referencedColumnName = "mm_id")
 	private Set<Attachment> attachments;
 	
 	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
@@ -58,14 +57,14 @@ public class Method implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="mm_method_level_id", referencedColumnName="ml_id"))
 	private Set<MethodLevel> methodLevels;
 	
-	@ManyToMany(cascade=CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinTable(
 			name="mm_method_method_type",
 			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
 			inverseJoinColumns=@JoinColumn(name="mm_method_type_id", referencedColumnName="mt_id"))
 	private Set<MethodType> methodTypes;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="mm_method_seminar_goal",
 			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
 			inverseJoinColumns=@JoinColumn(name="mm_seminar_goal_id", referencedColumnName="sg_id"))

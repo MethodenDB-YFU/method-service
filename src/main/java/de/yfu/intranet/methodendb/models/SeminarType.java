@@ -11,6 +11,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jersey.repackaged.com.google.common.base.MoreObjects;
 
@@ -30,7 +31,7 @@ public class SeminarType implements Serializable {
 	private String name;
 	
 	@OneToMany(mappedBy="seminarType", fetch=FetchType.EAGER)
-	@JsonIgnore
+	@JsonManagedReference
 	private Set<SeminarGoal> seminarGoals;
 
 	public SeminarType() {

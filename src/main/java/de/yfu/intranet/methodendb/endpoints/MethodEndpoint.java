@@ -4,6 +4,7 @@ import de.yfu.intranet.methodendb.dtos.MethodLevelResource;
 import de.yfu.intranet.methodendb.dtos.MethodResource;
 import de.yfu.intranet.methodendb.dtos.MethodTypeResource;
 import de.yfu.intranet.methodendb.exceptions.MethodException;
+import de.yfu.intranet.methodendb.exceptions.UserException;
 import de.yfu.intranet.methodendb.helpers.MethodMapper;
 import de.yfu.intranet.methodendb.models.Method;
 import de.yfu.intranet.methodendb.models.MethodLevel;
@@ -45,7 +46,7 @@ public class MethodEndpoint {
 	@GET
 	@Path("/types")
 	@ApiOperation(value = "Get all Method Types.", response = MethodType[].class)
-	public Set<MethodType> getAllMethodTypes() throws MethodException {
+	public Set<MethodType> getAllMethodTypes() {
 		return methodService.getAllMethodTypes();
 	}
 
@@ -74,7 +75,7 @@ public class MethodEndpoint {
 	@GET
 	@Path("/levels")
 	@ApiOperation(value = "Get all Method Levels.", response = MethodLevel[].class)
-	public Set<MethodLevel> getAllMethodLevels() throws MethodException {
+	public Set<MethodLevel> getAllMethodLevels() {
 		return methodService.getAllMethodLevels();
 	}
 
@@ -101,26 +102,24 @@ public class MethodEndpoint {
 	}
 
 
-
-
-
-	
 	@GET
-	public List<Method> getAllMethods(@HeaderParam("X-User-ID") UUID userId) throws MethodException {
+	@ApiOperation(value = "Get all Methods.", response = Method[].class)
+	public Set<Method> getAllMethods(@HeaderParam("X-User-ID") UUID userId) throws MethodException {
 		return methodService.getAllMethods(userId);
 	}
 	
 	@GET
-	@Path("/{methodId: [0-9]+}")
-	public Method getMethod(@PathParam("methodId") UUID methodId,
+	@Path("/{methodId: [A-z0-9-]+}")
+	@ApiOperation(value = "Get one Method by ID.", response = MethodResource[].class)
+	public MethodResource getMethod(@PathParam("methodId") UUID methodId,
 			@HeaderParam("X-User-ID") UUID userId) throws MethodException {
-		return methodService.getMethod(userId, methodId);
+		return methodMapper.mapFromDataObject(methodService.getMethod(userId, methodId));
 	}
 	
 	@POST
+	@ApiOperation(value = "Create a new Method.", response = MethodResource.class)
 	public Response createMethod(@HeaderParam("X-User-ID") UUID userId,
-			MethodResource methodResource) throws MethodException {
-
+								 @Valid final MethodResource methodResource) throws UserException {
 		final User createdBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
 		method.setCreatedBy(createdBy);
@@ -131,10 +130,10 @@ public class MethodEndpoint {
 	}
 	
 	@PUT
-	@Path("{methodId: [0-9]+}")
-	public Response updateMethod(@PathParam("methodId") UUID methodId, 
-			@HeaderParam("X-User-ID") UUID userId, 
-			MethodResource methodResource) throws MethodException {
+	@Path("{methodId: [A-z0-9-]+}")
+	public Response updateMethod(@PathParam("methodId") UUID methodId,
+								 @HeaderParam("X-User-ID") UUID userId,
+								 @Valid final MethodResource methodResource) throws MethodException, UserException {
 		
 		final User modifiedBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
@@ -143,5 +142,13 @@ public class MethodEndpoint {
 		
 		Method updatedMethod = methodService.updateMethod(method);
 		return Response.status(Response.Status.OK).entity(updatedMethod).build();
+	}
+
+	@DELETE
+	@Path("{methodId: [A-z0-9-]+}")
+	public Response deleteMethod(@PathParam("methodId") UUID methodId,
+								 @HeaderParam("X-User-ID") UUID userId) throws MethodException {
+		methodService.deleteMethod(userId, methodId);
+		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 }

@@ -1,10 +1,10 @@
 package de.yfu.intranet.methodendb.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import static de.yfu.intranet.methodendb.models.SeminarGoal.SEMINAR_GOAL_TABLE;
 
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -31,14 +31,8 @@ public class SeminarGoal {
 
 	@ManyToOne
 	@JoinColumn(name="sg_seminar_type_id")
+	@JsonBackReference
 	private SeminarType seminarType;
-
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name="mm_method_seminar_goal",
-			joinColumns = @JoinColumn(name="mm_seminar_goal_id", referencedColumnName = "sg_id"),
-			inverseJoinColumns = @JoinColumn(name="mm_method_id", referencedColumnName = "mm_id"))
-	private Set<Method> methods;
 
 	public UUID getId() {
 		return id;
@@ -70,13 +64,5 @@ public class SeminarGoal {
 
 	public void setSeminarType(SeminarType seminarType) {
 		this.seminarType = seminarType;
-	}
-
-	public void setMethods(Set<Method> methods) {
-		this.methods = methods;
-	}
-
-	public Set<Method> getMethods() {
-		return this.methods;
 	}
 }

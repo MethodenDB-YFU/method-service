@@ -1,13 +1,17 @@
 package de.yfu.intranet.methodendb.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MethodLevelResource {
 
     private UUID id;
+    @NotNull
     private String name;
     private String description;
 
