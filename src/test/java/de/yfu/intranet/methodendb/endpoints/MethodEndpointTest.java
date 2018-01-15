@@ -1,22 +1,21 @@
 package de.yfu.intranet.methodendb.endpoints;
 
 import de.yfu.intranet.methodendb.dtos.MethodLevelResource;
+import de.yfu.intranet.methodendb.dtos.MethodResource;
 import de.yfu.intranet.methodendb.dtos.MethodTypeResource;
-import de.yfu.intranet.methodendb.models.MethodLevel;
-import de.yfu.intranet.methodendb.models.MethodType;
-import de.yfu.intranet.methodendb.repositories.MethodLevelRepository;
-import de.yfu.intranet.methodendb.repositories.MethodTypeRepository;
+import de.yfu.intranet.methodendb.models.*;
+import de.yfu.intranet.methodendb.repositories.*;
+import de.yfu.intranet.methodendb.services.MethodService;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,17 +23,22 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static de.yfu.intranet.methodendb.util.MethodObjectFactory.*;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static de.yfu.intranet.methodendb.util.SeminarObjectFactory.anySeminarGoal;
+import static de.yfu.intranet.methodendb.util.SeminarObjectFactory.anySeminarType;
+import static de.yfu.intranet.methodendb.util.UserObjectFactory.anyAdmin;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles(profiles="test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MethodEndpointTest {
 
-    private static final String METHOD_TYPE_ENDPOINT = "/api/methods/types";
-    private static final String METHOD_LEVEL_ENDPOINT = "/api/methods/levels";
+    private static final String METHOD_ENDPOINT = "/api/methods";
+    private static final String METHOD_TYPE_ENDPOINT = METHOD_ENDPOINT + "/types";
+    private static final String METHOD_LEVEL_ENDPOINT = METHOD_ENDPOINT + "/levels";
 
     private MockMvc mockMvc;
 
@@ -50,11 +54,30 @@ public class MethodEndpointTest {
     @Autowired
     private MethodLevelRepository methodLevelRepository;
 
+    @Autowired
+    private MethodRepository methodRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SeminarTypeRepository seminarTypeRepository;
+
+    @Autowired
+    private SeminarGoalRepository seminarGoalRepository;
+
+    @Mock
+    private MethodService methodService;
+
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        seminarGoalRepository.deleteAll();
         methodTypeRepository.deleteAll();
         methodLevelRepository.deleteAll();
+        seminarTypeRepository.deleteAll();
+        methodRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -175,6 +198,10 @@ public class MethodEndpointTest {
     public void tearDown() {
         methodTypeRepository.deleteAll();
         methodLevelRepository.deleteAll();
+        seminarGoalRepository.deleteAll();
+        seminarTypeRepository.deleteAll();
+        methodRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
@@ -195,5 +222,21 @@ public class MethodEndpointTest {
     }
     private MethodLevel persistAnyMethodLevel() {
         return methodLevelRepository.save(anyMethodLevel());
+    }
+    private User persistAnyAdmin() {
+        return userRepository.save(anyAdmin());
+    }
+    private Method persistAnyMethod() {
+        return methodRepository.save(anyMethod(persistAnyAdmin()));
+    }
+
+    private SeminarType persistAnySeminarType() {
+        return seminarTypeRepository.save(anySeminarType());
+    }
+
+    private SeminarGoal persistAnySeminarGoal() {
+        SeminarGoal anySeminarGoal = anySeminarGoal();
+        anySeminarGoal.setSeminarType(persistAnySeminarType());
+        return seminarGoalRepository.save(anySeminarGoal);
     }
 }

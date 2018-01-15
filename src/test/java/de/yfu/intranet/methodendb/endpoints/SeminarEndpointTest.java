@@ -39,6 +39,7 @@ public class SeminarEndpointTest {
 
     private static final String SEMINAR_GOAL_ENDPOINT = "/api/seminars/goals";
     private static final String SEMINAR_TYPE_ENDPOINT = "/api/seminars/types";
+
     private MockMvc mockMvc;
 
     @Autowired
@@ -195,7 +196,6 @@ public class SeminarEndpointTest {
                 SeminarGoalResource.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody().getName()).isNotEqualTo(anySeminarGoal.getName());
         assertThat(response.getBody().getName()).isEqualTo(anySeminarGoalResource.getName());
 
         seminarGoalRepository.delete(anySeminarGoal.getId());

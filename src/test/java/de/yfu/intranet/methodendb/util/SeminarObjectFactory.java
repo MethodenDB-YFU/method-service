@@ -5,6 +5,7 @@ import de.yfu.intranet.methodendb.dtos.SeminarTypeResource;
 import de.yfu.intranet.methodendb.models.SeminarGoal;
 import de.yfu.intranet.methodendb.models.SeminarType;
 
+import java.util.Collections;
 import java.util.UUID;
 
 public class SeminarObjectFactory {
@@ -13,7 +14,7 @@ public class SeminarObjectFactory {
         final SeminarType seminarType = new SeminarType();
         seminarType.setId(UUID.randomUUID());
         seminarType.setName("Any Seminar Type");
-        seminarType.setSeminarGoals(null);
+        seminarType.setSeminarGoals(Collections.emptySet());
         return seminarType;
     }
 
@@ -22,7 +23,6 @@ public class SeminarObjectFactory {
         seminarGoal.setId(UUID.randomUUID());
         seminarGoal.setName("Any Seminar Goal Name");
         seminarGoal.setDescription("Any Seminar Goal Description");
-        seminarGoal.setMethods(null);
         seminarGoal.setSeminarType(anySeminarType());
         return seminarGoal;
     }
@@ -39,7 +39,6 @@ public class SeminarObjectFactory {
         anySeminarGoalResource.setId(UUID.randomUUID());
         anySeminarGoalResource.setName("Any Seminar Goal Resource");
         anySeminarGoalResource.setSeminarType(anySeminarType());
-        anySeminarGoalResource.setMethods(null);
         return anySeminarGoalResource;
     }
 }
