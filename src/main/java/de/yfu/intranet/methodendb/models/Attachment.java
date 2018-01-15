@@ -1,8 +1,12 @@
 package de.yfu.intranet.methodendb.models;
 
+import static de.yfu.intranet.methodendb.models.Attachment.ATTACHMENT_TABLE;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,99 +16,51 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import de.yfu.intranet.methodendb.dtos.AttachmentCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.AttachmentUpdateRequestDTO;
 
 @Entity
-@Table(name="attachment")
+@Table(name=ATTACHMENT_TABLE)
 public class Attachment implements Serializable {
 
 	private static final long serialVersionUID = -8552270336349098490L;
-	
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
+	public static final String ATTACHMENT_TABLE = "ma_attachment";
 	
 	@Id
-	@SequenceGenerator(name="attachment_id_seq", sequenceName="attachment_id_seq", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="attachment_id_seq")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="ma_id")
+	private UUID id;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="method_id")
-	@JsonIgnore
-	private Method method;
-	
+	@Column(name="ma_content")
 	private String content;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
+	@Column(name="ma_created_at")
 	private Date createdAt;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
+	@Column(name="ma_modified_at")
 	private Date modifiedAt;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="created_by")
+	@JoinColumn(name="ma_created_by")
 	private User createdBy;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="modified_by")
+	@JoinColumn(name="ma_modified_by")
 	private User modifiedBy;
 
-	public Attachment() {
-		super();
-	}
 
-	public Attachment(Method method, String content, User createdBy, User modifiedBy) {
-		super();
-		this.method = method;
-		this.content = content;
-		this.createdBy = createdBy;
-		this.modifiedBy = modifiedBy;
-	}
-	
-	public Attachment(String content, User createdBy, User modifiedBy) {
-		super();
-		this.content = content;
-		this.createdBy = createdBy;
-		this.modifiedBy = modifiedBy;
-	}
-	
-	public Attachment(AttachmentCreateRequestDTO createRequest) {
-		this.method = createRequest.getMethod();
-		this.content = createRequest.getContent();
-		this.createdAt = createRequest.getCreatedAt();
-		this.createdBy = createRequest.getCreatedBy();
-	}
-	
-	public Attachment(int attachmentId, AttachmentUpdateRequestDTO updateRequest) {
-		this.id = attachmentId;
-		this.method = updateRequest.getMethod();
-		this.content = updateRequest.getContent();
-		this.createdAt = updateRequest.getCreatedAt();
-		this.createdBy = updateRequest.getCreatedBy();
-		this.modifiedAt = updateRequest.getModifiedAt();
-		this.modifiedBy = updateRequest.getModifiedBy();
-	}
-	
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public Method getMethod() {
-		return method;
-	}
-
-	public void setMethod(Method method) {
-		this.method = method;
 	}
 
 	public String getContent() {
@@ -150,7 +106,6 @@ public class Attachment implements Serializable {
 	@PrePersist
 	protected void onCreate() {
 		createdAt = new Date();
-		modifiedAt = new Date();
 	}
 	
 	@PreUpdate

@@ -1,17 +1,18 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://0.0.0.0:5432/methodendb
-    username: spring
-    password: spring
-  
+    url: jdbc:postgresql://db.methodendb-test.berlin-1.alexmsenger.de:5432/methodendb-test
+    username: methodendb-test
+    password: methodendb-test
+
   jpa:
 #    show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         temp:
-           use_jdbc_metadata_defaults: false
+          use_jdbc_metadata_defaults: false
+        default_schema: mdb_data
     hibernate:
       ddl-auto: none
       use-new-id-generator-mappings: true       
@@ -24,6 +25,7 @@ spring:
     property-naming-strategy: SNAKE_CASE
     time-zone: Europe/Berlin
     locale: de_DE
+    serialization-inclusion: non_empty
     serialization:
       write-dates-as-timestamps: false
     
@@ -39,4 +41,3 @@ spring:
   profiles: docker
   datasource:
     url: jdbc:postgresql://db:5432/methodendb
-  

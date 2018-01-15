@@ -1,15 +1,15 @@
 package de.yfu.intranet.methodendb.repositories;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import de.yfu.intranet.methodendb.models.MethodLevel;
+import org.springframework.data.repository.CrudRepository;
 
-public interface MethodLevelRepository extends JpaRepository<MethodLevel, Integer> {
+import java.util.Set;
+import java.util.UUID;
 
-	public List<MethodLevel> findAll();
-	public MethodLevel findOne(int seminarTypeId);
+public interface MethodLevelRepository extends CrudRepository<MethodLevel, UUID> {
+
+	public Set<MethodLevel> findAll();
+	public MethodLevel findOne(UUID seminarTypeId);
 	
 
 }

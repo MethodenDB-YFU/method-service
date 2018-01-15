@@ -1,10 +1,14 @@
 package de.yfu.intranet.methodendb.models;
 
+import static de.yfu.intranet.methodendb.models.Method.METHOD_TABLE;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,64 +21,69 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import de.yfu.intranet.methodendb.dtos.MethodCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodUpdateRequestDTO;
+import de.yfu.intranet.methodendb.dtos.MethodResource;
 
 @Entity
-@Table(name="method")
-public class Method implements Serializable {
+@Table(name=METHOD_TABLE)
+public class Method {
 
-	private static final long serialVersionUID = 1104549652651553182L;
+	public static final String METHOD_TABLE = "mm_method";
 	
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
 
 	@Id
-	@SequenceGenerator(name="method_id_seq", sequenceName="method_id_seq", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="method_id_seq")
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="mm_id")
+	private UUID id;
 	
+	@Column(name="mm_title")
 	private String title;
 	
+	@Column(name="mm_content")
 	private String content;
 	
-	@OneToMany(mappedBy="method", fetch=FetchType.EAGER, cascade= {CascadeType.PERSIST})
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JoinColumn(name = "ma_method_id", referencedColumnName = "mm_id")
 	private Set<Attachment> attachments;
 	
-	@ManyToMany(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
+	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinTable(
-			name="method_method_level",
-			joinColumns=@JoinColumn(name="method_id", referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name="method_level_id", referencedColumnName="id"))
+			name="mm_method_method_level",
+			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
+			inverseJoinColumns=@JoinColumn(name="mm_method_level_id", referencedColumnName="ml_id"))
 	private Set<MethodLevel> methodLevels;
 	
-	@ManyToMany(fetch=FetchType.EAGER,cascade= {CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinTable(
-			name="method_method_type",
-			joinColumns=@JoinColumn(name="method_id", referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name="method_type_id", referencedColumnName="id"))
+			name="mm_method_method_type",
+			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
+			inverseJoinColumns=@JoinColumn(name="mm_method_type_id", referencedColumnName="mt_id"))
 	private Set<MethodType> methodTypes;
-	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
-	@JoinColumn(name="seminar_type_id")
-	private SeminarType seminarType;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="mm_method_seminar_goal",
+			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
+			inverseJoinColumns=@JoinColumn(name="mm_seminar_goal_id", referencedColumnName="sg_id"))
+	private Set<SeminarGoal> seminarGoals;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
+	@Column(name="mm_created_at")
 	private Date createdAt;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
+	@Column(name="mm_modified_at")
 	private Date modifiedAt;
 	
-	@ManyToOne(fetch=FetchType.EAGER)//, cascade=CascadeType.MERGE)
-	@JoinColumn(name="created_by")
+	@ManyToOne//(cascade=CascadeType.MERGE)
+	@JoinColumn(name="mm_created_by")
 	private User createdBy;
 	
-	@ManyToOne(fetch=FetchType.EAGER)//, cascade=CascadeType.MERGE)
-	@JoinColumn(name="modified_by")
+	@ManyToOne// (cascade=CascadeType.MERGE)
+	@JoinColumn(name="mm_modified_by")
 	private User modifiedBy;
 
 	public Method() {
@@ -82,41 +91,26 @@ public class Method implements Serializable {
 	}
 
 	public Method(String title, String content, Set<MethodLevel> methodLevels, Set<MethodType> methodTypes,
-			SeminarType seminarType, Set<Attachment> attachments, User createdBy, User modifiedBy) {
+			Set<SeminarGoal> seminarGoals, Set<Attachment> attachments, User createdBy, User modifiedBy) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.methodLevels = methodLevels;
 		this.methodTypes = methodTypes;
-		this.seminarType = seminarType;
+		this.seminarGoals = seminarGoals;
 		this.attachments = attachments;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
 	}
 	
-	public Method(MethodCreateRequestDTO methodCreateRequestDTO) {
-		this.title = methodCreateRequestDTO.getTitle();
-		this.content = methodCreateRequestDTO.getContent();
-		this.methodLevels = methodCreateRequestDTO.getMethodLevels();
-		this.methodTypes = methodCreateRequestDTO.getMethodTypes();
-		this.seminarType = methodCreateRequestDTO.getSeminarType();
-		this.createdAt = methodCreateRequestDTO.getCreatedAt();
-		this.modifiedAt = methodCreateRequestDTO.getModifiedAt();
-		this.createdBy = methodCreateRequestDTO.getCreatedBy();
-		this.modifiedBy = methodCreateRequestDTO.getModifiedBy();
-	}
-	
-	public Method(int methodId, MethodUpdateRequestDTO updateRequest) {
-		this.id = methodId;
-		this.title = updateRequest.getTitle();
-		this.content = updateRequest.getContent();
-		this.methodLevels = updateRequest.getMethodLevels();
-		this.methodTypes = updateRequest.getMethodTypes();
-		this.seminarType = updateRequest.getSeminarType();
-		this.createdAt = updateRequest.getCreatedAt();
-		this.modifiedAt = updateRequest.getModifiedAt();
-		this.createdBy = updateRequest.getCreatedBy();
-		this.modifiedBy = updateRequest.getModifiedBy();
+	public Method(UUID userId, MethodResource methodResource) {
+		super();
+		this.title = methodResource.getTitle();
+		this.content = methodResource.getContent();
+		this.attachments = methodResource.getAttachments();
+		this.methodLevels = methodResource.getMethodLevels();
+		this.methodTypes = methodResource.getMethodTypes();
+		this.seminarGoals = methodResource.getSeminarGoals();
 		
 	}
 
@@ -136,11 +130,11 @@ public class Method implements Serializable {
 		this.attachments = attachments;
 	}
 
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -176,12 +170,12 @@ public class Method implements Serializable {
 		this.methodTypes = methodTypes;
 	}
 
-	public SeminarType getSeminarType() {
-		return seminarType;
+	public Set<SeminarGoal> getSeminarGoals() {
+		return seminarGoals;
 	}
 
-	public void setSeminarType(SeminarType seminarType) {
-		this.seminarType = seminarType;
+	public void setSeminarGoals(Set<SeminarGoal> seminarGoals) {
+		this.seminarGoals = seminarGoals;
 	}
 
 	public Date getCreatedAt() {
@@ -211,7 +205,6 @@ public class Method implements Serializable {
 	@PrePersist
 	protected void onCreate() {
 		createdAt = new Date();
-		modifiedAt = new Date();
 	}
 	
 	@PreUpdate

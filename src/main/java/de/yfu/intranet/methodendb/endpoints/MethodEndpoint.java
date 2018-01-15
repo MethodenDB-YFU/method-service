@@ -1,34 +1,28 @@
 package de.yfu.intranet.methodendb.endpoints;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
-
-import java.net.URI;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import de.yfu.intranet.methodendb.dtos.MethodCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodLevelCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodLevelUpdateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodTypeCreateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodTypeUpdateRequestDTO;
-import de.yfu.intranet.methodendb.dtos.MethodUpdateRequestDTO;
+import de.yfu.intranet.methodendb.dtos.MethodLevelResource;
+import de.yfu.intranet.methodendb.dtos.MethodResource;
+import de.yfu.intranet.methodendb.dtos.MethodTypeResource;
 import de.yfu.intranet.methodendb.exceptions.MethodException;
+import de.yfu.intranet.methodendb.exceptions.UserException;
+import de.yfu.intranet.methodendb.helpers.MethodMapper;
 import de.yfu.intranet.methodendb.models.Method;
 import de.yfu.intranet.methodendb.models.MethodLevel;
 import de.yfu.intranet.methodendb.models.MethodType;
+import de.yfu.intranet.methodendb.models.User;
 import de.yfu.intranet.methodendb.services.MethodService;
+import de.yfu.intranet.methodendb.services.UserService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.validation.Valid;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Path("/methods")
 @Component
@@ -36,96 +30,125 @@ import de.yfu.intranet.methodendb.services.MethodService;
 @Produces(MediaType.APPLICATION_JSON)
 public class MethodEndpoint {
 	
-	private static final String PATH_VARIABLE_METHOD_NAME = "method-name";
-	private static final String PATH_VARIABLE_METHOD_TYPE_NAME = "method-type-name";
-	private static final String PATH_VARIABLE_METHOD_LEVEL_NAME = "method-level-name";
-	
-	static final String PATH_METHOD = "/methods";
-	static final String PATH_METHOD_TYPE = PATH_METHOD + "/types";
-	static final String PATH_METHOD_LEVEL = PATH_METHOD + "/levels";
-	static final String PATH_METHOD_NAME = PATH_METHOD + "/{" + PATH_VARIABLE_METHOD_NAME + "}";
-	static final String PATH_METHOD_TYPE_NAME = PATH_METHOD_TYPE + "/{" + PATH_VARIABLE_METHOD_TYPE_NAME + "}";
-	static final String PATH_METHOD_LEVEL_NAME = PATH_METHOD_LEVEL + "/{" + PATH_VARIABLE_METHOD_LEVEL_NAME + "}";
+	private final MethodService methodService;
+	private final MethodMapper methodMapper;
+	private final UserService userService;
 	
 	@Autowired
-	MethodService methodService;
-	
-	@GET
-	public List<Method> getAllMethods() throws MethodException {
-		return methodService.getAllMethods();
+	public MethodEndpoint(final MethodService methodService, 
+			final MethodMapper methodMapper,
+			final UserService userService) {
+		this.methodService = methodService;
+		this.methodMapper = methodMapper;
+		this.userService = userService;
 	}
-	
-	@GET
-	@Path("/{methodId: [0-9]+}")
-	public Method getMethod(@PathParam("methodId") int methodId) throws MethodException {
-		return methodService.getMethod(methodId);
-	}
-	
-	@POST
-	public Response createMethod(MethodCreateRequestDTO methodCreateRequestDTO) throws MethodException {
-		Method result = methodService.createMethod(methodCreateRequestDTO);
-		final URI location = fromCurrentContextPath().path(PATH_METHOD_NAME).buildAndExpand(String.valueOf(result.getId())).toUri();
-		return Response.created(location).build();
-	}
-	
-	@PUT
-	@Path("{methodId: [0-9]+}")
-	public Response updateMethod(@PathParam("methodId") int methodId, MethodUpdateRequestDTO updateRequest) throws MethodException {
-		methodService.updateMethod(methodId, updateRequest);
-		return Response.ok().build();
-	}
-	
+
 	@GET
 	@Path("/types")
-	public List<MethodType> getAllMethodTypes() throws MethodException {
+	@ApiOperation(value = "Get all Method Types.", response = MethodType[].class)
+	public Set<MethodType> getAllMethodTypes() {
 		return methodService.getAllMethodTypes();
 	}
-	
-	@GET
-	@Path("/types/{typeId: [0-9]+}")
-	public MethodType getMethodType(@PathParam("typeId") int typeId) throws MethodException {
-		return methodService.getMethodType(typeId);
-	}
-	
+
 	@POST
 	@Path("/types")
-	public Response createMethodType(MethodTypeCreateRequestDTO methodType) throws MethodException {
-		MethodType result = methodService.createMethodType(methodType);
-		final URI location = fromCurrentContextPath().path(PATH_METHOD_TYPE_NAME).buildAndExpand(result.getId()).toUri();
-		return Response.created(location).build();
+	@ApiOperation(value = "Create a new Method Type.", response = MethodTypeResource.class)
+	public Response createMethodType(@Valid final MethodTypeResource methodTypeResource,
+									 @HeaderParam("X-User-ID") UUID userId) {
+		final MethodType methodType = methodMapper.mapToDataObject(methodTypeResource);
+		MethodType createdMethodType = methodService.createMethodType(methodType);
+		return Response.status(Response.Status.CREATED).entity(methodMapper.mapFromDataObject(createdMethodType)).build();
 	}
-	
+
 	@PUT
-	@Path("/types/{typeId: [0-9]+}")
-	public Response updateMethodType(@PathParam("typeId") int typeId, MethodTypeUpdateRequestDTO updateRequest) throws MethodException {
-		methodService.updateMethodType(typeId, updateRequest);
-		return Response.ok().build();
+	@Path("/types/{methodTypeId: [A-z0-9-]+}")
+	@ApiOperation(value = "Update an existing Method Type.", response = MethodTypeResource.class)
+	public Response updateMethodType(@PathParam("methodTypeId") UUID methodTypeId,
+									 @HeaderParam("X-User-ID") UUID userID,
+									 @Valid final MethodTypeResource methodTypeResource) throws MethodException {
+		final MethodType methodType = methodMapper.mapToDataObject(methodTypeResource);
+		methodType.setId(methodTypeId);
+		MethodType updatedMethodType = methodService.updateMethodType(methodType);
+		return Response.status(Response.Status.OK).entity(methodMapper.mapFromDataObject(updatedMethodType)).build();
 	}
-		
+
 	@GET
-	@Path("/levels") 
-	public List<MethodLevel> getAllMethodLevels() throws MethodException {
+	@Path("/levels")
+	@ApiOperation(value = "Get all Method Levels.", response = MethodLevel[].class)
+	public Set<MethodLevel> getAllMethodLevels() {
 		return methodService.getAllMethodLevels();
 	}
+
+	@POST
+	@Path("/levels")
+	@ApiOperation(value = "Create a new Method Level.", response = MethodLevelResource.class)
+	public Response createMethodLevel(@Valid final MethodLevelResource methodLevelResource,
+									  @HeaderParam("X-User-ID") UUID userId) {
+		final MethodLevel methodLevel = methodMapper.mapToDataObject(methodLevelResource);
+		MethodLevel createdMethodLevel = methodService.createMethodLevel(methodLevel);
+		return Response.status(Response.Status.CREATED).entity(methodMapper.mapFromDataObject(createdMethodLevel)).build();
+	}
+
+	@PUT
+	@Path("/levels/{methodLevelId: [A-z0-9-]+}")
+	@ApiOperation(value = "Update an existing Method Level.", response = MethodLevelResource.class)
+	public Response updateMethodLevel(@PathParam("methodLevelId") UUID methodLevelId,
+									  @HeaderParam("X-User-ID") UUID userID,
+									  @Valid final MethodLevelResource methodLevelResource) throws MethodException {
+		final MethodLevel methodLevel = methodMapper.mapToDataObject(methodLevelResource);
+		methodLevel.setId(methodLevelId);
+		MethodLevel updatedMethodLevel = methodService.updateMethodLevel(methodLevel);
+		return Response.status(Response.Status.OK).entity(methodMapper.mapFromDataObject(updatedMethodLevel)).build();
+	}
+
+
+	@GET
+	@ApiOperation(value = "Get all Methods.", response = Method[].class)
+	public Set<Method> getAllMethods(@HeaderParam("X-User-ID") UUID userId) throws MethodException {
+		return methodService.getAllMethods(userId);
+	}
 	
 	@GET
-	@Path("/levels/{levelId: [0-9]+}")
-	public MethodLevel getMethodLevel(@PathParam("levelId") int levelId) throws MethodException {
-		return methodService.getMethodLevel(levelId);
+	@Path("/{methodId: [A-z0-9-]+}")
+	@ApiOperation(value = "Get one Method by ID.", response = MethodResource[].class)
+	public MethodResource getMethod(@PathParam("methodId") UUID methodId,
+			@HeaderParam("X-User-ID") UUID userId) throws MethodException {
+		return methodMapper.mapFromDataObject(methodService.getMethod(userId, methodId));
 	}
 	
 	@POST
-	@Path("/levels")
-	public Response createMethodLevel(MethodLevelCreateRequestDTO methodLevelCreateRequest) throws MethodException {
-		MethodLevel result = methodService.createMethodLevel(methodLevelCreateRequest);
-		final URI location = fromCurrentContextPath().path(PATH_METHOD_LEVEL_NAME).buildAndExpand(result.getId()).toUri();
-		return Response.created(location).build();
+	@ApiOperation(value = "Create a new Method.", response = MethodResource.class)
+	public Response createMethod(@HeaderParam("X-User-ID") UUID userId,
+								 @Valid final MethodResource methodResource) throws UserException {
+		final User createdBy = userService.findById(userId);
+		final Method method = methodMapper.mapToDataObject(methodResource);
+		method.setCreatedBy(createdBy);
+		method.getAttachments().forEach(m -> m.setCreatedBy(createdBy));
+
+		final Method createdMethod = methodService.createMethod(method);
+		return Response.status(Response.Status.CREATED).entity(createdMethod).build();
 	}
 	
 	@PUT
-	@Path("/levels/{levelId: [0-9]+}")
-	public Response updateMethodLevel(@PathParam("levelId") int levelId, MethodLevelUpdateRequestDTO methodLevelUpdateRequest) throws MethodException {
-		methodService.updateMethodLevel(levelId, methodLevelUpdateRequest);
-		return Response.ok().build();
+	@Path("{methodId: [A-z0-9-]+}")
+	public Response updateMethod(@PathParam("methodId") UUID methodId,
+								 @HeaderParam("X-User-ID") UUID userId,
+								 @Valid final MethodResource methodResource) throws MethodException, UserException {
+		
+		final User modifiedBy = userService.findById(userId);
+		final Method method = methodMapper.mapToDataObject(methodResource);
+		method.setModifiedBy(modifiedBy);
+		method.setId(methodId);
+		
+		Method updatedMethod = methodService.updateMethod(method);
+		return Response.status(Response.Status.OK).entity(updatedMethod).build();
+	}
+
+	@DELETE
+	@Path("{methodId: [A-z0-9-]+}")
+	public Response deleteMethod(@PathParam("methodId") UUID methodId,
+								 @HeaderParam("X-User-ID") UUID userId) throws MethodException {
+		methodService.deleteMethod(userId, methodId);
+		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 }

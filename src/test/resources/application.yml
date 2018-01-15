@@ -1,0 +1,37 @@
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db.methodendb-test.berlin-1.alexmsenger.de:5432/methodendb-test
+    username: methodendb-test
+    password: methodendb-test
+
+  jpa:
+#    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp:
+           use_jdbc_metadata_defaults: false
+        default_schema: mdb_data
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: true       
+    
+  http:
+    converters:
+      preferred-json-mapper: jackson
+  
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    time-zone: Europe/Berlin
+    locale: de_DE
+    serialization:
+      write-dates-as-timestamps: false
+    
+#logging:
+#  level:
+#    ROOT: DEBUG
+      
+server:
+  port: 8080

@@ -1,15 +1,15 @@
 package de.yfu.intranet.methodendb.repositories;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Set;
+import java.util.UUID;
 
 import de.yfu.intranet.methodendb.models.SeminarType;
+import org.springframework.data.repository.CrudRepository;
 
-public interface SeminarTypeRepository extends JpaRepository<SeminarType, Integer> {
+public interface SeminarTypeRepository extends CrudRepository<SeminarType, UUID> {
 
-	public List<SeminarType> findAll();
-	public SeminarType findOne(int seminarTypeId);
+	Set<SeminarType> findAll();
+	SeminarType findOne(UUID seminarTypeId);
 	
 
 }
