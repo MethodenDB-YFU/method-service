@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://db.methodendb-test.berlin-1.alexmsenger.de:5432/methodendb-test
-    username: methodendb-test
-    password: methodendb-test
+    url: jdbc:postgresql://methodendb.czqppzu7cfbj.us-east-2.rds.amazonaws.com:5432/methodendb
+    username: methodendb
+    password: methodendb
 
   jpa:
 #    show-sql: true
@@ -36,8 +36,49 @@ spring:
 server:
   port: 8080
 
+# Sane configuration with the management endpoints (Actuator)
+management:
+  port: 7979
+  # We don't want security here as we will not expose that port to the outside world anyway
+  security:
+    enabled: false
+  # Let's not disclose we're running on Spring :-)
+  add-application-context-header: false
+endpoints:
+  actuator:
+    enabled: false
+  autoconfig:
+    enabled: false
+  beans:
+    enabled: false
+  configprops:
+    enabled: false
+  docs:
+    enabled: false
+  dump:
+    enabled: false
+  env:
+    enabled: false
+  flyway:
+    enabled: false
+  liquibase:
+    enabled: false
+  logfile:
+    enabled: false
+  mappings:
+    enabled: false
+  shutdown:
+    enabled: false
+  trace:
+    enabled: false
+  health:
+    # Have the full health result even when not authenticated
+    sensitive: false
+
 ---
 spring:
   profiles: docker
   datasource:
     url: jdbc:postgresql://db:5432/methodendb
+    username: methodendb
+    password: methodendb
