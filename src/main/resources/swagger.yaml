@@ -8,15 +8,15 @@ info:
   license: 
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-  host: "methodendb.intranet.yfu.de"
-  basePath: "/api"
-  tags:
-    - name: "seminar"
-      description: "Everything to do with seminars. Will possibly be refactored in the future"
-    - name: "method"
-      description: "Everything to do with methods, it's types, levels and attachments"
-  schemes:
-    - "http"
+host: "methodendb.intranet.yfu.de"
+basePath: "/api"
+tags:
+  - name: "seminar"
+    description: "Everything to do with seminars. Will possibly be refactored in the future"
+  - name: "method"
+    description: "Everything to do with methods, it's types, levels and attachments"
+schemes:
+  - "http"
 paths:
   /seminars/types:
     post:
@@ -35,11 +35,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/SeminarType"
-        responses:
-          201:
-            description: "Seminar Type created"
-            schema:
-              $ref: "#/definitions/SeminarType"
+      responses:
+        201:
+          description: "Seminar Type created"
+          schema:
+            $ref: "#/definitions/SeminarType"
     put:
       tags:
         - "seminar"
@@ -54,8 +54,8 @@ paths:
           name: "seminarTypeId"
           description: "Id of seminar type to Update"
           required: true
-          type: string
-          format: uuid
+          type: "string"
+          format: "uuid"
         - in: "body"
           name: "body"
           description: "The seminar type"
@@ -178,12 +178,12 @@ paths:
           description: "Method Type to be created"
           required: true
           schema:
-            $ref: "#/descriptions/MethodType"
+            $ref: "#/definitions/MethodType"
       responses:
         201:
           description: "Method Type created"
           schema:
-            $ref: "#/descriptions/MethodType"
+            $ref: "#/definitions/MethodType"
     put:
       tags:
         - "method"
@@ -246,12 +246,12 @@ paths:
           description: "Method Level to be created"
           required: true
           schema:
-            $ref: "#/descriptions/MethodLevel"
+            $ref: "#/definitions/MethodLevel"
       responses:
         201:
           description: "Method Level created"
           schema:
-            $ref: "#/descriptions/MethodLevel"
+            $ref: "#/definitions/MethodLevel"
     put:
       tags:
         - "method"
@@ -300,16 +300,112 @@ paths:
               $ref: "#/definitions/MethodLevel"
   /methods:
     post:
+      tags:
+        - "seminar"
+      summary: "Create a Method"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Method Body, possibly including Attachment"
+          required: true
+          schema: 
+            $ref: "#/definitions/Method"
+        - in: "header"
+          name: "X-User-ID"
+          description: "Id of the user creating the method / attachment"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        201:
+          description: "Method Created"
+          schema:
+            $ref: "#/definitions/Method"
     put:
+      tags:
+        - "method"
+      summary: "Update an existing Method and / or attachment"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "methodId"
+          description: "Id of method to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "header"
+          name: "X-User-ID"
+          description: "Id of the user updating the method / attachment"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The Method, possibly including attachments"
+          required: true
+          schema: 
+            $ref: "#/definitions/Method"
+      responses:
+        200:
+          description: "Update successful"
+          schema: 
+            $ref: "#/definitions/Method"
+        400: 
+          description: "Invalid Id supplied"
+        404: 
+          description: "Method not found"
     get:
+      tags:
+        - "method"
+      summary: "Fetch all methods"
+      description: ""
+      produces: 
+        - "application/json"
+      parameters: []
+      responses: 
+        200: 
+          description: "successful operation"
+          schema: 
+            type: "array"
+            items: 
+              $ref: "#/definitions/Method"
   /methods/{methodId}:
     get:
+      tags:
+        - "method"
+      summary: "Fetch a single seminar type"
+      description: ""
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "methodId"
+          description: "Id of the method to be fetched"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses: 
+        200: 
+          description: "successful operation"
+          schema: 
+            $ref: "#/definitions/Method"
+        404: 
+          description: "mehtod not found"
 definitions:
   SeminarGoal:
     type: "object"
     required:
       - "name"
-    propderties:
+    properties:
       id:
         type: "string"
         format: "uuid"
@@ -331,7 +427,7 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/SeminarGoal"
-  MethodGoal:
+  MethodType:
     type: "object"
     required:
       - "name"
