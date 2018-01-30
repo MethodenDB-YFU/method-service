@@ -1,0 +1,527 @@
+swagger: "2.0"
+info:
+  description: "Swagger definition for MethodDB of the YFU Germany intranet."
+  version: "0.0.1"
+  title: "Methodendatenbank"
+  contact:
+    email: "alexander.senger@yfu-deutschland.de"
+  license: 
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "methodendb.intranet.yfu.de"
+basePath: "/api"
+tags:
+  - name: "seminar"
+    description: "Everything to do with seminars. Will possibly be refactored in the future"
+  - name: "method"
+    description: "Everything to do with methods, it's types, levels and attachments"
+schemes:
+  - "http"
+paths:
+  /seminars/types:
+    post:
+      tags:
+        - "seminar"
+      summary: "Add a new seminar type"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Seminar Type that needs to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/SeminarType"
+      responses:
+        201:
+          description: "Seminar Type created"
+          schema:
+            $ref: "#/definitions/SeminarType"
+    put:
+      tags:
+        - "seminar"
+      summary: "Update an existing seminar type"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "seminarTypeId"
+          description: "Id of seminar type to Update"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The seminar type"
+          required: true
+          schema:
+            $ref: "#/definitions/SeminarType"
+      responses:
+        200:
+          description: "Update successful"
+          schema:
+            $ref: "#/definitions/SeminarType"
+        400:
+          description: "invalid ID supplied"
+        404:
+          description: "Seminar Type not found"
+    get:
+      tags:
+        - "seminar"
+      summary: "Fetch all seminar types"
+      description: ""
+      produces: 
+        - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/SeminarType"
+  /seminars/goals:
+    post:
+      tags:
+        - "seminar"
+      summary: "Add a new seminar goal"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Seminar Goal that needs to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/SeminarGoal"
+      responses:
+        201:
+          description: "Seminar Type created"
+          schema:
+            $ref: "#/definitions/SeminarGoal"
+    put:
+      tags:
+        - "seminar"
+      summary: "Update an existing seminar goal"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "seminarGoalId"
+          description: "Id of seminar goal to update"
+          required: true
+          type: string
+          format: uuid
+        - in: "body"
+          name: "body"
+          description: "The seminar goal"
+          required: true
+          schema: 
+            $ref: "#/definitions/SeminarGoal"
+      responses:
+        200:
+          description: "Update successful"
+          schema:
+            $ref: "#/definitions/SeminarGoal"
+        400:
+          description: "invalid ID supplied"
+        404:
+          description: "Seminar Goal not found"
+    get:
+      tags:
+        - "seminar"
+      summary: "Fetch all seminar goals"
+      description: ""
+      produces: 
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "seminarTypeId"
+          description: "Seminar Type for which the goals are to be fetched"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/SeminarGoal"
+        400:
+          description: "invalid or no seminar type id provided"
+  /methods/types:
+    post:
+      tags:
+        - "method"
+      summary: "Add new Method Type"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Method Type to be created"
+          required: true
+          schema:
+            $ref: "#/definitions/MethodType"
+      responses:
+        201:
+          description: "Method Type created"
+          schema:
+            $ref: "#/definitions/MethodType"
+    put:
+      tags:
+        - "method"
+      summary: "Update a Method Type"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "methodTypeId"
+          description: "Id of the method type to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The method type"
+          required: true
+          schema: 
+            $ref: "#/definitions/MethodType"
+      responses:
+        200:
+          description: "Update successful"
+          schema: 
+            $ref: "#/definitions/MethodType"
+        400:
+          description: "Invalid ID supplied"
+        404: 
+          description: "Method Type not found"
+    get:
+      tags:
+        - "method"
+      summary: "Fetch all method types"
+      description: ""
+      produces:
+        - "application/json"
+      parameters: []
+      responses: 
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/MethodType"
+  /methods/levels:
+    post:
+      tags:
+        - "method"
+      summary: "Add new Method Level"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Method Level to be created"
+          required: true
+          schema:
+            $ref: "#/definitions/MethodLevel"
+      responses:
+        201:
+          description: "Method Level created"
+          schema:
+            $ref: "#/definitions/MethodLevel"
+    put:
+      tags:
+        - "method"
+      summary: "Update a Method Level"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "methodLevelId"
+          description: "Id of the method level to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The method level"
+          required: true
+          schema: 
+            $ref: "#/definitions/MethodLevel"
+      responses:
+        200:
+          description: "Update successful"
+          schema: 
+            $ref: "#/definitions/MethodLevel"
+        400:
+          description: "Invalid ID supplied"
+        404: 
+          description: "Method Level not found"
+    get:
+      tags:
+        - "method"
+      summary: "Fetch all method levels"
+      description: ""
+      produces:
+        - "application/json"
+      parameters: []
+      responses: 
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/MethodLevel"
+  /methods:
+    post:
+      tags:
+        - "seminar"
+      summary: "Create a Method"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Method Body, possibly including Attachment"
+          required: true
+          schema: 
+            $ref: "#/definitions/Method"
+        - in: "header"
+          name: "X-User-ID"
+          description: "Id of the user creating the method / attachment"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        201:
+          description: "Method Created"
+          schema:
+            $ref: "#/definitions/Method"
+    put:
+      tags:
+        - "method"
+      summary: "Update an existing Method and / or attachment"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "methodId"
+          description: "Id of method to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "header"
+          name: "X-User-ID"
+          description: "Id of the user updating the method / attachment"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The Method, possibly including attachments"
+          required: true
+          schema: 
+            $ref: "#/definitions/Method"
+      responses:
+        200:
+          description: "Update successful"
+          schema: 
+            $ref: "#/definitions/Method"
+        400: 
+          description: "Invalid Id supplied"
+        404: 
+          description: "Method not found"
+    get:
+      tags:
+        - "method"
+      summary: "Fetch all methods"
+      description: ""
+      produces: 
+        - "application/json"
+      parameters: []
+      responses: 
+        200: 
+          description: "successful operation"
+          schema: 
+            type: "array"
+            items: 
+              $ref: "#/definitions/Method"
+  /methods/{methodId}:
+    get:
+      tags:
+        - "method"
+      summary: "Fetch a single seminar type"
+      description: ""
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "methodId"
+          description: "Id of the method to be fetched"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses: 
+        200: 
+          description: "successful operation"
+          schema: 
+            $ref: "#/definitions/Method"
+        404: 
+          description: "mehtod not found"
+definitions:
+  SeminarGoal:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      name:
+        type: "string"
+      description:
+        type: "string"
+  SeminarType:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      name:
+        type: "string"
+      seminar_goals:
+        type: "array"
+        items:
+          $ref: "#/definitions/SeminarGoal"
+  MethodType:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      name:
+        type: "string"
+      description:
+        type: "string"
+  MethodLevel:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      name:
+        type: "string"
+      description:
+        type: "string"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      role:
+        type: "string"
+        enum:
+          - "admin"
+          - "editor"
+          - "writer"
+          - "reader"
+  Attachment:
+    type: "object"
+    required:
+      - "content"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      content:
+        type: "string"
+      created_at:
+        type: "string"
+        format: "date-time"
+      modified_at:
+        type: "string"
+        format: "date-time"
+      created_by:
+        $ref: "#/definitions/User"
+      modified_by:
+        $ref: "#/definitions/User"
+  Method:
+    type: "object"
+    required: 
+      - "title"
+      - "content"
+      - "method_levels"
+      - "method_types"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      title:
+        type: "string"
+      content: 
+        type: "string"
+      attachments:
+        type: "array"
+        items: 
+          $ref: "#/definitions/Attachment"
+      method_levels: 
+        type: "array"
+        items:
+          $ref: "#/definitions/MethodLevel"
+      method_types:
+        type: "array"
+        items:
+          $ref: "#/definitions/MethodType"
+      seminar_goals:
+        type: "array"
+        items:
+          $ref: "#/definitions/SeminarGoal"
+      created_at:
+        type: "string"
+        format: "date-time"
+      modified_at:
+        type: "string"
+        format: "date-time"
+      created_by:
+        $ref: "#/definitions/User"
+      modified_by:
+        $ref: "#/definitions/User"
