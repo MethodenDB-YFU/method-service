@@ -12,7 +12,9 @@ info:
   basePath: "/api"
   tags:
     - name: "seminar"
-    description: "Everything to do with seminars. Will possibly be refactored in the future"
+      description: "Everything to do with seminars. Will possibly be refactored in the future"
+    - name: "method"
+      description: "Everything to do with methods, it's types, levels and attachments"
   schemes:
     - "http"
 paths:
@@ -54,6 +56,12 @@ paths:
           required: true
           type: string
           format: uuid
+        - in: "body"
+          name: "body"
+          description: "The seminar type"
+          required: true
+          schema:
+            $ref: "#/definitions/SeminarType"
       responses:
         200:
           description: "Update successful"
@@ -95,11 +103,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/SeminarGoal"
-        responses:
-          201:
-            description: "Seminar Type created"
-            schema:
-              $ref: "#/definitions/SeminarGoal"
+      responses:
+        201:
+          description: "Seminar Type created"
+          schema:
+            $ref: "#/definitions/SeminarGoal"
     put:
       tags:
         - "seminar"
@@ -116,6 +124,12 @@ paths:
           required: true
           type: string
           format: uuid
+        - in: "body"
+          name: "body"
+          description: "The seminar goal"
+          required: true
+          schema: 
+            $ref: "#/definitions/SeminarGoal"
       responses:
         200:
           description: "Update successful"
@@ -150,16 +164,140 @@ paths:
           description: "invalid or no seminar type id provided"
   /methods/types:
     post:
+      tags:
+        - "method"
+      summary: "Add new Method Type"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Method Type to be created"
+          required: true
+          schema:
+            $ref: "#/descriptions/MethodType"
+      responses:
+        201:
+          description: "Method Type created"
+          schema:
+            $ref: "#/descriptions/MethodType"
     put:
+      tags:
+        - "method"
+      summary: "Update a Method Type"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "methodTypeId"
+          description: "Id of the method type to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The method type"
+          required: true
+          schema: 
+            $ref: "#/definitions/MethodType"
+      responses:
+        200:
+          description: "Update successful"
+          schema: 
+            $ref: "#/definitions/MethodType"
+        400:
+          description: "Invalid ID supplied"
+        404: 
+          description: "Method Type not found"
     get:
-  /methods/types/{methodTypeId}:
-    get:
+      tags:
+        - "method"
+      summary: "Fetch all method types"
+      description: ""
+      produces:
+        - "application/json"
+      parameters: []
+      responses: 
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/MethodType"
   /methods/levels:
     post:
+      tags:
+        - "method"
+      summary: "Add new Method Level"
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Method Level to be created"
+          required: true
+          schema:
+            $ref: "#/descriptions/MethodLevel"
+      responses:
+        201:
+          description: "Method Level created"
+          schema:
+            $ref: "#/descriptions/MethodLevel"
     put:
+      tags:
+        - "method"
+      summary: "Update a Method Level"
+      description: ""
+      consumes: 
+        - "application/json"
+      produces: 
+        - "application/json"
+      parameters: 
+        - in: "path"
+          name: "methodLevelId"
+          description: "Id of the method level to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "The method level"
+          required: true
+          schema: 
+            $ref: "#/definitions/MethodLevel"
+      responses:
+        200:
+          description: "Update successful"
+          schema: 
+            $ref: "#/definitions/MethodLevel"
+        400:
+          description: "Invalid ID supplied"
+        404: 
+          description: "Method Level not found"
     get:
-  /methods/levels/{methodLevelId}:
-    get:
+      tags:
+        - "method"
+      summary: "Fetch all method levels"
+      description: ""
+      produces:
+        - "application/json"
+      parameters: []
+      responses: 
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/MethodLevel"
   /methods:
     post:
     put:
