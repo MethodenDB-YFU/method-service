@@ -4,6 +4,10 @@ spring:
     url: jdbc:postgresql://methodendb.czqppzu7cfbj.us-east-2.rds.amazonaws.com:5432/methodendb
     username: methodendb
     password: methodendb
+  metrics:
+    export:
+      delay-millis: 5000
+
 
   jpa:
 #    show-sql: true
