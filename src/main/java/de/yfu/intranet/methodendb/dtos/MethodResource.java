@@ -5,14 +5,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import de.yfu.intranet.methodendb.models.Attachment;
-import de.yfu.intranet.methodendb.models.MethodLevel;
-import de.yfu.intranet.methodendb.models.MethodType;
-import de.yfu.intranet.methodendb.models.SeminarGoal;
-import de.yfu.intranet.methodendb.models.User;
+import de.yfu.intranet.methodendb.models.*;
 import jersey.repackaged.com.google.common.base.MoreObjects;
 
 import javax.validation.constraints.NotNull;
@@ -33,6 +30,8 @@ public class MethodResource {
 	@NotNull
 	private Set<MethodType> methodTypes;
 	private Set<SeminarGoal> seminarGoals;
+	@NotNull
+	private SeminarType seminarType;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private LocalDateTime createdAt;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
@@ -129,10 +128,18 @@ public class MethodResource {
 		this.modifiedBy = modifiedBy;
 	}
 
+	public SeminarType getSeminarType() {
+		return seminarType;
+	}
+
+	public void setSeminarType(SeminarType seminarType) {
+		this.seminarType = seminarType;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, title, content, attachments, methodLevels, 
-				methodTypes, seminarGoals, createdAt, modifiedAt, createdBy, 
+				methodTypes, seminarGoals, seminarType, createdAt, modifiedAt, createdBy,
 				modifiedBy);
 	}
 
@@ -152,6 +159,7 @@ public class MethodResource {
 				&& Objects.equals(methodLevels, other.methodLevels) 
 				&& Objects.equals(methodTypes, other.methodTypes)
 				&& Objects.equals(seminarGoals, other.seminarGoals)
+				&& Objects.equals(seminarType, other.seminarType)
 				&& Objects.equals(createdAt, other.createdAt) 
 				&& Objects.equals(modifiedAt, other.modifiedAt)
 				&& Objects.equals(createdBy, other.createdBy)
@@ -164,7 +172,8 @@ public class MethodResource {
 				.add("title", title).add("content", content)
 				.add("attachments", attachments).add("methodLevels", methodLevels)
 				.add("methodTypes", methodTypes).add("seminarGoals", seminarGoals)
-				.add("createdAt", createdAt).add("modifiedAt", modifiedAt)
-				.add("createdBy", createdBy).add("modifiedBy", modifiedBy).toString();
+				.add("seminarType", seminarType).add("createdAt", createdAt)
+				.add("modifiedAt", modifiedAt).add("createdBy", createdBy)
+				.add("modifiedBy", modifiedBy).toString();
 	}
 }

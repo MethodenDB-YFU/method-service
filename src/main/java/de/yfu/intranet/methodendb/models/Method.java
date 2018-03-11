@@ -69,6 +69,10 @@ public class Method {
 			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
 			inverseJoinColumns=@JoinColumn(name="mm_seminar_goal_id", referencedColumnName="sg_id"))
 	private Set<SeminarGoal> seminarGoals;
+
+	@ManyToOne
+	@JoinColumn(name="mm_seminar_type_id")
+	private SeminarType seminarType;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	@Column(name="mm_created_at")
@@ -201,8 +205,16 @@ public class Method {
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
-	
-	@PrePersist
+
+    public SeminarType getSeminarType() {
+        return seminarType;
+    }
+
+    public void setSeminarType(SeminarType seminarType) {
+        this.seminarType = seminarType;
+    }
+
+    @PrePersist
 	protected void onCreate() {
 		createdAt = new Date();
 	}
