@@ -41,7 +41,7 @@ public class MetricsConfig {
             influxDB.enableBatch(10, 1000, TimeUnit.MILLISECONDS);
         }
         catch (Exception e) {
-            logger.warn("Connection to Influx failed. No data will be logged. Error: {}", e.getMessage());
+            logger.error("Connection to Influx failed. No data will be logged. Error: {}", e.getMessage());
         }
 
         return new GaugeWriter() {
@@ -54,7 +54,7 @@ public class MetricsConfig {
                     influxDB.write(point);
                 }
                 catch (Exception e) {
-                    logger.warn("Writing Metrics point to Influx failed. Error: {}", e.toString());
+                    logger.info("Writing Metrics point to Influx failed. Error: {}", e.toString());
                 }
                 //logger.info("write(" + value.getName() + "): " + value.getValue());
             }
