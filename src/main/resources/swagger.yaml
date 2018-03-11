@@ -489,7 +489,7 @@ definitions:
     required: 
       - "title"
       - "content"
-      - "seminat_type"
+      - "seminar_type"
       - "method_levels"
       - "method_types"
     properties:
