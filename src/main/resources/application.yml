@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://methodendb.czqppzu7cfbj.us-east-2.rds.amazonaws.com:5432/methodendb
+    url: jdbc:postgresql://0.0.0.0:5432/methodendb
     username: methodendb
     password: methodendb
   metrics:
@@ -32,6 +32,8 @@ spring:
     serialization-inclusion: non_empty
     serialization:
       write-dates-as-timestamps: false
+    mapper:
+      sort-properties-alphabetically: true
     
 #logging:
 #  level:

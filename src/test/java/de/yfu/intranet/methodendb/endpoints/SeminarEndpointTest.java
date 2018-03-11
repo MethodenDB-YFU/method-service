@@ -180,7 +180,7 @@ public class SeminarEndpointTest {
     }
 
     @Test
-    public void updateSeminarGoal_returnsUpdatedSeminarGoal_ifIdIsProdivdedAsPathParam() {
+    public void updateSeminarGoal_returnsUpdatedSeminarGoal_ifIdIsProvidedAsPathParam() {
         final SeminarGoal anySeminarGoal = persistAnySeminarGoal();
         final SeminarGoalResource anySeminarGoalResource = anySeminarGoalResource();
         anySeminarGoalResource.setId(anySeminarGoal.getId());

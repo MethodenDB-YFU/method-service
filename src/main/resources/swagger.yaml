@@ -489,6 +489,7 @@ definitions:
     required: 
       - "title"
       - "content"
+      - "seminar_type"
       - "method_levels"
       - "method_types"
     properties:
@@ -515,6 +516,8 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/SeminarGoal"
+      seminar_type:
+        $ref: "#/definitions/SeminarType"
       created_at:
         type: "string"
         format: "date-time"
