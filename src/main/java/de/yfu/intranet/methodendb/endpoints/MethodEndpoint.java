@@ -70,7 +70,7 @@ public class MethodEndpoint {
     )
 	public ResponseEntity<MethodTypeResource> updateMethodType(
 	        @PathVariable("methodTypeId") UUID methodTypeId,
-			@Valid final MethodTypeResource methodTypeResource) throws MethodException {
+			@RequestBody @Valid final MethodTypeResource methodTypeResource) throws MethodException {
 		final MethodType methodType = methodMapper.mapToDataObject(methodTypeResource);
 		methodType.setId(methodTypeId);
 		MethodType updatedMethodType = methodService.updateMethodType(methodType);
