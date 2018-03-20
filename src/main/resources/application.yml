@@ -8,10 +8,7 @@ spring:
     export:
       delay-millis: 5000
 
-
-
   jpa:
-#    show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
@@ -30,27 +27,27 @@ spring:
     property-naming-strategy: SNAKE_CASE
     time-zone: Europe/Berlin
     locale: de_DE
+    default-property-inclusion: non_null
     serialization-inclusion: non_empty
     serialization:
       write-dates-as-timestamps: false
     mapper:
       sort-properties-alphabetically: true
+      default-view-inclusion: false
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     
-logging:
-  file: /var/log/methodendb/app.log
+#logging:
+#  file: /var/log/methodendb/app.log
 #  level:
-#    ROOT: WARN # DEBUG
+#    ROOT: DEBUG #WARN # DEBUG
       
 server:
   port: 8080
 
-# Sane configuration with the management endpoints (Actuator)
 management:
   port: 7979
-  # We don't want security here as we will not expose that port to the outside world anyway
   security:
     enabled: false
-  # Let's not disclose we're running on Spring :-)
   add-application-context-header: false
 endpoints:
   actuator:
@@ -80,12 +77,47 @@ endpoints:
   trace:
     enabled: false
   health:
-    # Have the full health result even when not authenticated
     sensitive: false
 
 influx:
   host: http://0.0.0.0
   port: 8086
+
+security:
+  user:
+    password: password
+  oauth2:
+    client:
+      clientId: methodendb
+      clientSecret: secret
+      accessTokenUri: http://0.0.0.0:8888/oauth/token
+      userAuthorizationUri: http://0.0.0.0:8888/oauth/authorize
+    resource:
+      userInfoUri: http://0.0.0.0:8080/user
+
+cors:
+  allowedOrigins:
+  - "http://localhost"
+  - "http://localhost:8080"
+  - "localhost:8080"
+  - "localhost:8081"
+  - "http://localhost:8081"
+  allowedMethods:
+  - GET
+  - POST
+  - PUT
+  - PATCH
+  - DELETE
+  - OPTIONS
+  allowedHeaders:
+  - Authorization
+  - Content-Type
+  - X-Flow-ID
+  - X-User-ID
+  exposedHeaders:
+  - X-Flow-ID
+  maxAge: 3600
+
 
 ---
 spring:

@@ -2,8 +2,7 @@ package de.yfu.intranet.methodendb.models;
 
 import static de.yfu.intranet.methodendb.models.Method.METHOD_TABLE;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,15 +24,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import de.yfu.intranet.methodendb.dtos.MethodResource;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name=METHOD_TABLE)
 public class Method {
 
 	public static final String METHOD_TABLE = "mm_method";
-	
-	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -73,14 +70,12 @@ public class Method {
 	@ManyToOne
 	@JoinColumn(name="mm_seminar_type_id")
 	private SeminarType seminarType;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
+
 	@Column(name="mm_created_at")
-	private Date createdAt;
+	private LocalDateTime createdAt;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	@Column(name="mm_modified_at")
-	private Date modifiedAt;
+	private LocalDateTime modifiedAt;
 	
 	@ManyToOne//(cascade=CascadeType.MERGE)
 	@JoinColumn(name="mm_created_by")
@@ -89,34 +84,6 @@ public class Method {
 	@ManyToOne// (cascade=CascadeType.MERGE)
 	@JoinColumn(name="mm_modified_by")
 	private User modifiedBy;
-
-	public Method() {
-		super();
-	}
-
-	public Method(String title, String content, Set<MethodLevel> methodLevels, Set<MethodType> methodTypes,
-			Set<SeminarGoal> seminarGoals, Set<Attachment> attachments, User createdBy, User modifiedBy) {
-		super();
-		this.title = title;
-		this.content = content;
-		this.methodLevels = methodLevels;
-		this.methodTypes = methodTypes;
-		this.seminarGoals = seminarGoals;
-		this.attachments = attachments;
-		this.createdBy = createdBy;
-		this.modifiedBy = modifiedBy;
-	}
-	
-	public Method(UUID userId, MethodResource methodResource) {
-		super();
-		this.title = methodResource.getTitle();
-		this.content = methodResource.getContent();
-		this.attachments = methodResource.getAttachments();
-		this.methodLevels = methodResource.getMethodLevels();
-		this.methodTypes = methodResource.getMethodTypes();
-		this.seminarGoals = methodResource.getSeminarGoals();
-		
-	}
 
 	public User getModifiedBy() {
 		return modifiedBy;
@@ -182,19 +149,19 @@ public class Method {
 		this.seminarGoals = seminarGoals;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getModifiedAt() {
+	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
+	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 
@@ -216,11 +183,11 @@ public class Method {
 
     @PrePersist
 	protected void onCreate() {
-		createdAt = new Date();
+		createdAt = LocalDateTime.now();
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		modifiedAt = new Date();
+		modifiedAt =  LocalDateTime.now();
 	}
 }

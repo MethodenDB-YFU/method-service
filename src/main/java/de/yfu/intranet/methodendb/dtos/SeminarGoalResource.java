@@ -1,9 +1,9 @@
 package de.yfu.intranet.methodendb.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.base.MoreObjects;
 import de.yfu.intranet.methodendb.models.Method;
 import de.yfu.intranet.methodendb.models.SeminarType;
-import jersey.repackaged.com.google.common.base.MoreObjects;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;

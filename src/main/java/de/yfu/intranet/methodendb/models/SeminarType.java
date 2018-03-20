@@ -9,11 +9,8 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jersey.repackaged.com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects;
 
 @Entity
 @Table(name=SEMINAR_TYPE_TABLE)

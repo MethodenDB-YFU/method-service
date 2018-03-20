@@ -7,29 +7,25 @@ import de.yfu.intranet.methodendb.helpers.SeminarMapper;
 import de.yfu.intranet.methodendb.models.SeminarGoal;
 import de.yfu.intranet.methodendb.models.SeminarType;
 import de.yfu.intranet.methodendb.services.SeminarService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Set;
 import java.util.UUID;
 
-@Path("/seminars")
-@Component
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-@Api(value="Seminars", description="Everything around Seminar Types and Goals.")
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
+@RestController
+@RequestMapping(value = SeminarEndpoint.SEMINAR_ENDPOINT)
 public class SeminarEndpoint {
 
+	public static final String SEMINAR_ENDPOINT = "/api/seminars";
+	public static final String CONTENT_TYPE_SEMINAR_TYPE = "application/json";
+	public static final String CONTENT_TYPE_SEMINAR_GOAL = "application/json";
 	private final SeminarMapper seminarMapper;
 	private final SeminarService seminarService;
 
@@ -39,58 +35,77 @@ public class SeminarEndpoint {
 		this.seminarService = seminarService;
 		this.seminarMapper = seminarMapper;
 	}
-	
-	@POST
-	@Path("/types")
-	@ApiOperation(value="Create Seminar Type.", response=SeminarTypeResource.class)
-	public Response createSeminarType(@ApiParam("Seminar Type data") @Valid final SeminarTypeResource seminarTypeResource) {
+
+	@PostMapping(
+			path = "/types",
+			consumes = CONTENT_TYPE_SEMINAR_TYPE,
+			produces = CONTENT_TYPE_SEMINAR_TYPE
+	)
+	public ResponseEntity<SeminarTypeResource> createSeminarType(
+			@RequestBody @Valid final SeminarTypeResource seminarTypeResource) {
 		final SeminarType seminarType = seminarMapper.mapToDataObject(seminarTypeResource);
 		SeminarType createdSeminarType = seminarService.createSeminarType(seminarType);
-		return Response.status(Response.Status.CREATED).entity(seminarMapper.mapFromDataObject(createdSeminarType)).build();
+		return new ResponseEntity<>(seminarMapper.mapFromDataObject(createdSeminarType), CREATED);
 	}
-	@PUT
-	@Path("/types/{seminarTypeId: [A-z0-9-]+}")
-	@ApiOperation(value="Update Seminar Type", response=SeminarTypeResource.class)
-	public Response updateSeminarType(@ApiParam(name="Seminar Type ID", required=true) @PathParam("seminarTypeId") UUID seminarTypeId,
-									  @ApiParam("User ID") @HeaderParam("X-User-ID") UUID userId,
-									  @ApiParam("Seminar Type Data") @Valid final SeminarTypeResource seminarTypeResource) throws SeminarException {
+
+	@PutMapping(
+			path = "/types/{seminarTypeId}",
+			consumes = CONTENT_TYPE_SEMINAR_TYPE,
+			produces = CONTENT_TYPE_SEMINAR_TYPE
+	)
+	public ResponseEntity<SeminarTypeResource> updateSeminarType(
+			@PathVariable("seminarTypeId") final UUID seminarTypeId,
+			@RequestBody @Valid final SeminarTypeResource seminarTypeResource) throws SeminarException {
 		final SeminarType seminarType = seminarMapper.mapToDataObject(seminarTypeResource);
 		seminarType.setId(seminarTypeId);
 		SeminarType updatedSeminarType = seminarService.updateSeminarType(seminarType);
-		return Response.status(Response.Status.OK).entity(seminarMapper.mapFromDataObject(updatedSeminarType)).build();
+		return new ResponseEntity<>(seminarMapper.mapFromDataObject(updatedSeminarType), HttpStatus.OK);
 	}
 
-	@GET
-	@Path("/types")
-	@ApiOperation(value="Get all Seminar Types", response=SeminarType.class)
-	public Set<SeminarType> getSeminarTypes(@ApiParam("User ID") @HeaderParam("X-User-ID") UUID userId) throws SeminarException {
+
+	@GetMapping(
+			path = "/types",
+			consumes = CONTENT_TYPE_SEMINAR_TYPE,
+			produces = CONTENT_TYPE_SEMINAR_TYPE
+	)
+	public Set<SeminarType> getSeminarTypes() throws SeminarException {
 		return seminarService.getSeminarTypes();
 	}
 
-	@POST
-	@Path("/goals")
-	public Response createSeminarGoal(@Valid final SeminarGoalResource seminarGoalResource,
-									  @HeaderParam("X-User-ID") UUID userId) {
+	@PostMapping(
+			path = "/goals",
+			consumes = CONTENT_TYPE_SEMINAR_GOAL,
+			produces = CONTENT_TYPE_SEMINAR_GOAL
+	)
+	public ResponseEntity<SeminarGoalResource> createSeminarGoal(
+			@RequestBody @Valid final SeminarGoalResource seminarGoalResource) {
 		final SeminarGoal seminarGoal = seminarMapper.mapToDataObject(seminarGoalResource);
 		SeminarGoal createdSeminarGoal = seminarService.createSeminarGoal(seminarGoal);
-		return Response.status(Response.Status.CREATED).entity(seminarMapper.mapFromDataObject(createdSeminarGoal)).build();
+		return new ResponseEntity<>(seminarMapper.mapFromDataObject(createdSeminarGoal), CREATED);
 	}
 
-	@PUT
-	@Path("/goals/{seminarGoalId: [A-z0-9-]+}")
-	public Response updateSeminarGoal(@PathParam("seminarGoalId") UUID seminarGoalId,
-									  @HeaderParam("X-User-ID") UUID userId,
-									  @Valid final SeminarGoalResource seminarGoalResource) throws SeminarException {
+	@PutMapping(
+			path = "/goals/{seminarGoalId}",
+			consumes = CONTENT_TYPE_SEMINAR_GOAL,
+			produces = CONTENT_TYPE_SEMINAR_GOAL
+	)
+	public ResponseEntity<SeminarGoalResource> updateSeminarGoal(
+			@PathVariable("seminarGoalId") UUID seminarGoalId,
+			@RequestBody @Valid final SeminarGoalResource seminarGoalResource) throws SeminarException {
 		final SeminarGoal seminarGoal = seminarMapper.mapToDataObject(seminarGoalResource);
 		seminarGoal.setId(seminarGoalId);
 		SeminarGoal updatedSeminarGoal = seminarService.updateSeminarGoal(seminarGoal);
-		return Response.status(Response.Status.OK).entity(seminarMapper.mapFromDataObject(updatedSeminarGoal)).build();
+		return new ResponseEntity<>(seminarMapper.mapFromDataObject(updatedSeminarGoal), OK);
 	}
 
-	@GET
-	@Path("/goals")
-	public Set<SeminarGoal> getSeminarGoals(@HeaderParam("X-User-ID") UUID userId,
-											@QueryParam("seminarType") UUID seminarType) throws SeminarException {
+
+	@GetMapping(
+			path = "/goals",
+			consumes = CONTENT_TYPE_SEMINAR_GOAL,
+			produces = CONTENT_TYPE_SEMINAR_GOAL
+	)
+	public Set<SeminarGoal> getSeminarGoals(
+			@RequestParam("seminarType") UUID seminarType) throws SeminarException {
 		if (seminarType == null) {
 			throw new SeminarException("Please provide a Seminar Type UUID as query parameter.", HttpStatus.BAD_REQUEST);
 		}

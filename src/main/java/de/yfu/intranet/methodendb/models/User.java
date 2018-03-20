@@ -14,13 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.common.base.MoreObjects;
 import org.hibernate.annotations.ColumnTransformer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jersey.repackaged.com.google.common.base.MoreObjects;
 
 @Entity
 @Table(name=USER_TABLE)
