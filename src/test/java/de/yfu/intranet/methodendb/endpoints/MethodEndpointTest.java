@@ -20,7 +20,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import static de.yfu.intranet.methodendb.util.MethodObjectFactory.*;
 import static de.yfu.intranet.methodendb.util.SeminarObjectFactory.anySeminarGoal;
@@ -107,13 +112,22 @@ public class MethodEndpointTest {
     }
 
     @Test
-    public void updateMethodType_returns405_ifNoIdIsGivenInUrl() {
+    public void updateMethodType_returns400_ifNoIdIsGivenInUrl() {
         final MethodTypeResource anyMethodTypeResource = anyMethodTypeResource();
 
-        HttpEntity<MethodTypeResource> request = new HttpEntity<>(anyMethodTypeResource);
-        ResponseEntity<MethodTypeResource> response = restTemplate.exchange(METHOD_TYPE_ENDPOINT, HttpMethod.PUT, request, MethodTypeResource.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED);
+        HttpEntity<MethodTypeResource> request = new HttpEntity<>(anyMethodTypeResource, headers);
+
+        ResponseEntity<MethodTypeResource> response = restTemplate.exchange(
+                METHOD_TYPE_ENDPOINT,
+                HttpMethod.PUT,
+                request,
+                MethodTypeResource.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -124,7 +138,11 @@ public class MethodEndpointTest {
 
         assertThat(anyMethodType.getName()).isNotEqualTo(anyMethodTypeResource.getName());
 
-        HttpEntity<MethodTypeResource> request = new HttpEntity<>(anyMethodTypeResource);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<MethodTypeResource> request = new HttpEntity<>(anyMethodTypeResource, headers);
         ResponseEntity<MethodTypeResource> response = restTemplate.exchange(
                 METHOD_TYPE_ENDPOINT + "/" + anyMethodType.getId(),
                 HttpMethod.PUT,
@@ -164,13 +182,17 @@ public class MethodEndpointTest {
     }
 
     @Test
-    public void updateMethodLevel_returns405_ifNoIdIsGivenInUrl() {
+    public void updateMethodLevel_returns400_ifNoIdIsGivenInUrl() {
         final MethodLevelResource anyMethodLevelResource = anyMethodLevelResource();
 
-        HttpEntity<MethodLevelResource> request = new HttpEntity<>(anyMethodLevelResource);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<MethodLevelResource> request = new HttpEntity<>(anyMethodLevelResource, headers);
         ResponseEntity<MethodLevelResource> response = restTemplate.exchange(METHOD_LEVEL_ENDPOINT, HttpMethod.PUT, request, MethodLevelResource.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test

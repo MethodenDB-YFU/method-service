@@ -7,7 +7,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.google.common.base.MoreObjects;
-import de.yfu.intranet.methodendb.models.Method;
 import de.yfu.intranet.methodendb.models.User;
 
 import javax.validation.constraints.NotNull;

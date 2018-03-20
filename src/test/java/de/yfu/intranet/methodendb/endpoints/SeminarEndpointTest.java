@@ -23,6 +23,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -62,7 +64,12 @@ public class SeminarEndpointTest {
 
     @Test
     public void getSeminarTypes_returnsEmptySet_ifNoSeminarTypesExist() {
-        ResponseEntity<SeminarTypeResource[]> response = restTemplate.getForEntity(SEMINAR_TYPE_ENDPOINT, SeminarTypeResource[].class);
+        ResponseEntity<SeminarTypeResource[]> response = restTemplate.exchange(
+                SEMINAR_TYPE_ENDPOINT,
+                HttpMethod.GET,
+                getContentTypeHeader(),
+                SeminarTypeResource[].class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertTrue(response.getBody().length == 0);
     }
@@ -71,7 +78,13 @@ public class SeminarEndpointTest {
     @Test
     public void getSeminarTypes_returnsSeminarTypes_ifSeminarTypeServiceReturnsASeminarType() {
         final SeminarType anySeminarType = persistAnySeminarType();
-        ResponseEntity<SeminarTypeResource[]> response = restTemplate.getForEntity(SEMINAR_TYPE_ENDPOINT, SeminarTypeResource[].class);
+
+        ResponseEntity<SeminarTypeResource[]> response = restTemplate.exchange(
+                SEMINAR_TYPE_ENDPOINT,
+                HttpMethod.GET,
+                getContentTypeHeader(),
+                SeminarTypeResource[].class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         System.out.println(response.getBody().length);
         assertEqualSeminarType(anySeminarType, response.getBody()[0]);
@@ -128,7 +141,11 @@ public class SeminarEndpointTest {
                 .queryParam("seminarType", anySeminarType.getId());
 
         ResponseEntity<SeminarGoalResource[]> response = restTemplate
-                .getForEntity(builder.build().encode().toUri(), SeminarGoalResource[].class);
+                .exchange(
+                        builder.build().encode().toUri(),
+                        HttpMethod.GET,
+                        getContentTypeHeader(),
+                        SeminarGoalResource[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertTrue(response.getBody().length == 0);
@@ -146,7 +163,11 @@ public class SeminarEndpointTest {
                 .queryParam("seminarType", anySeminarType.getId());
 
         ResponseEntity<SeminarGoalResource[]> response = restTemplate
-                .getForEntity(builder.build().encode().toUri(), SeminarGoalResource[].class);
+                .exchange(
+                        builder.build().encode().toUri(),
+                        HttpMethod.GET,
+                        getContentTypeHeader(),
+                        SeminarGoalResource[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         seminarGoalRepository.delete(anySeminarGoal.getId());
@@ -222,5 +243,13 @@ public class SeminarEndpointTest {
         SeminarGoal anySeminarGoal = anySeminarGoal();
         anySeminarGoal.setSeminarType(persistAnySeminarType());
         return seminarGoalRepository.save(anySeminarGoal);
+    }
+
+    private HttpEntity<?> getContentTypeHeader() {
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        headers.add("Content-Type", "application/json");
+        headers.add("Accept", "application/json");
+
+        return new HttpEntity<>(headers);
     }
 }

@@ -9,15 +9,18 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.common.base.MoreObjects;
 import de.yfu.intranet.methodendb.models.*;
-import jersey.repackaged.com.google.common.base.MoreObjects;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.ext.JodaDeserializers;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.oauth2.provider.client.JacksonArrayOrStringDeserializer;
 
 import javax.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MethodResource {
-
-	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
 
 	private UUID id;
 	@NotNull
@@ -32,13 +35,10 @@ public class MethodResource {
 	private Set<SeminarGoal> seminarGoals;
 	@NotNull
 	private SeminarType seminarType;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private LocalDateTime createdAt;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	private LocalDateTime modifiedAt;
 	private User createdBy;
 	private User modifiedBy;
-
 
 	public Set<Attachment> getAttachments() {
 		return attachments;
