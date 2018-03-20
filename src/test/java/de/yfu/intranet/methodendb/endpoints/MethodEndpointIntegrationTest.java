@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static de.yfu.intranet.methodendb.util.MethodObjectFactory.anyMethod;
@@ -63,11 +64,11 @@ public class MethodEndpointIntegrationTest {
 
         when(methodService.createMethod(any(Method.class))).thenReturn(anyMethod);
 
-        ResponseEntity response = methodEndpoint.createMethod(USER.getId(), anyMethodResource);
-        Method createdMethod = (Method) response.getBody();
+        ResponseEntity<MethodResource> response = methodEndpoint.createMethod(USER.getId(), anyMethodResource);
+        Method createdMethod = methodMapper.mapToDataObject(response.getBody());
 
         verify(methodService).createMethod(any(Method.class));
-        assertThat(response.getStatusCode()).isEqualTo(201);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(createdMethod.getId()).isNotNull();
         assertEqualMethod(anyMethod, createdMethod);
     }
