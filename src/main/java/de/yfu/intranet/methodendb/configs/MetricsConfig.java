@@ -13,12 +13,14 @@ import org.springframework.boot.actuate.metrics.Metric;
 import org.springframework.boot.actuate.metrics.writer.GaugeWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @Component
+@Profile(value = {"docker"})
 public class MetricsConfig {
 
     @Value("${influx.host}")
@@ -54,7 +56,7 @@ public class MetricsConfig {
                     influxDB.write(point);
                 }
                 catch (Exception e) {
-                    logger.info("Writing Metrics point to Influx failed. Error: {}", e.toString());
+                    logger.error("Writing Metrics point to Influx failed. Error: {}", e.toString());
                 }
                 //logger.info("write(" + value.getName() + "): " + value.getValue());
             }
