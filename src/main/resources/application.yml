@@ -42,8 +42,9 @@ spring:
 #    ROOT: DEBUG #WARN # DEBUG
 logging:
   level:
-    org.springframework.security: DEBUG
-    org.springframework.web: WARN
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+
       
 server:
   port: 8080
@@ -105,6 +106,7 @@ cors:
   - "http://localhost:8080"
   - "localhost:8080"
   - "localhost:8081"
+  - "localhost"
   - "http://localhost:8081"
   allowedMethods:
   - GET
@@ -121,8 +123,9 @@ cors:
   - Accept
   exposedHeaders:
   - X-Flow-ID
+  - X-User-ID
   maxAge: 3600
-
+  allowCredentials: true
 
 ---
 spring:
