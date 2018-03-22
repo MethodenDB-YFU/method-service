@@ -40,6 +40,10 @@ spring:
 #  file: /var/log/methodendb/app.log
 #  level:
 #    ROOT: DEBUG #WARN # DEBUG
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.web: INFO
       
 server:
   port: 8080
@@ -86,14 +90,14 @@ influx:
 security:
   user:
     password: password
-  oauth2:
-    client:
-      clientId: methodendb
-      clientSecret: secret
-      accessTokenUri: http://0.0.0.0:8888/oauth/token
-      userAuthorizationUri: http://0.0.0.0:8888/oauth/authorize
-    resource:
-      userInfoUri: http://0.0.0.0:8080/user
+#  oauth2:
+#    client:
+#      clientId: methodendb
+#      clientSecret: secret
+#      accessTokenUri: http://0.0.0.0:8080/oauth/token
+#      userAuthorizationUri: http://0.0.0.0:8080/oauth/authorize
+#    resource:
+#      userInfoUri: http://0.0.0.0:8080/user
 
 cors:
   allowedOrigins:
@@ -101,6 +105,7 @@ cors:
   - "http://localhost:8080"
   - "localhost:8080"
   - "localhost:8081"
+  - "localhost"
   - "http://localhost:8081"
   allowedMethods:
   - GET
@@ -114,10 +119,12 @@ cors:
   - Content-Type
   - X-Flow-ID
   - X-User-ID
+  - Accept
   exposedHeaders:
   - X-Flow-ID
+  - X-User-ID
   maxAge: 3600
-
+  allowCredentials: true
 
 ---
 spring:
