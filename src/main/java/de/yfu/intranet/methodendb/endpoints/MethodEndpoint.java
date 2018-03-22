@@ -141,7 +141,9 @@ public class MethodEndpoint {
 		final User createdBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
 		method.setCreatedBy(createdBy);
-		method.getAttachments().forEach(m -> m.setCreatedBy(createdBy));
+		if (method.getAttachments() != null) {
+			method.getAttachments().forEach(m -> m.setCreatedBy(createdBy));
+		}
 
 		final Method createdMethod = methodService.createMethod(method);
 		return new ResponseEntity<>(methodMapper.mapFromDataObject(createdMethod), HttpStatus.CREATED);
