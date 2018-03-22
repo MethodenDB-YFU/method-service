@@ -44,6 +44,7 @@ logging:
   level:
     org.springframework.security: INFO
     org.springframework.web: INFO
+
       
 server:
   port: 8080
