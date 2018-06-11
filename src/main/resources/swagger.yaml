@@ -1,530 +1,719 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: "Swagger definition for MethodDB of the YFU Germany intranet."
-  version: "0.0.1"
-  title: "Methodendatenbank"
-  contact:
-    email: "alexander.senger@yfu-deutschland.de"
-  license: 
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "methodendb.intranet.yfu.de"
-basePath: "/api"
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: 'urn:tos'
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+host: 'localhost:8081'
+basePath: /
 tags:
-  - name: "seminar"
-    description: "Everything to do with seminars. Will possibly be refactored in the future"
-  - name: "method"
-    description: "Everything to do with methods, it's types, levels and attachments"
-schemes:
-  - "http"
+  - name: seminar-endpoint
+    description: Seminar Endpoint
+  - name: method-endpoint
+    description: Method Endpoint
 paths:
-  /seminars/types:
-    post:
-      tags:
-        - "seminar"
-      summary: "Add a new seminar type"
-      description: ""
-      consumes: 
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Seminar Type that needs to be added"
-          required: true
-          schema:
-            $ref: "#/definitions/SeminarType"
-      responses:
-        201:
-          description: "Seminar Type created"
-          schema:
-            $ref: "#/definitions/SeminarType"
-    put:
-      tags:
-        - "seminar"
-      summary: "Update an existing seminar type"
-      description: ""
-      consumes: 
-        - "application/json"
-      produces: 
-        - "application/json"
-      parameters: 
-        - in: "path"
-          name: "seminarTypeId"
-          description: "Id of seminar type to Update"
-          required: true
-          type: "string"
-          format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "The seminar type"
-          required: true
-          schema:
-            $ref: "#/definitions/SeminarType"
-      responses:
-        200:
-          description: "Update successful"
-          schema:
-            $ref: "#/definitions/SeminarType"
-        400:
-          description: "invalid ID supplied"
-        404:
-          description: "Seminar Type not found"
+  /api/methods:
     get:
       tags:
-        - "seminar"
-      summary: "Fetch all seminar types"
-      description: ""
-      produces: 
-        - "application/json"
-      parameters: []
+        - method-endpoint
+      summary: getAllMethods
+      operationId: getAllMethodsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: X-User-ID
+          in: header
+          description: X-User-ID
+          required: false
+          type: string
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: OK
           schema:
-            type: "array"
-            items: 
-              $ref: "#/definitions/SeminarType"
-  /seminars/goals:
+            type: array
+            items:
+              $ref: '#/definitions/Method'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     post:
       tags:
-        - "seminar"
-      summary: "Add a new seminar goal"
-      description: ""
-      consumes: 
-        - "application/json"
+        - method-endpoint
+      summary: createMethod
+      operationId: createMethodUsingPOST
+      consumes:
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Seminar Goal that needs to be added"
-          required: true
-          schema:
-            $ref: "#/definitions/SeminarGoal"
-      responses:
-        201:
-          description: "Seminar Type created"
-          schema:
-            $ref: "#/definitions/SeminarGoal"
-    put:
-      tags:
-        - "seminar"
-      summary: "Update an existing seminar goal"
-      description: ""
-      consumes: 
-        - "application/json"
-      produces: 
-        - "application/json"
-      parameters: 
-        - in: "path"
-          name: "seminarGoalId"
-          description: "Id of seminar goal to update"
+        - name: X-User-ID
+          in: header
+          description: X-User-ID
           required: true
           type: string
-          format: uuid
-        - in: "body"
-          name: "body"
-          description: "The seminar goal"
+        - in: body
+          name: methodResource
+          description: methodResource
           required: true
-          schema: 
-            $ref: "#/definitions/SeminarGoal"
-      responses:
-        200:
-          description: "Update successful"
           schema:
-            $ref: "#/definitions/SeminarGoal"
-        400:
-          description: "invalid ID supplied"
-        404:
-          description: "Seminar Goal not found"
+            $ref: '#/definitions/MethodResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/methods/levels:
     get:
       tags:
-        - "seminar"
-      summary: "Fetch all seminar goals"
-      description: ""
-      produces: 
-        - "application/json"
-      parameters:
-        - in: "query"
-          name: "seminarTypeId"
-          description: "Seminar Type for which the goals are to be fetched"
-          required: true
-          type: "string"
-          format: "uuid"
+        - method-endpoint
+      summary: getAllMethodLevels
+      operationId: getAllMethodLevelsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: OK
           schema:
-            type: "array"
-            items: 
-              $ref: "#/definitions/SeminarGoal"
-        400:
-          description: "invalid or no seminar type id provided"
-  /methods/types:
+            type: array
+            items:
+              $ref: '#/definitions/MethodLevel'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     post:
       tags:
-        - "method"
-      summary: "Add new Method Type"
-      description: ""
+        - method-endpoint
+      summary: createMethodLevel
+      operationId: createMethodLevelUsingPOST
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Method Type to be created"
+        - in: body
+          name: methodLevelResource
+          description: methodLevelResource
           required: true
           schema:
-            $ref: "#/definitions/MethodType"
+            $ref: '#/definitions/MethodLevelResource'
       responses:
-        201:
-          description: "Method Type created"
+        '200':
+          description: OK
           schema:
-            $ref: "#/definitions/MethodType"
+            $ref: '#/definitions/MethodLevelResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/methods/levels/{methodLevelId}':
     put:
       tags:
-        - "method"
-      summary: "Update a Method Type"
-      description: ""
-      consumes: 
-        - "application/json"
-      produces: 
-        - "application/json"
-      parameters: 
-        - in: "path"
-          name: "methodTypeId"
-          description: "Id of the method type to be updated"
+        - method-endpoint
+      summary: updateMethodLevel
+      operationId: updateMethodLevelUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: methodLevelId
+          in: path
+          description: methodLevelId
           required: true
-          type: "string"
-          format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "The method type"
+          type: string
+        - in: body
+          name: methodLevelResource
+          description: methodLevelResource
           required: true
-          schema: 
-            $ref: "#/definitions/MethodType"
+          schema:
+            $ref: '#/definitions/MethodLevelResource'
       responses:
-        200:
-          description: "Update successful"
-          schema: 
-            $ref: "#/definitions/MethodType"
-        400:
-          description: "Invalid ID supplied"
-        404: 
-          description: "Method Type not found"
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodLevelResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/methods/types:
     get:
       tags:
-        - "method"
-      summary: "Fetch all method types"
-      description: ""
+        - method-endpoint
+      summary: getAllMethodTypes
+      operationId: getAllMethodTypesUsingGET
+      consumes:
+        - application/json
       produces:
-        - "application/json"
-      parameters: []
-      responses: 
-        200:
-          description: "successful operation"
+        - application/json
+      responses:
+        '200':
+          description: OK
           schema:
-            type: "array"
-            items: 
-              $ref: "#/definitions/MethodType"
-  /methods/levels:
+            type: array
+            items:
+              $ref: '#/definitions/MethodType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     post:
       tags:
-        - "method"
-      summary: "Add new Method Level"
-      description: ""
+        - method-endpoint
+      summary: createMethodType
+      operationId: createMethodTypeUsingPOST
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Method Level to be created"
+        - in: body
+          name: methodTypeResource
+          description: methodTypeResource
           required: true
           schema:
-            $ref: "#/definitions/MethodLevel"
+            $ref: '#/definitions/MethodTypeResource'
       responses:
-        201:
-          description: "Method Level created"
+        '200':
+          description: OK
           schema:
-            $ref: "#/definitions/MethodLevel"
+            $ref: '#/definitions/MethodTypeResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/methods/types/{methodTypeId}':
     put:
       tags:
-        - "method"
-      summary: "Update a Method Level"
-      description: ""
-      consumes: 
-        - "application/json"
-      produces: 
-        - "application/json"
-      parameters: 
-        - in: "path"
-          name: "methodLevelId"
-          description: "Id of the method level to be updated"
+        - method-endpoint
+      summary: updateMethodType
+      operationId: updateMethodTypeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: methodTypeId
+          in: path
+          description: methodTypeId
           required: true
-          type: "string"
-          format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "The method level"
+          type: string
+        - in: body
+          name: methodTypeResource
+          description: methodTypeResource
           required: true
-          schema: 
-            $ref: "#/definitions/MethodLevel"
+          schema:
+            $ref: '#/definitions/MethodTypeResource'
       responses:
-        200:
-          description: "Update successful"
-          schema: 
-            $ref: "#/definitions/MethodLevel"
-        400:
-          description: "Invalid ID supplied"
-        404: 
-          description: "Method Level not found"
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodTypeResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/methods/{methodId}':
     get:
       tags:
-        - "method"
-      summary: "Fetch all method levels"
-      description: ""
+        - method-endpoint
+      summary: getMethod
+      operationId: getMethodUsingGET
+      consumes:
+        - application/json
       produces:
-        - "application/json"
-      parameters: []
-      responses: 
-        200:
-          description: "successful operation"
+        - application/json
+      parameters:
+        - name: methodId
+          in: path
+          description: methodId
+          required: true
+          type: string
+        - name: X-User-ID
+          in: header
+          description: X-User-ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
           schema:
-            type: "array"
-            items: 
-              $ref: "#/definitions/MethodLevel"
-  /methods:
+            $ref: '#/definitions/MethodResource'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - method-endpoint
+      summary: updateMethod
+      operationId: updateMethodUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: methodId
+          in: path
+          description: methodId
+          required: true
+          type: string
+        - name: X-User-ID
+          in: header
+          description: X-User-ID
+          required: true
+          type: string
+        - in: body
+          name: methodResource
+          description: methodResource
+          required: true
+          schema:
+            $ref: '#/definitions/MethodResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - method-endpoint
+      summary: deleteMethod
+      operationId: deleteMethodUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: methodId
+          in: path
+          description: methodId
+          required: true
+          type: string
+        - name: X-User-ID
+          in: header
+          description: X-User-ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/seminars/goals:
+    get:
+      tags:
+        - seminar-endpoint
+      summary: getSeminarGoals
+      operationId: getSeminarGoalsUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: seminarType
+          in: query
+          description: seminarType
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SeminarGoal'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     post:
       tags:
-        - "seminar"
-      summary: "Create a Method"
-      description: ""
+        - seminar-endpoint
+      summary: createSeminarGoal
+      operationId: createSeminarGoalUsingPOST
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Method Body, possibly including Attachment"
+        - in: body
+          name: seminarGoalResource
+          description: seminarGoalResource
           required: true
-          schema: 
-            $ref: "#/definitions/Method"
-        - in: "header"
-          name: "X-User-ID"
-          description: "Id of the user creating the method / attachment"
-          required: true
-          type: "string"
-          format: "uuid"
-      responses:
-        201:
-          description: "Method Created"
           schema:
-            $ref: "#/definitions/Method"
+            $ref: '#/definitions/SeminarGoalResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SeminarGoalResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/seminars/goals/{seminarGoalId}':
     put:
       tags:
-        - "method"
-      summary: "Update an existing Method and / or attachment"
-      description: ""
-      consumes: 
-        - "application/json"
+        - seminar-endpoint
+      summary: updateSeminarGoal
+      operationId: updateSeminarGoalUsingPUT
+      consumes:
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - in: "path"
-          name: "methodId"
-          description: "Id of method to be updated"
+        - name: seminarGoalId
+          in: path
+          description: seminarGoalId
           required: true
-          type: "string"
-          format: "uuid"
-        - in: "header"
-          name: "X-User-ID"
-          description: "Id of the user updating the method / attachment"
+          type: string
+        - in: body
+          name: seminarGoalResource
+          description: seminarGoalResource
           required: true
-          type: "string"
-          format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "The Method, possibly including attachments"
-          required: true
-          schema: 
-            $ref: "#/definitions/Method"
+          schema:
+            $ref: '#/definitions/SeminarGoalResource'
       responses:
-        200:
-          description: "Update successful"
-          schema: 
-            $ref: "#/definitions/Method"
-        400: 
-          description: "Invalid Id supplied"
-        404: 
-          description: "Method not found"
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SeminarGoalResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/seminars/types:
     get:
       tags:
-        - "method"
-      summary: "Fetch all methods"
-      description: ""
-      produces: 
-        - "application/json"
-      parameters: []
-      responses: 
-        200: 
-          description: "successful operation"
-          schema: 
-            type: "array"
-            items: 
-              $ref: "#/definitions/Method"
-  /methods/{methodId}:
-    get:
+        - seminar-endpoint
+      summary: getSeminarTypes
+      operationId: getSeminarTypesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SeminarType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
       tags:
-        - "method"
-      summary: "Fetch a single seminar type"
-      description: ""
-      produces: 
-        - "application/json"
-      parameters: 
-        - in: "path"
-          name: "methodId"
-          description: "Id of the method to be fetched"
+        - seminar-endpoint
+      summary: createSeminarType
+      operationId: createSeminarTypeUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: seminarTypeResource
+          description: seminarTypeResource
           required: true
-          type: "string"
-          format: "uuid"
-      responses: 
-        200: 
-          description: "successful operation"
-          schema: 
-            $ref: "#/definitions/Method"
-        404: 
-          description: "mehtod not found"
+          schema:
+            $ref: '#/definitions/SeminarTypeResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SeminarTypeResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/seminars/types/{seminarTypeId}':
+    put:
+      tags:
+        - seminar-endpoint
+      summary: updateSeminarType
+      operationId: updateSeminarTypeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: seminarTypeId
+          in: path
+          description: seminarTypeId
+          required: true
+          type: string
+        - in: body
+          name: seminarTypeResource
+          description: seminarTypeResource
+          required: true
+          schema:
+            $ref: '#/definitions/SeminarTypeResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SeminarTypeResource'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
 definitions:
-  SeminarGoal:
-    type: "object"
-    required:
-      - "name"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      name:
-        type: "string"
-      description:
-        type: "string"
-  SeminarType:
-    type: "object"
-    required:
-      - "name"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      name:
-        type: "string"
-      seminar_goals:
-        type: "array"
-        items:
-          $ref: "#/definitions/SeminarGoal"
-  MethodType:
-    type: "object"
-    required:
-      - "name"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      name:
-        type: "string"
-      description:
-        type: "string"
-  MethodLevel:
-    type: "object"
-    required:
-      - "name"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      name:
-        type: "string"
-      description:
-        type: "string"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      role:
-        type: "string"
-        enum:
-          - "admin"
-          - "editor"
-          - "writer"
-          - "reader"
   Attachment:
-    type: "object"
-    required:
-      - "content"
+    type: object
     properties:
-      id:
-        type: "string"
-        format: "uuid"
       content:
-        type: "string"
+        type: string
       created_at:
-        type: "string"
-        format: "date-time"
-      modified_at:
-        type: "string"
-        format: "date-time"
+        type: string
+        example: 'yyyy-MM-dd''T''HH:mm:ss.SSSz'
       created_by:
-        $ref: "#/definitions/User"
+        $ref: '#/definitions/User'
+      id:
+        type: string
+      modified_at:
+        type: string
+        example: 'yyyy-MM-dd''T''HH:mm:ss.SSSz'
       modified_by:
-        $ref: "#/definitions/User"
+        $ref: '#/definitions/User'
   Method:
-    type: "object"
-    required: 
-      - "title"
-      - "content"
-      - "seminar_type"
-      - "method_levels"
-      - "method_types"
+    type: object
+    properties:
+      attachments:
+        type: array
+        items:
+          $ref: '#/definitions/Attachment'
+      content:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      created_by:
+        $ref: '#/definitions/User'
+      id:
+        type: string
+      method_levels:
+        type: array
+        items:
+          $ref: '#/definitions/MethodLevel'
+      method_types:
+        type: array
+        items:
+          $ref: '#/definitions/MethodType'
+      modified_at:
+        type: string
+        format: date-time
+      modified_by:
+        $ref: '#/definitions/User'
+      seminar_goals:
+        type: array
+        items:
+          $ref: '#/definitions/SeminarGoal'
+      seminar_type:
+        $ref: '#/definitions/SeminarType'
+      title:
+        type: string
+  MethodLevel:
+    type: object
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+  MethodLevelResource:
+    type: object
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+  MethodResource:
+    type: object
+    properties:
+      attachments:
+        type: array
+        items:
+          $ref: '#/definitions/Attachment'
+      content:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      created_by:
+        $ref: '#/definitions/User'
+      id:
+        type: string
+      method_levels:
+        type: array
+        items:
+          $ref: '#/definitions/MethodLevel'
+      method_types:
+        type: array
+        items:
+          $ref: '#/definitions/MethodType'
+      modified_at:
+        type: string
+        format: date-time
+      modified_by:
+        $ref: '#/definitions/User'
+      seminar_goals:
+        type: array
+        items:
+          $ref: '#/definitions/SeminarGoal'
+      seminar_type:
+        $ref: '#/definitions/SeminarType'
+      title:
+        type: string
+  MethodType:
+    type: object
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+  MethodTypeResource:
+    type: object
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+  SeminarGoal:
+    type: object
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      seminar_type:
+        $ref: '#/definitions/SeminarType'
+  SeminarGoalResource:
+    type: object
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      seminar_type:
+        $ref: '#/definitions/SeminarType'
+  SeminarType:
+    type: object
     properties:
       id:
-        type: "string"
-        format: "uuid"
-      title:
-        type: "string"
-      content: 
-        type: "string"
-      attachments:
-        type: "array"
-        items: 
-          $ref: "#/definitions/Attachment"
-      method_levels: 
-        type: "array"
-        items:
-          $ref: "#/definitions/MethodLevel"
-      method_types:
-        type: "array"
-        items:
-          $ref: "#/definitions/MethodType"
+        type: string
+      name:
+        type: string
       seminar_goals:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/SeminarGoal"
-      seminar_type:
-        $ref: "#/definitions/SeminarType"
-      created_at:
-        type: "string"
-        format: "date-time"
-      modified_at:
-        type: "string"
-        format: "date-time"
-      created_by:
-        $ref: "#/definitions/User"
-      modified_by:
-        $ref: "#/definitions/User"
+          $ref: '#/definitions/SeminarGoal'
+  SeminarTypeResource:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      seminar_goals:
+        type: array
+        items:
+          $ref: '#/definitions/SeminarGoal'
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      role:
+        type: string
+        enum:
+          - ADMIN
+          - EDITOR
+          - WRITER
+          - READER
