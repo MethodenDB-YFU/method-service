@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://0.0.0.0:5432/methodendb
-    username: methodendb
-    password: methodendb
+    url: jdbc:postgresql://0.0.0.0:5432/methods
+    username: methods
+    password: methods
   metrics:
     export:
       delay-millis: 5000
@@ -37,7 +37,7 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     
 #logging:
-#  file: /var/log/methodendb/app.log
+#  file: /var/log/methods/app.log
 #  level:
 #    ROOT: DEBUG #WARN # DEBUG
 logging:
@@ -93,7 +93,7 @@ security:
     password: password
 #  oauth2:
 #    client:
-#      clientId: methodendb
+#      clientId: methods
 #      clientSecret: secret
 #      accessTokenUri: http://0.0.0.0:8080/oauth/token
 #      userAuthorizationUri: http://0.0.0.0:8080/oauth/authorize
@@ -131,9 +131,9 @@ cors:
 spring:
   profiles: docker
   datasource:
-    url: jdbc:postgresql://db:5432/methodendb
-    username: methodendb
-    password: methodendb
+    url: jdbc:postgresql://db:5432/methods
+    username: methods
+    password: methods
 
 influx:
   host: http://influxdb

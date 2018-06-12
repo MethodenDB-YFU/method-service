@@ -2,9 +2,9 @@ spring:
   profiles: test
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://db.methodendb-test.berlin-1.alexmsenger.de:5432/methodendb-test
-    username: methodendb-test
-    password: methodendb-test
+    url: jdbc:postgresql://db.methods-test.berlin-1.alexmsenger.de:5432/methods-test
+    username: methods-test
+    password: methods-test
 
   jpa:
 #    show-sql: true
