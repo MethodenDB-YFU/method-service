@@ -29,14 +29,14 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("de.yfu.intranet.methods.api"))
 //                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/**"))
+                .paths(PathSelectors.ant("/**"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "YFU Method Database Service REST API",
+                "YFU Method Service REST API",
                 "",
                 "0.0.1",
                 "Terms of service",

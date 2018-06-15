@@ -8,18 +8,16 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0'
-host: 'localhost:8081'
-basePath: /
+host: '0.0.0.0:8080'
+basePath: /api
 tags:
-  - name: seminar-endpoint
-    description: Seminar Endpoint
-  - name: method-endpoint
-    description: Method Endpoint
+  - name: method-controller
+    description: Method Controller
 paths:
-  /api/methods:
+  /methods:
     get:
       tags:
-        - method-endpoint
+        - method-controller
       summary: getAllMethods
       operationId: getAllMethodsUsingGET
       consumes:
@@ -47,7 +45,7 @@ paths:
           description: Not Found
     post:
       tags:
-        - method-endpoint
+        - method-controller
       summary: createMethod
       operationId: createMethodUsingPOST
       consumes:
@@ -79,10 +77,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  /api/methods/levels:
+  /methods/levels:
     get:
       tags:
-        - method-endpoint
+        - method-controller
       summary: getAllMethodLevels
       operationId: getAllMethodLevelsUsingGET
       consumes:
@@ -104,7 +102,7 @@ paths:
           description: Not Found
     post:
       tags:
-        - method-endpoint
+        - method-controller
       summary: createMethodLevel
       operationId: createMethodLevelUsingPOST
       consumes:
@@ -131,10 +129,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  '/api/methods/levels/{methodLevelId}':
+  '/methods/levels/{methodLevelId}':
     put:
       tags:
-        - method-endpoint
+        - method-controller
       summary: updateMethodLevel
       operationId: updateMethodLevelUsingPUT
       consumes:
@@ -166,10 +164,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  /api/methods/types:
+  /methods/types:
     get:
       tags:
-        - method-endpoint
+        - method-controller
       summary: getAllMethodTypes
       operationId: getAllMethodTypesUsingGET
       consumes:
@@ -191,7 +189,7 @@ paths:
           description: Not Found
     post:
       tags:
-        - method-endpoint
+        - method-controller
       summary: createMethodType
       operationId: createMethodTypeUsingPOST
       consumes:
@@ -218,10 +216,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  '/api/methods/types/{methodTypeId}':
+  '/methods/types/{methodTypeId}':
     put:
       tags:
-        - method-endpoint
+        - method-controller
       summary: updateMethodType
       operationId: updateMethodTypeUsingPUT
       consumes:
@@ -253,10 +251,10 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-  '/api/methods/{methodId}':
+  '/methods/{methodId}':
     get:
       tags:
-        - method-endpoint
+        - method-controller
       summary: getMethod
       operationId: getMethodUsingGET
       consumes:
@@ -287,7 +285,7 @@ paths:
           description: Not Found
     put:
       tags:
-        - method-endpoint
+        - method-controller
       summary: updateMethod
       operationId: updateMethodUsingPUT
       consumes:
@@ -326,7 +324,7 @@ paths:
           description: Not Found
     delete:
       tags:
-        - method-endpoint
+        - method-controller
       summary: deleteMethod
       operationId: deleteMethodUsingDELETE
       consumes:
@@ -353,186 +351,6 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-  /api/seminars/goals:
-    get:
-      tags:
-        - seminar-endpoint
-      summary: getSeminarGoals
-      operationId: getSeminarGoalsUsingGET
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: seminarType
-          in: query
-          description: seminarType
-          required: true
-          type: string
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/SeminarGoal'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    post:
-      tags:
-        - seminar-endpoint
-      summary: createSeminarGoal
-      operationId: createSeminarGoalUsingPOST
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: seminarGoalResource
-          description: seminarGoalResource
-          required: true
-          schema:
-            $ref: '#/definitions/SeminarGoalResource'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/SeminarGoalResource'
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  '/api/seminars/goals/{seminarGoalId}':
-    put:
-      tags:
-        - seminar-endpoint
-      summary: updateSeminarGoal
-      operationId: updateSeminarGoalUsingPUT
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: seminarGoalId
-          in: path
-          description: seminarGoalId
-          required: true
-          type: string
-        - in: body
-          name: seminarGoalResource
-          description: seminarGoalResource
-          required: true
-          schema:
-            $ref: '#/definitions/SeminarGoalResource'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/SeminarGoalResource'
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  /api/seminars/types:
-    get:
-      tags:
-        - seminar-endpoint
-      summary: getSeminarTypes
-      operationId: getSeminarTypesUsingGET
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/SeminarType'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-    post:
-      tags:
-        - seminar-endpoint
-      summary: createSeminarType
-      operationId: createSeminarTypeUsingPOST
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: seminarTypeResource
-          description: seminarTypeResource
-          required: true
-          schema:
-            $ref: '#/definitions/SeminarTypeResource'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/SeminarTypeResource'
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-  '/api/seminars/types/{seminarTypeId}':
-    put:
-      tags:
-        - seminar-endpoint
-      summary: updateSeminarType
-      operationId: updateSeminarTypeUsingPUT
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: seminarTypeId
-          in: path
-          description: seminarTypeId
-          required: true
-          type: string
-        - in: body
-          name: seminarTypeResource
-          description: seminarTypeResource
-          required: true
-          schema:
-            $ref: '#/definitions/SeminarTypeResource'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/SeminarTypeResource'
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
 definitions:
   Attachment:
     type: object
@@ -551,6 +369,8 @@ definitions:
         example: 'yyyy-MM-dd''T''HH:mm:ss.SSSz'
       modified_by:
         $ref: '#/definitions/User'
+      title:
+        type: string
   Method:
     type: object
     properties:
@@ -583,9 +403,9 @@ definitions:
       seminar_goals:
         type: array
         items:
-          $ref: '#/definitions/SeminarGoal'
+          type: string
       seminar_type:
-        $ref: '#/definitions/SeminarType'
+        type: string
       title:
         type: string
   MethodLevel:
@@ -638,9 +458,9 @@ definitions:
       seminar_goals:
         type: array
         items:
-          $ref: '#/definitions/SeminarGoal'
+          type: string
       seminar_type:
-        $ref: '#/definitions/SeminarType'
+        type: string
       title:
         type: string
   MethodType:
@@ -661,50 +481,6 @@ definitions:
         type: string
       name:
         type: string
-  SeminarGoal:
-    type: object
-    properties:
-      description:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      seminar_type:
-        $ref: '#/definitions/SeminarType'
-  SeminarGoalResource:
-    type: object
-    properties:
-      description:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      seminar_type:
-        $ref: '#/definitions/SeminarType'
-  SeminarType:
-    type: object
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-      seminar_goals:
-        type: array
-        items:
-          $ref: '#/definitions/SeminarGoal'
-  SeminarTypeResource:
-    type: object
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-      seminar_goals:
-        type: array
-        items:
-          $ref: '#/definitions/SeminarGoal'
   User:
     type: object
     properties:

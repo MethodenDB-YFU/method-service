@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequestMapping(value = MethodController.METHOD_ENDPOINT)
 public class MethodController {
 
-    public static final String METHOD_ENDPOINT = "/api/methods";
+    public static final String METHOD_ENDPOINT = "/methods";
     public static final String CONTENT_TYPE_METHOD_TYPE = "application/json";
     public static final String CONTENT_TYPE_METHOD_LEVEL = "application/json";
     public static final String CONTENT_TYPE_METHOD = "application/json";

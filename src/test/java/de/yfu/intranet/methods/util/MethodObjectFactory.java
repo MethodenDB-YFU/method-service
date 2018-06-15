@@ -79,7 +79,7 @@ public class MethodObjectFactory {
     public static MethodResource anyMethodResource(
             MethodLevel anyMethodLevel,
             MethodType anyMethodType,
-            SeminarGoal anySeminarGoal,
+            UUID anySeminarGoal,
             User anyAdmin) {
         final MethodResource methodResource = new MethodResource();
         methodResource.setId(UUID.randomUUID());

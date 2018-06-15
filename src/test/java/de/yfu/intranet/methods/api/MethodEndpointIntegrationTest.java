@@ -2,6 +2,7 @@ package de.yfu.intranet.methods.api;
 
 
 import de.yfu.intranet.methods.api.resources.MethodResource;
+import de.yfu.intranet.methods.api.resources.mapper.MethodMapperImpl;
 import de.yfu.intranet.methods.data.domain.*;
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.exceptions.UserException;
@@ -10,7 +11,6 @@ import de.yfu.intranet.methods.service.MethodService;
 import de.yfu.intranet.methods.service.UserService;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -18,11 +18,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
-import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethod;
-import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethodLevel;
-import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethodType;
-
+import static de.yfu.intranet.methods.util.MethodObjectFactory.*;
 import static de.yfu.intranet.methods.util.UserObjectFactory.anyEditor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,10 +29,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
+@ActiveProfiles(profiles = "test")
 public class MethodEndpointIntegrationTest {
 
-    private final MethodLevel METHOD_LEVEL = anyMethodLevel();
-    private final MethodType METHOD_TYPE = anyMethodType();
     private final User USER = anyEditor();
 
     @Mock
@@ -48,11 +45,12 @@ public class MethodEndpointIntegrationTest {
 
     @Before
     public void setUp() {
-        methodController = new MethodController(methodService,methodMapper,userService);
+        this.methodMapper = new MethodMapperImpl();
+        this.methodController = new MethodController(methodService,this.methodMapper,userService);
+
     }
 
     @Test
-    @Ignore
     public void createMethod_returnsCreatedMethod_ifServiceReturnsCreatedMethod() throws UserException, MethodException {
         Method anyMethod = anyMethod(USER);
         MethodResource anyMethodResource = methodMapper.mapFromDataObject(anyMethod);
@@ -71,7 +69,6 @@ public class MethodEndpointIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void getMethod_returnsMethod_ifMethodWithGivenIdExists() throws MethodException {
         Method anyMethod = anyMethod(USER);
         when(methodService.getMethod(USER.getId(), anyMethod.getId())).thenReturn(anyMethod);

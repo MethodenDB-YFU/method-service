@@ -35,19 +35,17 @@ spring:
       sort-properties-alphabetically: true
       default-view-inclusion: false
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
-    
-#logging:
-#  file: /var/log/methods/app.log
-#  level:
-#    ROOT: DEBUG #WARN # DEBUG
+
 logging:
   level:
     org.springframework.security: INFO
     org.springframework.web: INFO
+  # file: /var/log/methods/app.log
 
       
 server:
   port: 8080
+  contextPath: /api
 
 management:
   port: 7979
@@ -91,14 +89,6 @@ influx:
 security:
   user:
     password: password
-#  oauth2:
-#    client:
-#      clientId: methods
-#      clientSecret: secret
-#      accessTokenUri: http://0.0.0.0:8080/oauth/token
-#      userAuthorizationUri: http://0.0.0.0:8080/oauth/authorize
-#    resource:
-#      userInfoUri: http://0.0.0.0:8080/user
 
 cors:
   allowedOrigins:
