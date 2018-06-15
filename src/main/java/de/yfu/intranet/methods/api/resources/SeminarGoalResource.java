@@ -2,7 +2,6 @@ package de.yfu.intranet.methods.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
-import de.yfu.intranet.methods.data.domain.SeminarType;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -16,7 +15,7 @@ public class SeminarGoalResource {
     private String name;
     private String description;
     @NotNull
-    private SeminarType seminarType;
+    private UUID seminarType;
 
     public UUID getId() {
         return id;
@@ -42,11 +41,11 @@ public class SeminarGoalResource {
         this.description = description;
     }
 
-    public SeminarType getSeminarType() {
+    public UUID getSeminarType() {
         return seminarType;
     }
 
-    public void setSeminarType(SeminarType seminarType) {
+    public void setSeminarType(UUID seminarType) {
         this.seminarType = seminarType;
     }
 

@@ -23,16 +23,11 @@ public class SeminarGoal {
 	@Column(name="sg_id")
 	private UUID id;
 	
-	@Column(name="sg_name")
-	private String name;
-	
-	@Column(name="sg_description")
-	private String description;
+	@Column(name="sg_method_id")
+	private UUID methodId;
 
-	@ManyToOne
-	@JoinColumn(name="sg_seminar_type_id")
-	@JsonBackReference
-	private SeminarType seminarType;
+	@Column(name = "sg_seminar_goal_id")
+	private UUID seminarGoalId;
 
 	public UUID getId() {
 		return id;
@@ -42,27 +37,5 @@ public class SeminarGoal {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public SeminarType getSeminarType() {
-		return seminarType;
-	}
-
-	public void setSeminarType(SeminarType seminarType) {
-		this.seminarType = seminarType;
-	}
 }

@@ -21,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethod;
 import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethodLevel;
 import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethodType;
-import static de.yfu.intranet.methods.util.SeminarObjectFactory.anySeminarGoal;
 
 import static de.yfu.intranet.methods.util.UserObjectFactory.anyEditor;
 
@@ -35,7 +34,6 @@ public class MethodEndpointIntegrationTest {
 
     private final MethodLevel METHOD_LEVEL = anyMethodLevel();
     private final MethodType METHOD_TYPE = anyMethodType();
-    private final SeminarGoal SEMINAR_GOAL = anySeminarGoal();
     private final User USER = anyEditor();
 
     @Mock

@@ -25,9 +25,9 @@ public class MethodResource {
 	private Set<MethodLevel> methodLevels;
 	@NotNull
 	private Set<MethodType> methodTypes;
-	private Set<SeminarGoal> seminarGoals;
+	private Set<UUID> seminarGoals;
 	@NotNull
-	private SeminarType seminarType;
+	private UUID seminarType;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 	private User createdBy;
@@ -41,11 +41,11 @@ public class MethodResource {
 		this.attachments = attachments;
 	}
 	
-	public Set<SeminarGoal> getSeminarGoals() {
+	public Set<UUID> getSeminarGoals() {
 		return seminarGoals;
 	}
 
-	public void setSeminarGoals(Set<SeminarGoal> seminarGoals) {
+	public void setSeminarGoals(Set<UUID> seminarGoals) {
 		this.seminarGoals = seminarGoals;
 	}
 
@@ -121,11 +121,11 @@ public class MethodResource {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public SeminarType getSeminarType() {
+	public UUID getSeminarType() {
 		return seminarType;
 	}
 
-	public void setSeminarType(SeminarType seminarType) {
+	public void setSeminarType(UUID seminarType) {
 		this.seminarType = seminarType;
 	}
 

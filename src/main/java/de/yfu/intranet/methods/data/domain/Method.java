@@ -6,21 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name=METHOD_TABLE)
@@ -56,16 +42,19 @@ public class Method {
 			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
 			inverseJoinColumns=@JoinColumn(name="mm_method_type_id", referencedColumnName="mt_id"))
 	private Set<MethodType> methodTypes;
+	/*
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
+	@JoinColumn(name = "sg_method_id", referencedColumnName = "mm_id")
+	*/
+	@ElementCollection
+	@CollectionTable(
+			name = "sg_seminar_goal",
+			joinColumns = @JoinColumn(name = "sg_method_id")
+	)
+	private Set<UUID> seminarGoals;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="mm_method_seminar_goal",
-			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
-			inverseJoinColumns=@JoinColumn(name="mm_seminar_goal_id", referencedColumnName="sg_id"))
-	private Set<SeminarGoal> seminarGoals;
-
-	@ManyToOne
-	@JoinColumn(name="mm_seminar_type_id")
-	private SeminarType seminarType;
+	@Column(name = "mm_seminar_type_id")
+	private UUID seminarType;
 
 	@Column(name="mm_created_at")
 	private LocalDateTime createdAt;
@@ -73,11 +62,11 @@ public class Method {
 	@Column(name="mm_modified_at")
 	private LocalDateTime modifiedAt;
 	
-	@ManyToOne//(cascade=CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="mm_created_by")
 	private User createdBy;
 	
-	@ManyToOne// (cascade=CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="mm_modified_by")
 	private User modifiedBy;
 
@@ -137,11 +126,11 @@ public class Method {
 		this.methodTypes = methodTypes;
 	}
 
-	public Set<SeminarGoal> getSeminarGoals() {
+	public Set<UUID> getSeminarGoals() {
 		return seminarGoals;
 	}
 
-	public void setSeminarGoals(Set<SeminarGoal> seminarGoals) {
+	public void setSeminarGoals(Set<UUID> seminarGoals) {
 		this.seminarGoals = seminarGoals;
 	}
 
@@ -169,15 +158,15 @@ public class Method {
 		this.createdBy = createdBy;
 	}
 
-    public SeminarType getSeminarType() {
-        return seminarType;
-    }
+	public UUID getSeminarType() {
+		return seminarType;
+	}
 
-    public void setSeminarType(SeminarType seminarType) {
-        this.seminarType = seminarType;
-    }
+	public void setSeminarType(UUID seminarType) {
+		this.seminarType = seminarType;
+	}
 
-    @PrePersist
+	@PrePersist
 	protected void onCreate() {
 		createdAt = LocalDateTime.now();
 	}

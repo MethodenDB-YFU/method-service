@@ -16,7 +16,7 @@ public class SeminarTypeResource {
     private UUID id;
     @NotNull
     private String name;
-    private Set<SeminarGoal> seminarGoals;
+    private Set<UUID> seminarGoals;
 
     public UUID getId() {
         return id;
@@ -34,11 +34,11 @@ public class SeminarTypeResource {
         this.name = name;
     }
 
-    public Set<SeminarGoal> getSeminarGoals() {
+    public Set<UUID> getSeminarGoals() {
         return seminarGoals;
     }
 
-    public void setSeminarGoals(Set<SeminarGoal> seminarGoals) {
+    public void setSeminarGoals(Set<UUID> seminarGoals) {
         this.seminarGoals = seminarGoals;
     }
 

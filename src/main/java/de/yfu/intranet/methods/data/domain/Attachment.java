@@ -33,6 +33,9 @@ public class Attachment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="ma_id")
 	private UUID id;
+
+	@Column(name = "ma_title")
+	private String title;
 	
 	@Column(name="ma_content")
 	private String content;
@@ -60,6 +63,14 @@ public class Attachment implements Serializable {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getContent() {

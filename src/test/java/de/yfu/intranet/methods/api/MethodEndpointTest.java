@@ -23,8 +23,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Collections;
 
 import static de.yfu.intranet.methods.util.MethodObjectFactory.*;
-import static de.yfu.intranet.methods.util.SeminarObjectFactory.anySeminarGoal;
-import static de.yfu.intranet.methods.util.SeminarObjectFactory.anySeminarType;
 import static de.yfu.intranet.methods.util.UserObjectFactory.anyAdmin;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -60,22 +58,14 @@ public class MethodEndpointTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private SeminarTypeRepository seminarTypeRepository;
-
-    @Autowired
-    private SeminarGoalRepository seminarGoalRepository;
-
     @Mock
     private MethodService methodService;
 
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        seminarGoalRepository.deleteAll();
         methodTypeRepository.deleteAll();
         methodLevelRepository.deleteAll();
-        seminarTypeRepository.deleteAll();
         methodRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -215,8 +205,6 @@ public class MethodEndpointTest {
     public void tearDown() {
         methodTypeRepository.deleteAll();
         methodLevelRepository.deleteAll();
-        seminarGoalRepository.deleteAll();
-        seminarTypeRepository.deleteAll();
         methodRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -247,13 +235,5 @@ public class MethodEndpointTest {
         return methodRepository.save(anyMethod(persistAnyAdmin()));
     }
 
-    private SeminarType persistAnySeminarType() {
-        return seminarTypeRepository.save(anySeminarType());
-    }
 
-    private SeminarGoal persistAnySeminarGoal() {
-        SeminarGoal anySeminarGoal = anySeminarGoal();
-        anySeminarGoal.setSeminarType(persistAnySeminarType());
-        return seminarGoalRepository.save(anySeminarGoal);
-    }
 }

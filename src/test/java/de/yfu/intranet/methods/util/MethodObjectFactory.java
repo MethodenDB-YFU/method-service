@@ -9,7 +9,6 @@ import de.yfu.intranet.methods.data.domain.*;
 import java.util.Collections;
 import java.util.UUID;
 
-import static de.yfu.intranet.methods.util.SeminarObjectFactory.anySeminarGoal;
 
 public class MethodObjectFactory {
 
@@ -71,7 +70,7 @@ public class MethodObjectFactory {
         method.setAttachments(Collections.singleton(anyAttachment(anyAdmin)));
         method.setMethodLevels(Collections.singleton(anyMethodLevel()));
         method.setMethodTypes(Collections.singleton(anyMethodType()));
-        method.setSeminarGoals(Collections.singleton(anySeminarGoal()));
+        method.setSeminarGoals(Collections.singleton(UUID.randomUUID()));
         method.setCreatedBy(anyAdmin);
         method.setModifiedBy(anyAdmin);
         return method;
@@ -89,7 +88,7 @@ public class MethodObjectFactory {
         methodResource.setAttachments(Collections.singleton(anyAttachment(anyAdmin)));
         methodResource.setMethodLevels(Collections.singleton(anyMethodLevel));
         methodResource.setMethodTypes(Collections.singleton(anyMethodType));
-        methodResource.setSeminarGoals(Collections.singleton(anySeminarGoal));
+        methodResource.setSeminarGoals(Collections.singleton(UUID.randomUUID()));
         methodResource.setCreatedBy(anyAdmin);
         methodResource.setModifiedBy(anyAdmin);
         return methodResource;

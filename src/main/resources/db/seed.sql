@@ -17,7 +17,7 @@ SET row_security = off;
 SET search_path = mdb_data, pg_catalog;
 
 --
--- Data for Name: mu_user; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: mu_user; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY mu_user (mu_id, mu_role) FROM stdin;
@@ -26,7 +26,7 @@ aa40d8c0-e705-11e7-80c1-9a214cf093ae	EDITOR
 
 
 --
--- Data for Name: st_seminar_type; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: st_seminar_type; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY st_seminar_type (st_id, st_foreign_id, st_name) FROM stdin;
@@ -39,7 +39,7 @@ ef410708-4cab-4047-9647-27dc1384267f	\N	OWO
 
 
 --
--- Data for Name: mm_method; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: mm_method; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY mm_method (mm_id, mm_title, mm_content, mm_seminar_type_id, mm_created_at, mm_modified_at, mm_modified_by, mm_created_by) FROM stdin;
@@ -51,7 +51,7 @@ COPY mm_method (mm_id, mm_title, mm_content, mm_seminar_type_id, mm_created_at, 
 
 
 --
--- Data for Name: ma_attachment; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: ma_attachment; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY ma_attachment (ma_id, ma_method_id, ma_content, ma_created_at, ma_modified_at, ma_created_by, ma_modified_by) FROM stdin;
@@ -63,7 +63,7 @@ a0fa253c-ae2a-4ac1-a3cd-a0947fe75eb3	3465daed-ec46-4b95-bae1-7b048b138569	Et mai
 
 
 --
--- Data for Name: ml_method_level; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: ml_method_level; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY ml_method_level (ml_id, ml_name, ml_description) FROM stdin;
@@ -73,7 +73,7 @@ COPY ml_method_level (ml_id, ml_name, ml_description) FROM stdin;
 
 
 --
--- Data for Name: mm_method_method_level; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: mm_method_method_level; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY mm_method_method_level (mm_method_id, mm_method_level_id) FROM stdin;
@@ -86,7 +86,7 @@ COPY mm_method_method_level (mm_method_id, mm_method_level_id) FROM stdin;
 
 
 --
--- Data for Name: mt_method_type; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: mt_method_type; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY mt_method_type (mt_id, mt_name, mt_description) FROM stdin;
@@ -96,7 +96,7 @@ COPY mt_method_type (mt_id, mt_name, mt_description) FROM stdin;
 
 
 --
--- Data for Name: mm_method_method_type; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: mm_method_method_type; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY mm_method_method_type (mm_method_id, mm_method_type_id) FROM stdin;
@@ -108,7 +108,7 @@ COPY mm_method_method_type (mm_method_id, mm_method_type_id) FROM stdin;
 
 
 --
--- Data for Name: sg_seminar_goal; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: sg_seminar_goal; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY sg_seminar_goal (sg_id, sg_name, sg_description, sg_seminar_type_id) FROM stdin;
@@ -120,7 +120,7 @@ f8590d93-f6b5-4701-8578-bf27a9bac290	Kultur		d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5
 
 
 --
--- Data for Name: mm_method_seminar_goal; Type: TABLE DATA; Schema: mdb_data; Owner: methodendb
+-- Data for Name: mm_method_seminar_goal; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
 COPY mm_method_seminar_goal (mm_method_id, mm_seminar_goal_id) FROM stdin;
