@@ -10,6 +10,7 @@ import de.yfu.intranet.methods.service.MethodService;
 import de.yfu.intranet.methods.service.UserService;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -45,13 +46,13 @@ public class MethodEndpointIntegrationTest {
     @Autowired
     private MethodMapper methodMapper;
 
-
     @Before
     public void setUp() {
         methodController = new MethodController(methodService,methodMapper,userService);
     }
 
     @Test
+    @Ignore
     public void createMethod_returnsCreatedMethod_ifServiceReturnsCreatedMethod() throws UserException, MethodException {
         Method anyMethod = anyMethod(USER);
         MethodResource anyMethodResource = methodMapper.mapFromDataObject(anyMethod);
@@ -70,6 +71,7 @@ public class MethodEndpointIntegrationTest {
     }
 
     @Test
+    @Ignore
     public void getMethod_returnsMethod_ifMethodWithGivenIdExists() throws MethodException {
         Method anyMethod = anyMethod(USER);
         when(methodService.getMethod(USER.getId(), anyMethod.getId())).thenReturn(anyMethod);
