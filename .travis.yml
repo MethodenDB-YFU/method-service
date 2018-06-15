@@ -11,7 +11,7 @@ cache:
   - $HOME/.m2
 
 before_script:
-  - psql -U postgres -f src/main/resources/schema.sql
+  - psql -U postgres -f `pwd`/src/main/resources/schema.sql
 
 script:
   - mvn clean install -Dspring.profiles.active=$SPRING_PROFILE
