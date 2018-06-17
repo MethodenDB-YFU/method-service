@@ -2,9 +2,9 @@ spring:
   profiles: test
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://db.methodendb-test.berlin-1.alexmsenger.de:5432/methodendb-test
-    username: methodendb-test
-    password: methodendb-test
+    url: jdbc:postgresql://${DB_URL_TEST}:${DB_PORT_TEST}/${DB_NAME_TEST}
+    username: ${DB_USER_TEST}
+    password: ${DB_PASS_TEST}
 
   jpa:
 #    show-sql: true
@@ -26,8 +26,14 @@ spring:
     property-naming-strategy: SNAKE_CASE
     time-zone: Europe/Berlin
     locale: de_DE
+    default-property-inclusion: non_null
+    serialization-inclusion: non_empty
     serialization:
       write-dates-as-timestamps: false
+    mapper:
+      sort-properties-alphabetically: true
+      default-view-inclusion: false
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     
 #logging:
 #  level:
