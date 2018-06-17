@@ -13,6 +13,10 @@ basePath: /api
 tags:
   - name: method-controller
     description: Method Controller
+  - name: method-level-controller
+    description: Method Level Controller
+  - name: method-type-controller
+    description: Method Type Controller
 paths:
   /methods:
     get:
@@ -80,7 +84,7 @@ paths:
   /methods/levels:
     get:
       tags:
-        - method-controller
+        - method-level-controller
       summary: getAllMethodLevels
       operationId: getAllMethodLevelsUsingGET
       consumes:
@@ -93,7 +97,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/MethodLevel'
+              $ref: '#/definitions/MethodLevelResource'
         '401':
           description: Unauthorized
         '403':
@@ -102,7 +106,7 @@ paths:
           description: Not Found
     post:
       tags:
-        - method-controller
+        - method-level-controller
       summary: createMethodLevel
       operationId: createMethodLevelUsingPOST
       consumes:
@@ -132,7 +136,7 @@ paths:
   '/methods/levels/{methodLevelId}':
     put:
       tags:
-        - method-controller
+        - method-level-controller
       summary: updateMethodLevel
       operationId: updateMethodLevelUsingPUT
       consumes:
@@ -167,7 +171,7 @@ paths:
   /methods/types:
     get:
       tags:
-        - method-controller
+        - method-type-controller
       summary: getAllMethodTypes
       operationId: getAllMethodTypesUsingGET
       consumes:
@@ -180,7 +184,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/MethodType'
+              $ref: '#/definitions/MethodTypeResource'
         '401':
           description: Unauthorized
         '403':
@@ -189,7 +193,7 @@ paths:
           description: Not Found
     post:
       tags:
-        - method-controller
+        - method-type-controller
       summary: createMethodType
       operationId: createMethodTypeUsingPOST
       consumes:
@@ -219,7 +223,7 @@ paths:
   '/methods/types/{methodTypeId}':
     put:
       tags:
-        - method-controller
+        - method-type-controller
       summary: updateMethodType
       operationId: updateMethodTypeUsingPUT
       consumes:
