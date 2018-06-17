@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.google.common.base.MoreObjects;
 import de.yfu.intranet.methods.data.domain.User;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,12 +16,22 @@ import javax.validation.constraints.NotNull;
 public class AttachmentResource {
 	
 	private UUID id;
+	@NotBlank
+	private String title;
 	@NotNull
 	private String content;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 	private User createdBy;	
 	private User modifiedBy;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getContent() {
 		return content;
@@ -70,28 +81,31 @@ public class AttachmentResource {
 		this.id = id;
 	}
 
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		AttachmentResource that = (AttachmentResource) o;
-		return Objects.equals(id, that.id) &&
-				Objects.equals(content, that.content) &&
-				Objects.equals(createdAt, that.createdAt) &&
-				Objects.equals(modifiedAt, that.modifiedAt) &&
-				Objects.equals(createdBy, that.createdBy) &&
-				Objects.equals(modifiedBy, that.modifiedBy);
+		return com.google.common.base.Objects.equal(id, that.id) &&
+				com.google.common.base.Objects.equal(title, that.title) &&
+				com.google.common.base.Objects.equal(content, that.content) &&
+				com.google.common.base.Objects.equal(createdAt, that.createdAt) &&
+				com.google.common.base.Objects.equal(modifiedAt, that.modifiedAt) &&
+				com.google.common.base.Objects.equal(createdBy, that.createdBy) &&
+				com.google.common.base.Objects.equal(modifiedBy, that.modifiedBy);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, content, createdAt, modifiedAt, createdBy, modifiedBy);
+		return com.google.common.base.Objects.hashCode(id, title, content, createdAt, modifiedAt, createdBy, modifiedBy);
 	}
 
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
 				.add("id", id)
+				.add("title", title)
 				.add("content", content)
 				.add("createdAt", createdAt)
 				.add("modifiedAt", modifiedAt)
