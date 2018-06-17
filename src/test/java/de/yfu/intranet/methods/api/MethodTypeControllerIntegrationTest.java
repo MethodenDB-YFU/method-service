@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethodType;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -79,11 +80,13 @@ public class MethodTypeControllerIntegrationTest {
 
 
     private void assertEqualMethodTypeResource(MethodTypeResource actual, MethodTypeResource other) {
-        assertEquals(actual, other);
+        assertThat(actual.getName()).isEqualTo(other.getName());
+        assertThat(actual.getDescription()).isEqualTo(other.getDescription());
     }
 
     private void assertEqualMethodType(MethodType actual, MethodType other) {
-        assertEquals(actual, other);
+        assertThat(actual.getName()).isEqualTo(other.getName());
+        assertThat(actual.getDescription()).isEqualTo(other.getDescription());
     }
 
 }
