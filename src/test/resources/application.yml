@@ -26,8 +26,14 @@ spring:
     property-naming-strategy: SNAKE_CASE
     time-zone: Europe/Berlin
     locale: de_DE
+    default-property-inclusion: non_null
+    serialization-inclusion: non_empty
     serialization:
       write-dates-as-timestamps: false
+    mapper:
+      sort-properties-alphabetically: true
+      default-view-inclusion: false
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     
 #logging:
 #  level:

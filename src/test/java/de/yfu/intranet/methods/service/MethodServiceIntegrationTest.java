@@ -40,7 +40,6 @@ public class MethodServiceIntegrationTest {
     @Before
     public void setUp() {
         methodService = new MethodService(
-                methodTypeRepository,
                 methodLevelRepository,
                 methodRepository);
     }

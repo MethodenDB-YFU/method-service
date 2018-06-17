@@ -47,7 +47,6 @@ public class MethodEndpointIntegrationTest {
     public void setUp() {
         this.methodMapper = new MethodMapperImpl();
         this.methodController = new MethodController(methodService,this.methodMapper,userService);
-
     }
 
     @Test

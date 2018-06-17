@@ -22,61 +22,16 @@ import de.yfu.intranet.methods.data.repository.MethodTypeRepository;
 public class MethodService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MethodService.class);
-	private final MethodTypeRepository methodTypeRepo; 
 	private final MethodLevelRepository methodLevelRepo;
 	private final MethodRepository methodRepo; 
 
 	@Autowired
-	public MethodService(final MethodTypeRepository methodTypeRepository,
-			final MethodLevelRepository methodLevelRepository,
+	public MethodService(final MethodLevelRepository methodLevelRepository,
 			final MethodRepository methodRepository) {
-		this.methodTypeRepo = methodTypeRepository;
 		this.methodLevelRepo = methodLevelRepository;
 		this.methodRepo = methodRepository;
 	}
 
-	public Set<MethodType> getAllMethodTypes() {
-		Set<MethodType> methodTypes = methodTypeRepo.findAll();
-		if (methodTypes == null) {
-			LOGGER.info("No Method Types found.");
-			return Collections.emptySet();
-		}
-		return methodTypes;
-	}
-
-	public MethodType createMethodType(MethodType methodType) {
-		return methodTypeRepo.save(methodType);
-	}
-
-	public MethodType updateMethodType(MethodType methodType) throws MethodException {
-		MethodType storedMethodType = methodTypeRepo.findOne(methodType.getId());
-		if (storedMethodType != null) {
-			return methodTypeRepo.save(methodType);
-		}
-		throw new MethodException(format("No Method Type found for id [%s]. Not able to update.", methodType.getId()), HttpStatus.NOT_FOUND);
-
-	}
-
-	public Set<MethodLevel> getAllMethodLevels() {
-		Set<MethodLevel> methodLevels = methodLevelRepo.findAll();
-		if (methodLevels == null) {
-			LOGGER.info("No Method Levels found.");
-			return Collections.emptySet();
-		}
-		return methodLevels;
-	}
-
-	public MethodLevel createMethodLevel(MethodLevel methodLevel) {
-		return methodLevelRepo.save(methodLevel);
-	}
-
-	public MethodLevel updateMethodLevel(MethodLevel methodLevel) throws MethodException {
-		MethodLevel storedMethodLevel = methodLevelRepo.findOne(methodLevel.getId());
-		if (storedMethodLevel != null) {
-			return methodLevelRepo.save(methodLevel);
-		}
-		throw new MethodException(format("No Method Level found for id [%s]. Not able to update.", methodLevel.getId()), HttpStatus.NOT_FOUND);
-	}
 
 
 	public Set<Method> getAllMethods(UUID userId) throws MethodException {

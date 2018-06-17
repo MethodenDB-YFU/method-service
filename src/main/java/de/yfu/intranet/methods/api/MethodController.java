@@ -2,13 +2,11 @@ package de.yfu.intranet.methods.api;
 
 import de.yfu.intranet.methods.api.resources.MethodLevelResource;
 import de.yfu.intranet.methods.api.resources.MethodResource;
-import de.yfu.intranet.methods.api.resources.MethodTypeResource;
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.exceptions.UserException;
 import de.yfu.intranet.methods.api.resources.mapper.MethodMapper;
 import de.yfu.intranet.methods.data.domain.Method;
 import de.yfu.intranet.methods.data.domain.MethodLevel;
-import de.yfu.intranet.methods.data.domain.MethodType;
 import de.yfu.intranet.methods.data.domain.User;
 import de.yfu.intranet.methods.service.MethodService;
 import de.yfu.intranet.methods.service.UserService;
@@ -26,7 +24,6 @@ import java.util.UUID;
 public class MethodController {
 
     public static final String METHOD_ENDPOINT = "/methods";
-    public static final String CONTENT_TYPE_METHOD_TYPE = "application/json";
     public static final String CONTENT_TYPE_METHOD_LEVEL = "application/json";
     public static final String CONTENT_TYPE_METHOD = "application/json";
 
@@ -41,74 +38,6 @@ public class MethodController {
 		this.methodService = methodService;
 		this.methodMapper = methodMapper;
 		this.userService = userService;
-	}
-
-    @GetMapping(
-            path = "/types",
-            produces = CONTENT_TYPE_METHOD_TYPE
-    )
-	public Set<MethodType> getAllMethodTypes() {
-		return methodService.getAllMethodTypes();
-	}
-
-    @PostMapping(
-            path = "/types",
-            consumes = CONTENT_TYPE_METHOD_TYPE,
-            produces = CONTENT_TYPE_METHOD_TYPE
-    )
-	public ResponseEntity<MethodTypeResource> createMethodType(
-	        @RequestBody @Valid final MethodTypeResource methodTypeResource) {
-		final MethodType methodType = methodMapper.mapToDataObject(methodTypeResource);
-		MethodType createdMethodType = methodService.createMethodType(methodType);
-		return new ResponseEntity<>(methodMapper.mapFromDataObject(createdMethodType), HttpStatus.CREATED);
-	}
-
-    @PutMapping(
-            path = "/types/{methodTypeId}",
-            consumes = CONTENT_TYPE_METHOD_TYPE,
-            produces = CONTENT_TYPE_METHOD_TYPE
-    )
-	public ResponseEntity<MethodTypeResource> updateMethodType(
-	        @PathVariable("methodTypeId") UUID methodTypeId,
-			@RequestBody @Valid final MethodTypeResource methodTypeResource) throws MethodException {
-		final MethodType methodType = methodMapper.mapToDataObject(methodTypeResource);
-		methodType.setId(methodTypeId);
-		MethodType updatedMethodType = methodService.updateMethodType(methodType);
-		return new ResponseEntity<>(methodMapper.mapFromDataObject(updatedMethodType), HttpStatus.OK);
-	}
-
-    @GetMapping(
-            path = "/levels",
-            produces = CONTENT_TYPE_METHOD_LEVEL
-    )
-	public Set<MethodLevel> getAllMethodLevels() {
-		return methodService.getAllMethodLevels();
-	}
-
-    @PostMapping(
-            path = "/levels",
-            consumes = CONTENT_TYPE_METHOD_LEVEL,
-            produces = CONTENT_TYPE_METHOD_LEVEL
-    )
-	public ResponseEntity<MethodLevelResource> createMethodLevel(
-	        @RequestBody @Valid final MethodLevelResource methodLevelResource) {
-		final MethodLevel methodLevel = methodMapper.mapToDataObject(methodLevelResource);
-		MethodLevel createdMethodLevel = methodService.createMethodLevel(methodLevel);
-		return new ResponseEntity<>(methodMapper.mapFromDataObject(createdMethodLevel), HttpStatus.CREATED);
-	}
-
-    @PutMapping(
-            path = "/levels/{methodLevelId}",
-            consumes = CONTENT_TYPE_METHOD_LEVEL,
-            produces = CONTENT_TYPE_METHOD_LEVEL
-    )
-	public ResponseEntity<MethodLevelResource> updateMethodLevel(
-	        @PathVariable("methodLevelId") UUID methodLevelId,
-            @RequestBody @Valid final MethodLevelResource methodLevelResource) throws MethodException {
-		final MethodLevel methodLevel = methodMapper.mapToDataObject(methodLevelResource);
-		methodLevel.setId(methodLevelId);
-		MethodLevel updatedMethodLevel = methodService.updateMethodLevel(methodLevel);
-		return new ResponseEntity<>(methodMapper.mapFromDataObject(updatedMethodLevel), HttpStatus.OK);
 	}
 
 	@GetMapping(
