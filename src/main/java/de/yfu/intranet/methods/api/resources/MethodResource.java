@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.google.common.base.MoreObjects;
 import de.yfu.intranet.methods.data.domain.*;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class MethodResource {
 
 	private UUID id;
-	@NotNull
+	@NotBlank
 	private String title;
 	@NotNull
 	private String content;
