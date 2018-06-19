@@ -2,8 +2,8 @@ package de.yfu.intranet.methods.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
+import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class MethodTypeResource {
 
     private UUID id;
-    @NotNull
+    @NotBlank
     private String name;
     private String description;
 

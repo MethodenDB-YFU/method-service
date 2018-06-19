@@ -2,7 +2,6 @@ package de.yfu.intranet.methods.data.domain;
 
 import static de.yfu.intranet.methods.data.domain.MethodLevel.METHOD_LEVEL_TABLE;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -15,11 +14,10 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name=METHOD_LEVEL_TABLE)
+@Table(name = METHOD_LEVEL_TABLE)
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class MethodLevel implements Serializable {
+public class MethodLevel {
 
-	private static final long serialVersionUID = -5685842420041777746L;
 	public static final String METHOD_LEVEL_TABLE = "ml_method_level";
 
 	@Id

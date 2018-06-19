@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name=METHOD_TYPE_TABLE)
+@Table(name = METHOD_TYPE_TABLE)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class MethodType {
 	

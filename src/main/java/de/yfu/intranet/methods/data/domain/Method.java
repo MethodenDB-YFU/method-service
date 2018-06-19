@@ -1,5 +1,7 @@
 package de.yfu.intranet.methods.data.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import static de.yfu.intranet.methods.data.domain.Method.METHOD_TABLE;
 
 import java.time.LocalDateTime;
@@ -9,7 +11,8 @@ import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
-@Table(name=METHOD_TABLE)
+@Table(name = METHOD_TABLE)
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Method {
 
 	public static final String METHOD_TABLE = "mm_method";
@@ -42,11 +45,9 @@ public class Method {
 			joinColumns=@JoinColumn(name="mm_method_id", referencedColumnName="mm_id"),
 			inverseJoinColumns=@JoinColumn(name="mm_method_type_id", referencedColumnName="mt_id"))
 	private Set<MethodType> methodTypes;
-	/*
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
-	@JoinColumn(name = "sg_method_id", referencedColumnName = "mm_id")
-	*/
+
 	@ElementCollection
+	@Column(name = "sg_seminar_goal_id")
 	@CollectionTable(
 			name = "sg_seminar_goal",
 			joinColumns = @JoinColumn(name = "sg_method_id")

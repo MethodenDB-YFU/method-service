@@ -2,7 +2,6 @@ package de.yfu.intranet.methods.data.domain;
 
 import static de.yfu.intranet.methods.data.domain.Attachment.ATTACHMENT_TABLE;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,12 +19,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-
 @Entity
 @Table(name=ATTACHMENT_TABLE)
-public class Attachment implements Serializable {
+public class Attachment {
 
-	private static final long serialVersionUID = -8552270336349098490L;
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
 	public static final String ATTACHMENT_TABLE = "ma_attachment";
 	

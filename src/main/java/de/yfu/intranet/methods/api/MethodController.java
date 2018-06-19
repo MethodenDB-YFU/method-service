@@ -1,12 +1,10 @@
 package de.yfu.intranet.methods.api;
 
-import de.yfu.intranet.methods.api.resources.MethodLevelResource;
 import de.yfu.intranet.methods.api.resources.MethodResource;
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.exceptions.UserException;
 import de.yfu.intranet.methods.api.resources.mapper.MethodMapper;
 import de.yfu.intranet.methods.data.domain.Method;
-import de.yfu.intranet.methods.data.domain.MethodLevel;
 import de.yfu.intranet.methods.data.domain.User;
 import de.yfu.intranet.methods.service.MethodService;
 import de.yfu.intranet.methods.service.UserService;
@@ -24,7 +22,6 @@ import java.util.UUID;
 public class MethodController {
 
     public static final String METHOD_ENDPOINT = "/methods";
-    public static final String CONTENT_TYPE_METHOD_LEVEL = "application/json";
     public static final String CONTENT_TYPE_METHOD = "application/json";
 
 	private final MethodService methodService;
@@ -55,7 +52,7 @@ public class MethodController {
     )
     public MethodResource getMethod(
             @PathVariable("methodId") UUID methodId,
-			@RequestHeader("X-User-ID") UUID userId) throws MethodException {
+			@RequestHeader(value = "X-User-ID") UUID userId) throws MethodException {
 		return methodMapper.mapFromDataObject(methodService.getMethod(userId, methodId));
 	}
 

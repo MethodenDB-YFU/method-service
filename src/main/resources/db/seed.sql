@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.5
--- Dumped by pg_dump version 10.2
+-- Dumped from database version 9.6.6
+-- Dumped by pg_dump version 9.6.6
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,20 +21,7 @@ SET search_path = mdb_data, pg_catalog;
 --
 
 COPY mu_user (mu_id, mu_role) FROM stdin;
-aa40d8c0-e705-11e7-80c1-9a214cf093ae	EDITOR
-\.
-
-
---
--- Data for Name: st_seminar_type; Type: TABLE DATA; Schema: mdb_data; Owner: methods
---
-
-COPY st_seminar_type (st_id, st_foreign_id, st_name) FROM stdin;
-d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5d	\N	VBT
-ef410708-4cab-4047-9647-27dc1384267f	\N	OWO
-27f5085e-23d8-4e3b-a917-8dfd7c36a76c	\N	NBT
-44fc3b8c-814c-4094-bb12-a1553de96a27	\N	MS
-011908e4-dd14-484e-8577-f553c0403000	\N	ReEntry
+00000000-0000-0000-0000-000000000000	ADMIN
 \.
 
 
@@ -43,10 +30,7 @@ ef410708-4cab-4047-9647-27dc1384267f	\N	OWO
 --
 
 COPY mm_method (mm_id, mm_title, mm_content, mm_seminar_type_id, mm_created_at, mm_modified_at, mm_modified_by, mm_created_by) FROM stdin;
-3465daed-ec46-4b95-bae1-7b048b138569	Lorem Ipsum	Et maiores a magni doloribus. Dolor dolores dolores illum facere dolor itaque incidunt molestiae. Consequuntur velit asperiores natus iste dignissimos. Nobis voluptatibus nam modi illum voluptas maxime. Unde consequatur tempora dolorum sunt sint aspernatur beatae minus. Error qui placeat aut libero pariatur maxime. Aliquid nostrum veniam ut. Alias ut voluptatem consequuntur dolores magnam inventore recusandae. Deserunt mollitia nostrum illum. Velit porro voluptatem est. Doloribus explicabo itaque distinctio. Qui sit aut aut dicta. In voluptas nisi ipsum est et a. Vitae hic reprehenderit doloremque aspernatur enim labore accusantium ducimus. Consequatur fugit provident et voluptas. Aut itaque totam dolorum. Sequi deserunt dolorem magni sequi. Repellendus cupiditate unde quia aut temporibus ut et. Ducimus quod quae ipsa aut illum minus. Et amet sit libero eos et quia laborum. Natus deleniti odit in quo ut reprehenderit sit. Consequatur dignissimos totam voluptas reprehenderit facere. Voluptate dolorem libero quis. Quis qui suscipit nisi id quos. Magni tempora velit est enim quia odio natus. Rem sapiente veritatis fugiat ut. Quo molestiae a ea et unde ut voluptas vero. Corporis nulla placeat soluta eum ipsam non culpa. Voluptatem ipsam impedit qui eius alias vitae et. Possimus quos quas quas. Sed laboriosam cum aperiam libero aliquid quo dolores nihil. Odit occaecati illum fuga consequatur quia. Non accusamus quis necessitatibus odio et odio. Deleniti quidem adipisci sit qui corporis. Deserunt quaerat praesentium quaerat consequuntur atque. Ut velit repudiandae sit laborum dolorum quasi dolorem commodi. Est molestias inventore similique. Voluptas sit aut fugit dolores voluptatum dignissimos nobis inventore. Tempora in mollitia voluptates ut est. Dolore amet nemo velit dolor. Veritatis molestiae maxime ut officia. Fugiat non quae aliquam.	d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5d	2018-03-11 20:52:27.908	\N	\N	aa40d8c0-e705-11e7-80c1-9a214cf093ae
-446d7fbf-a952-494b-a43d-946da2b46770	Any Method	Any Content	ef410708-4cab-4047-9647-27dc1384267f	2018-01-09 15:44:05.865	2018-03-11 20:59:36.595	aa40d8c0-e705-11e7-80c1-9a214cf093ae	aa40d8c0-e705-11e7-80c1-9a214cf093ae
-7b5f7ecd-6b24-4320-8f25-85b487a21d5e	Any Method	Any Content	ef410708-4cab-4047-9647-27dc1384267f	2018-01-08 23:14:34.908	2018-03-11 21:04:09.151	aa40d8c0-e705-11e7-80c1-9a214cf093ae	\N
-11e556d6-728e-45ec-9407-7f2cefc50eea	Any Method	Any Content	ef410708-4cab-4047-9647-27dc1384267f	2018-01-08 23:16:55.812	2018-03-11 21:05:11.794	aa40d8c0-e705-11e7-80c1-9a214cf093ae	aa40d8c0-e705-11e7-80c1-9a214cf093ae
+ec7869c0-1853-4592-8835-0477953e781a	Anpassung	<h1>Ziele</h1><ul><li>Gastfamilie als wichtigste Bezugsgruppe im Austauschjahr auffassen</li><li>Wertschätzung jeder Form von Gastfamilie als essentieller Bestandteil von Schüleraustausch im Sinne von YFU</li><li>Gastfamilien kommen in allen Formen (sowie die ATS auch)</li></ul><p><br></p><ul><li>Verständnis von Anpassung</li><li>Reflexion über eigenes Verhalten und die eigene Bereitschaft, sich anzupassen, auch wenn das (manchmal) Schwierigkeiten mit sich bringen kann</li><li>Lust auf Anpassung machen: Anpassung ist der Weg, eine Kultur kennen zu lernen: wenn ich Dinge mitmache, habe ich eine Chance, sie auch zu verstehen und bleibe nicht immer nur Gast in meinem Austauschland</li><li>Insbesondere in Problemsituationen gilt: Was kann ich jetzt tun, damit es meinem Umfeld und mir bessergeht? (aktiv, selbstgesteuert)</li><li>Man passt sich auch unbewusst an</li></ul><p><br></p><ul><li>Verständnis, dass Anpassung auch Grenzen hat, insb. bei persönlichem Unwohlsein</li><li>Mein Umfeld fordert ein Mindestmaß an Anpassung von mir, ich brauche aber nicht alles mitmachen</li><li>Manchmal fühlt sich Anpassung wie verzichten an, es soll aber auch nicht aushalten sein. (initiative ergreifen und eigene Situation ändern)</li><li>Überanpassung und Selbstfürsorge</li><li>Komfort-, Lern- und Panik-Zone</li></ul><h1>Hinweis</h1><p>Wer schon einmal eine VBT erlebt hat, wird Anpassung und Grenzen der Anpassung bzw. Selbstschutz vermutlich anders kennen. Wir haben uns dafür entschieden (unter anderem in Hinblick auf die neugestaltete Vorbereitung ab der Saison 2017 und den Denkanstößen der Fachkonferenz „Bildungsarbeit im Entsendeprogramm mit Fokus auf Vorbereitung“) die Trennung zwischen den beiden Teilen aufzuheben. Zum einen, da man so die aufgebaute Motivation für Anpassung, nicht mit den Nachgestellten Grenzen zerstört, zum anderen existiert diese Trennung außerhalb der Theorie auch nicht. Die Ziele sind zwar noch gruppiert dargestellt, dies dient allerdings nur der Übersicht und der_die aufmerksame Leser_in wird auch überscheindungen feststellen.</p><p>Die AG selber soll <em>wesentlich</em>Praxisnäher als bisher stattfinden. D.h. nicht lange an Theorie und Modellen aufhängen, (Evtl. sogar das Fadenkreuz zu „Arten der Anpassung“ ganz rauswerfen?) und mehr an praktischen Beispielen, sowohl von Teamenden als auch den Kids, Diskutieren und Verständnis und schaffen. Unserer Meinung helfen hier Perspektivwechsel, Rollenspiele und interaktive Methoden (z.B. Zonenmodell).</p><p><br></p><h1>Ablauf</h1><p>Da wir keine explizite Gastfamilien AG haben, erfolgt diese hier! Der Einstieg erfolgt über <em>Familie im Eck</em>. Wenn die Kids erkannt haben, dass es keine Perfekte und keine „Norm“ Gastfamilie gibt, solle über Gastfamilienmotivation gesprochen werden. Warum nehmen Gastfamilien Austauschschüler_innen auf? Gibt es schlechte Motivationsgründe? (Prinzipiell nicht, Ausnutzung wäre zum Beispiel eine Ausnahme.) Gibt es die perfekte Gastfamilie? Nun kann man über das von den Kids gewünschte Verhältnis zur Gastfamilie reden und wie sie das wohl erreichen. Hier kann man viel Rückbezug auf die Familien AG und die Strukturen in der Familie eingehen, wo es eventuell zu Konflikten kommen kann und wie man sie eventuell löst. Im Laufe der Diskussion sollte bereits der Begriff Anpassung gefallen sein, wenn nicht kann man ihn nun auch eingeben.</p><p>Im Laufe der Diskussion wird der Begriff Anpassung mal auseinandergenommen:</p><ul><li>Was bedeutet es sich anzupassen?</li><li>Warum sollte man das tun?</li><li>Was passiert, wenn nicht?</li><li>Welche Erfahrungen habt ihr schon mit Anpassung?</li><li>Wie könnt ihr euch anpassen?</li><li>Erfolgt Anpassung "nur" durch Änderung des äußeren Erscheinungsbildes und durch das Einhalten von Regeln?</li><li>Warum sollte man sich gerade als ATS anpassen?</li><li>Welche Chancen bietet Anpassung? Welche Risiken?</li><li>Wo liegen die Unterschiede zwischen der Anpassung hier und im Austauschland?</li></ul><p>Es besteht immer die Möglichkeit für Euch, raus aus der Teamer_innen /Lehrer_innenrolle zu gehen und rein in die Expert_innenrolle der ehemaligen Austauschschüler_innen. Erzählt, wie ihr Euch das Konzept Anpassung zu Eigen gemacht habt, dass es nicht mehr schrecklich klingt. Wie seid ihr damit umgegangen, sich äußerlich anzupassen und innen die_der Gleiche zu bleiben. Erzählt als ehemalige ATS wie man Anpassung als Werkzeug benutzen muss, um nicht als Tourist zu verenden....:-)</p><ul><li>Was kann man denn so anpassen? (z.B. Verhalten)</li><li>Außer Eurem Verhalten, was könnt Ihr in Eurem Austauschjahr noch anpassen?</li><li>Wie kann man sich anpassen?</li><li>Geht das automatisch? Wie funktioniert das?</li><li>Was passiert denn, wenn ich z.B. jeden Tag ... tue/höre/anziehe? Ich werde wohl nicht jeden Tag darüber nachdenken.</li><li>Verändert es Euch, jeden Tag ... zu tun/hören/anzuziehen? Inwiefern?</li></ul><p>Als methodische Anreicherung bieten sich insbesondere das <em>Zonenmodell</em>und der <em>Berg der Anpassung.</em>Beide können in der Diskussion eingebaut werden und ermöglichen es auch <em>parallel</em>über Anpassung und Grenzen zu sprechen.</p><h1>Methoden</h1><h2>Familie im Eck</h2><p>Eine spannende Methode zum Einstieg, da sie auch das Thema Familie bzw. Gastfamilie noch einmal aufgreift. Den vier Ecken eines Raums wird jeweils eine Familie zugeordnet und die Kids können sich ihre Lieblings Familie aussuchen. Nach und nach bekommen sie immer mehr Informationen über ihre Familie (Religion, Besonderheiten, Wohnort, Lebensweise) und können sich nach belieben umsortieren. Nach jeder Runde sollte kurz ausgewertet werden wieso und warum sie sich umsortiert haben. Dabei kann die Auswertung nach der 1. Runde noch sehr kurz ausfallen, in den Anschließenden Runden dann immer intensiver werden. Eingehen kann man dabei auf die Gründe für den Wechsel, die Unterschiede bzw. Gemeinsamkeiten zwischen den Familien oder was die Zusammenstellung denn über die Familie aussagt.</p><p>Sehr interessant ist auch, wenn man sie vorher ihre Gasfamilie in Worten Skizzieren lässt (Wenn sie schon eine haben, diese, sonst die ihrer Vorstellung.)</p><ul><li>Warum hast du Gewechselt?</li><li>Warum ist dir der Wohnort wichtiger als die Religion?</li><li>Wieso bist du die ganze Zeit stehengeblieben?</li></ul><h2>Definition</h2><p>Zu Beginn wird den Kids eine <em>provokative</em>Definition vorgegeben.</p><p>„Anpassung ist der Verzicht auf selbstständige, eigenständige Lebensgestaltung. Die Orientierung an dem, was außerhalb von einem selbst ist, an der Umgebung, den Verhältnissen, dem System.“</p><p>Dazu sollen sich die Kids positionieren. Auf der einen Seite des Raumes: Ich bin dagegen, das ist gegen meine Prinzipien und ich würde mich wehren, wenn man von mir verlangt, mich anzupassen. Auf der anderen Seite: Ich bin dafür, das kann ich mir für ein Jahr vorstellen.</p><p>Diese Positionierung wird aufgefangen und damit zur Diskussion der AG überzuleiten. Nicht jede_r muss aber etwas dazu sagen.</p><p>Im Laufe der Diskussion sollte auf jeden Fall eine „richtigere“ Definition von Anpassung erarbeitet werden. Denn im YFU Kontext ist Anpassung wie folgt definiert.</p><ul><li>Anpassung ist ein zeitlich begrenztes, zweckbestimmtes Mittel ist, um eine andere Kultur kennen zu lernen</li><li>Anpassung ist eine Methode zur Vermeidung vor allem unnötiger Konflikte ist</li><li>Anpassung die weitreichende Möglichkeit bietet, die Denk- und Verhaltensweisen und in einem weiteren Schritt auch die Gefühle anderer verstehen zu lernen.</li></ul><h2>Berg der Anpassung</h2><p>Auf einem Flipchart gibt es eine Landschaft, ggf. mit Bäumen oder einem See, einem Haus etc. und daneben einen Berg, der nach oben hin steiler wird. Das Austauschjahr ist vergleichbar mit einer Reise auf den Berg. Je höher man kommt, desto mehr kann man in der Landschaft (sinngemäß Gastland/Kultur) sehen und verstehen. Doch je höher man kommt, desto schwieriger und enger wird der Weg. Man muss nicht auf den Gipfel kommen, denn dahinter wartet eine steile Klippe (Überanpassung), dennoch sollte man bereit sein, sich über ein paar Hindernisse auf dem Weg hinwegzusetzen (Steine, Umwege etc.).</p><p>Im anschließenden Grenzen der Anpassung Teil kann dieses Modell auch als Einstieg für die Grenzen-Thematik dienen und der Berg mit Grenzen ausstaffiert werden.</p><h2>Anpassungskurve</h2><p><br>Die Teamer_innen stellen die Anpassungskurve vor und erklären hieran Über- und nicht- genügende Anpassung (vgl. auch Ikarus-Parabel), sowie die Begriffe Selbstfürsorge und Widerstand. Anschließend werden mit den Schülern Gefahren beider Extreme gesammelt.</p><p>Im Zuge des Modells sollte auch über Überanpassung und Selbstfürsorge gesprochen werden.</p>	f2c7c880-4158-11e8-842f-0ed5f89f718b	2018-06-19 14:10:18.837	2018-06-19 11:15:55.869	00000000-0000-0000-0000-000000000000	00000000-0000-0000-0000-000000000000
 \.
 
 
@@ -54,11 +38,7 @@ COPY mm_method (mm_id, mm_title, mm_content, mm_seminar_type_id, mm_created_at, 
 -- Data for Name: ma_attachment; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
-COPY ma_attachment (ma_id, ma_method_id, ma_content, ma_created_at, ma_modified_at, ma_created_by, ma_modified_by) FROM stdin;
-b9efc229-ce26-43b0-a2cc-c93e6b87dc66	446d7fbf-a952-494b-a43d-946da2b46770	Any Attachment	2018-01-09 14:44:05.88	\N	aa40d8c0-e705-11e7-80c1-9a214cf093ae	\N
-7a0b8492-e1bb-4467-bf17-fea132d31c0c	446d7fbf-a952-494b-a43d-946da2b46770	Some Attachment	2018-01-09 14:44:05.881	\N	aa40d8c0-e705-11e7-80c1-9a214cf093ae	\N
-9a64fea3-c995-4933-858e-7d90757a8a17	3465daed-ec46-4b95-bae1-7b048b138569	Ad magnam ea sequi. Libero et sed tenetur rerum voluptatum nesciunt delectus illo. Reprehenderit nam sunt maiores omnis et dolorem nobis. Et maiores a magni doloribus. Dolor dolores dolores illum facere dolor itaque incidunt molestiae. Consequuntur velit asperiores natus iste dignissimos.<br> Nobis voluptatibus nam modi illum voluptas maxime. Unde consequatur tempora dolorum sunt sint aspernatur beatae minus. Error qui placeat aut libero pariatur maxime. Aliquid nostrum veniam ut.<p>Alias ut voluptatem consequuntur dolores magnam inventore recusandae. Deserunt mollitia nostrum illum. Velit porro voluptatem est. Doloribus explicabo itaque distinctio. Qui sit aut aut dicta.<br>In voluptas nisi ipsum est et a. Vitae hic reprehenderit doloremque aspernatur enim labore accusantium ducimus. Consequatur fugit provident et voluptas. Aut itaque totam dolorum. Sequi deserunt dolorem magni sequi.</p>Repellendus cupiditate unde quia aut temporibus ut et. Ducimus quod quae ipsa aut illum minus. Et amet sit libero eos et quia laborum. Natus deleniti odit in quo ut reprehenderit sit.	2018-03-11 20:52:27.908	\N	aa40d8c0-e705-11e7-80c1-9a214cf093ae	\N
-a0fa253c-ae2a-4ac1-a3cd-a0947fe75eb3	3465daed-ec46-4b95-bae1-7b048b138569	Et maiores a magni doloribus. Dolor dolores dolores illum facere dolor itaque incidunt molestiae. Consequuntur velit asperiores natus iste dignissimos. Nobis voluptatibus nam modi illum voluptas maxime. Unde consequatur tempora dolorum sunt sint aspernatur beatae minus. Error qui placeat aut libero pariatur maxime. Aliquid nostrum veniam ut. Alias ut voluptatem consequuntur dolores magnam inventore recusandae. Deserunt mollitia nostrum illum. Velit porro voluptatem est. Doloribus explicabo itaque distinctio. Qui sit aut aut dicta. In voluptas nisi ipsum est et a. Vitae hic reprehenderit doloremque aspernatur enim labore accusantium ducimus. Consequatur fugit provident et voluptas. Aut itaque totam dolorum. Sequi deserunt dolorem magni sequi. Repellendus cupiditate unde quia aut temporibus ut et. Ducimus quod quae ipsa aut illum minus. Et amet sit libero eos et quia laborum. Natus deleniti odit in quo ut reprehenderit sit. Consequatur dignissimos totam voluptas reprehenderit facere. Voluptate dolorem libero quis. Quis qui suscipit nisi id quos. Magni tempora velit est enim quia odio natus. Rem sapiente veritatis fugiat ut. Quo molestiae a ea et unde ut voluptas vero. Corporis nulla placeat soluta eum ipsam non culpa. Voluptatem ipsam impedit qui eius alias vitae et. Possimus quos quas quas. Sed laboriosam cum aperiam libero aliquid quo dolores nihil. Odit occaecati illum fuga consequatur quia. Non accusamus quis necessitatibus odio et odio. Deleniti quidem adipisci sit qui corporis. Deserunt quaerat praesentium quaerat consequuntur atque. Ut velit repudiandae sit laborum dolorum quasi dolorem commodi. Est molestias inventore similique. Voluptas sit aut fugit dolores voluptatum dignissimos nobis inventore. Tempora in mollitia voluptates ut est. Dolore amet nemo velit dolor. Veritatis molestiae maxime ut officia. Fugiat non quae aliquam.	2018-03-11 20:52:27.909	\N	aa40d8c0-e705-11e7-80c1-9a214cf093ae	\N
+COPY ma_attachment (ma_id, ma_method_id, ma_title, ma_content, ma_created_at, ma_modified_at, ma_created_by, ma_modified_by) FROM stdin;
 \.
 
 
@@ -67,8 +47,9 @@ a0fa253c-ae2a-4ac1-a3cd-a0947fe75eb3	3465daed-ec46-4b95-bae1-7b048b138569	Et mai
 --
 
 COPY ml_method_level (ml_id, ml_name, ml_description) FROM stdin;
-9053311a-4b82-4b77-9c8f-ee1b6e986bfe	theoretisch	Foo Bar der theoretisch ist.
-4cc10d96-24dd-420d-9a4e-ff4c5df57d1b	persönlich	\N
+4fcfd0f3-5be3-46c9-8e3f-0a0b0ad302fa	Abstrakt	\N
+fd5bed05-a9cf-451b-b727-1d54526f7baa	Persönlich	\N
+d238af87-b465-4c4b-8b9c-db367e458e36	Theoretisch	\N
 \.
 
 
@@ -77,11 +58,7 @@ COPY ml_method_level (ml_id, ml_name, ml_description) FROM stdin;
 --
 
 COPY mm_method_method_level (mm_method_id, mm_method_level_id) FROM stdin;
-7b5f7ecd-6b24-4320-8f25-85b487a21d5e	9053311a-4b82-4b77-9c8f-ee1b6e986bfe
-11e556d6-728e-45ec-9407-7f2cefc50eea	9053311a-4b82-4b77-9c8f-ee1b6e986bfe
-446d7fbf-a952-494b-a43d-946da2b46770	9053311a-4b82-4b77-9c8f-ee1b6e986bfe
-446d7fbf-a952-494b-a43d-946da2b46770	4cc10d96-24dd-420d-9a4e-ff4c5df57d1b
-3465daed-ec46-4b95-bae1-7b048b138569	4cc10d96-24dd-420d-9a4e-ff4c5df57d1b
+ec7869c0-1853-4592-8835-0477953e781a	4fcfd0f3-5be3-46c9-8e3f-0a0b0ad302fa
 \.
 
 
@@ -90,8 +67,9 @@ COPY mm_method_method_level (mm_method_id, mm_method_level_id) FROM stdin;
 --
 
 COPY mt_method_type (mt_id, mt_name, mt_description) FROM stdin;
-09f0dd76-3dc5-44e9-bfc0-c14e0fa2ea9c	Film	\N
-9a03a19f-22ad-489d-b3ee-e006e9237398	Diskussion	\N
+6595c660-9a8c-4fee-aa10-f01c0d3a7a81	Diskussion	\N
+436fafd9-6e39-49df-a5b6-f30ce94eb209	Film	\N
+4212ab0f-59b0-427d-8b1a-bbb181de2c27	Simulation	\N
 \.
 
 
@@ -100,10 +78,7 @@ COPY mt_method_type (mt_id, mt_name, mt_description) FROM stdin;
 --
 
 COPY mm_method_method_type (mm_method_id, mm_method_type_id) FROM stdin;
-7b5f7ecd-6b24-4320-8f25-85b487a21d5e	09f0dd76-3dc5-44e9-bfc0-c14e0fa2ea9c
-11e556d6-728e-45ec-9407-7f2cefc50eea	09f0dd76-3dc5-44e9-bfc0-c14e0fa2ea9c
-446d7fbf-a952-494b-a43d-946da2b46770	09f0dd76-3dc5-44e9-bfc0-c14e0fa2ea9c
-3465daed-ec46-4b95-bae1-7b048b138569	9a03a19f-22ad-489d-b3ee-e006e9237398
+ec7869c0-1853-4592-8835-0477953e781a	6595c660-9a8c-4fee-aa10-f01c0d3a7a81
 \.
 
 
@@ -111,24 +86,8 @@ COPY mm_method_method_type (mm_method_id, mm_method_type_id) FROM stdin;
 -- Data for Name: sg_seminar_goal; Type: TABLE DATA; Schema: mdb_data; Owner: methods
 --
 
-COPY sg_seminar_goal (sg_id, sg_name, sg_description, sg_seminar_type_id) FROM stdin;
-59d2d4d3-58fb-474d-8f44-f36b9d99730b	Some VBT Goal	Any VBT Goal	d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5d
-70a5de72-a5e0-4d96-9534-cd8ffdb78590	Kommunikation		d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5d
-07d531f8-fcc8-4538-9836-594141f47f3c	Anpassung		d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5d
-f8590d93-f6b5-4701-8578-bf27a9bac290	Kultur		d0ea49d5-49ed-472d-a63d-dcd2f2b4bf5d
-\.
-
-
---
--- Data for Name: mm_method_seminar_goal; Type: TABLE DATA; Schema: mdb_data; Owner: methods
---
-
-COPY mm_method_seminar_goal (mm_method_id, mm_seminar_goal_id) FROM stdin;
-7b5f7ecd-6b24-4320-8f25-85b487a21d5e	59d2d4d3-58fb-474d-8f44-f36b9d99730b
-11e556d6-728e-45ec-9407-7f2cefc50eea	59d2d4d3-58fb-474d-8f44-f36b9d99730b
-446d7fbf-a952-494b-a43d-946da2b46770	59d2d4d3-58fb-474d-8f44-f36b9d99730b
-3465daed-ec46-4b95-bae1-7b048b138569	07d531f8-fcc8-4538-9836-594141f47f3c
-3465daed-ec46-4b95-bae1-7b048b138569	59d2d4d3-58fb-474d-8f44-f36b9d99730b
+COPY sg_seminar_goal (sg_method_id, sg_seminar_goal_id) FROM stdin;
+ec7869c0-1853-4592-8835-0477953e781a	6bcda3d4-55a2-4c8d-8474-16e32147ad0c
 \.
 
 
