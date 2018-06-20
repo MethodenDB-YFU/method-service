@@ -87,8 +87,17 @@ influx:
   port: 8086
 
 security:
-  user:
-    password: password
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      client-id: method-service
+      client-secret: secret
+      access-token-uri: http://localhost:9000/auth/oauth/token
+      user-authorization-uri: http://localhost:9000/auth/oauth/authorize
+    resource:
+      user-info-uri: http://0.0.0.0:9000/auth/users/me
+
 
 cors:
   allowedOrigins:

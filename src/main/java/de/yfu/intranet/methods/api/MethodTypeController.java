@@ -8,6 +8,7 @@ import de.yfu.intranet.methods.service.MethodTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +35,7 @@ public class MethodTypeController {
     @GetMapping(
             produces = CONTENT_TYPE_METHOD_TYPE
     )
+    @PreAuthorize("#oauth2.hasScope('methods:read')")
     public Set<MethodTypeResource> getAllMethodTypes() {
         return methodTypeMapper.mapToMethodTypeResources(methodTypeService.getAllMethodTypes());
     }
@@ -42,6 +44,7 @@ public class MethodTypeController {
             consumes = CONTENT_TYPE_METHOD_TYPE,
             produces = CONTENT_TYPE_METHOD_TYPE
     )
+    @PreAuthorize("#oauth2.hasScope('methods:write')")
     public ResponseEntity<MethodTypeResource> createMethodType(
             @RequestBody @Valid final MethodTypeResource methodTypeResource) {
         final MethodType methodType = methodTypeMapper.mapToMethodType(methodTypeResource);
@@ -54,6 +57,7 @@ public class MethodTypeController {
             consumes = CONTENT_TYPE_METHOD_TYPE,
             produces = CONTENT_TYPE_METHOD_TYPE
     )
+    @PreAuthorize("#oauth2.hasScope('methods:write')")
     public ResponseEntity<MethodTypeResource> updateMethodType(
             @PathVariable("methodTypeId") UUID methodTypeId,
             @RequestBody @Valid final MethodTypeResource methodTypeResource) throws MethodException {
