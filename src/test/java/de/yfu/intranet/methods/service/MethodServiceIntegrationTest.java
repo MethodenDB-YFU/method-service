@@ -56,9 +56,9 @@ public class MethodServiceIntegrationTest {
     @Test
     public void getMethod_returnsMethod_ifMethodExists() throws MethodException {
         Method method = anyMethod(USER);
-        when(methodRepository.findOne(method.getId())).thenReturn(method);
+        when(methodRepository.findById(method.getId())).thenReturn(java.util.Optional.ofNullable(method));
         Method result = methodService.getMethod(USER.getId(), method.getId());
-        verify(methodRepository).findOne(method.getId());
+        verify(methodRepository).findById(method.getId());
         assertThat(result).isEqualTo(method);
     }
 
@@ -84,7 +84,7 @@ public class MethodServiceIntegrationTest {
         final Method oldMethod = anyMethod(USER);
         final Method newMethod = anyMethod(USER);
         newMethod.setId(oldMethod.getId());
-        when(methodRepository.findOne(newMethod.getId())).thenReturn(oldMethod);
+        when(methodRepository.findById(newMethod.getId())).thenReturn(java.util.Optional.ofNullable(oldMethod));
 
         methodService.updateMethod(newMethod);
         verify(methodRepository).save(newMethod);

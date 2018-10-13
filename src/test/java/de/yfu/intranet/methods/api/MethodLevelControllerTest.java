@@ -56,7 +56,7 @@ public class MethodLevelControllerTest {
         ResponseEntity<MethodLevelResource[]> response = restTemplate.getForEntity(METHOD_LEVEL_ENDPOINT, MethodLevelResource[].class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertEqualMethodLevel(anyMethodLevel, response.getBody()[0]);
-        methodLevelRepository.delete(anyMethodLevel.getId());
+        methodLevelRepository.delete(anyMethodLevel);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class MethodLevelControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getId()).isNotNull();
         assertThat(response.getBody().getName()).isEqualTo(anyMethodLevelResource.getName());
-        methodLevelRepository.delete(response.getBody().getId());
+        //methodLevelRepository.delete(response.getBody().getId());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MethodLevelControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getName()).isNotEqualTo(anyMethodLevel.getName());
         assertThat(response.getBody().getName()).isEqualTo(anyMethodLevelResource.getName());
-        methodLevelRepository.delete(anyMethodLevel.getId());
+        methodLevelRepository.delete(anyMethodLevel);
     }
 
     @After
