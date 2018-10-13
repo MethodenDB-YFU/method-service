@@ -1,15 +1,17 @@
 package de.yfu.intranet.methods.data.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import de.yfu.intranet.methods.data.domain.Attachment;
 
-public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
+public interface AttachmentRepository extends JpaRepository<Attachment, UUID> {
 
-	public List<Attachment> findAll();
-	public Attachment findOne(int attachmentId);
+	List<Attachment> findAll();
+	Optional<Attachment> findById(UUID attachmentId);
 	
 
 }

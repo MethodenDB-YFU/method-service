@@ -35,7 +35,7 @@ public class MethodLevelService {
     }
 
     public MethodLevel updateMethodLevel(MethodLevel methodLevel) throws MethodException {
-        MethodLevel storedMethodLevel = methodLevelRepository.findOne(methodLevel.getId());
+        MethodLevel storedMethodLevel = methodLevelRepository.findById(methodLevel.getId()).orElse(null);
         if (storedMethodLevel != null) {
             return methodLevelRepository.save(methodLevel);
         }
