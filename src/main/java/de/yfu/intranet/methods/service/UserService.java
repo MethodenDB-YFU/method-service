@@ -23,11 +23,11 @@ public class UserService {
 	}
 	
 	public User findById(UUID userId) throws UserException {
-		User user = userRepo.findOne(userId);
+		User user = userRepo.findById(userId).orElse(null);
 		if (user == null) {
 			throw new UserException(format("No User found for UserId [%s]", userId), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return userRepo.findOne(userId);
+		return userRepo.findById(userId).orElse(null);
 	}
 
 }

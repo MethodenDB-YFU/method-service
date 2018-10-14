@@ -45,7 +45,7 @@ public class MethodService {
 	
 	public Method getMethod(UUID userId, UUID methodId) throws MethodException {
 		LOGGER.info("Getting Method [{}] for User [{}]", methodId, userId);
-		Method method = methodRepo.findOne(methodId);
+		Method method = methodRepo.findById(methodId).orElse(null);
 		if(method == null) {
 			throw new MethodException(String.format("Could not find method with id [%s]", methodId), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -57,7 +57,7 @@ public class MethodService {
 	}
 	
 	public Method updateMethod(Method method) throws MethodException {
-		Method storedMethod = methodRepo.findOne(method.getId());
+		Method storedMethod = methodRepo.findById(method.getId()).orElse(null);
 		if (storedMethod != null) {
 			return methodRepo.save(method);
 		}
@@ -65,11 +65,11 @@ public class MethodService {
 	}
 
     public void deleteMethod(UUID userId, UUID methodId) throws MethodException {
-		Method storedMethod = methodRepo.findOne(methodId);
+		Method storedMethod = methodRepo.findById(methodId).orElse(null);
 		if (storedMethod == null) {
 			throw new MethodException(format("No Method found for ID [%s].", methodId), HttpStatus.NOT_FOUND);
 		}
 		LOGGER.info("Deleting Method [{}] by request of User [{}].", methodId, userId);
-		methodRepo.delete(methodId);
+		methodRepo.delete(storedMethod);
     }
 }

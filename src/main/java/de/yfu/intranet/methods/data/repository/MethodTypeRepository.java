@@ -1,5 +1,6 @@
 package de.yfu.intranet.methods.data.repository;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface MethodTypeRepository extends CrudRepository<MethodType, UUID> {
 
 	public Set<MethodType> findAll();
-	public MethodType findOne(UUID seminarTypeId);
+	Optional<MethodType> findById(UUID seminarTypeId);
 	
 
 }

@@ -54,18 +54,17 @@ public class MethodTypeControllerTest {
         ResponseEntity<MethodTypeResource[]> response = restTemplate.getForEntity(METHOD_TYPE_ENDPOINT, MethodTypeResource[].class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertEqualMethodType(anyMethodType, response.getBody()[0]);
-        methodTypeRepository.delete(anyMethodType.getId());
+        methodTypeRepository.delete(anyMethodType);
     }
 
     @Test
     public void createMethodType_returnsMethodType_ifNameIsProvided() {
         final MethodTypeResource anyMethodTypeResource = anyMethodTypeResource();
-
         ResponseEntity<MethodTypeResource> response = restTemplate.postForEntity(METHOD_TYPE_ENDPOINT, anyMethodTypeResource, MethodTypeResource.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getId()).isNotNull();
         assertThat(response.getBody().getName()).isEqualTo(anyMethodTypeResource.getName());
-        methodTypeRepository.delete(response.getBody().getId());
+        //methodTypeRepository.delete(response.getBody());
     }
 
     @Test
@@ -109,7 +108,7 @@ public class MethodTypeControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getName()).isNotEqualTo(anyMethodType.getName());
         assertThat(response.getBody().getName()).isEqualTo(anyMethodTypeResource.getName());
-        methodTypeRepository.delete(anyMethodType.getId());
+        methodTypeRepository.delete(anyMethodType);
     }
 
 

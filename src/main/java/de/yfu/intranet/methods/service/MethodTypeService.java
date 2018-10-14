@@ -35,7 +35,7 @@ public class MethodTypeService {
     }
 
     public MethodType updateMethodType(MethodType methodType) throws MethodException {
-        MethodType storedMethodType = methodTypeRepo.findOne(methodType.getId());
+        MethodType storedMethodType = methodTypeRepo.findById(methodType.getId()).orElse(null);
         if (storedMethodType != null) {
             return methodTypeRepo.save(methodType);
         }
