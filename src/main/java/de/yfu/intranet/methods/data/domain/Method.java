@@ -62,22 +62,6 @@ public class Method {
 	
 	@Column(name="mm_modified_at")
 	private LocalDateTime modifiedAt;
-	
-	@ManyToOne
-	@JoinColumn(name="mm_created_by")
-	private User createdBy;
-	
-	@ManyToOne
-	@JoinColumn(name="mm_modified_by")
-	private User modifiedBy;
-
-	public User getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(User modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
 
 	public Set<Attachment> getAttachments() {
 		return attachments;
@@ -151,13 +135,6 @@ public class Method {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
 
 	public UUID getSeminarType() {
 		return seminarType;

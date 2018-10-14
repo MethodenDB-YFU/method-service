@@ -7,12 +7,9 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -44,15 +41,6 @@ public class Attachment {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_FORMAT)
 	@Column(name="ma_modified_at")
 	private Date modifiedAt;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="ma_created_by")
-	private User createdBy;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="ma_modified_by")
-	private User modifiedBy;
-
 
 	public UUID getId() {
 		return id;
@@ -92,22 +80,6 @@ public class Attachment {
 
 	public void setModifiedAt(Date modifiedAt) {
 		this.modifiedAt = modifiedAt;
-	}
-
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public User getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(User modifiedBy) {
-		this.modifiedBy = modifiedBy;
 	}
 	
 	@PrePersist

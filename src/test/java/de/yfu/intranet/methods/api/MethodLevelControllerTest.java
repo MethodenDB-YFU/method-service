@@ -66,7 +66,6 @@ public class MethodLevelControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getId()).isNotNull();
         assertThat(response.getBody().getName()).isEqualTo(anyMethodLevelResource.getName());
-        //methodLevelRepository.delete(response.getBody().getId());
     }
 
     @Test

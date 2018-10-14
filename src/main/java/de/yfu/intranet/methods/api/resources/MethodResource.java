@@ -31,8 +31,6 @@ public class MethodResource {
 	private UUID seminarType;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
-	private User createdBy;
-	private User modifiedBy;
 
 	public Set<Attachment> getAttachments() {
 		return attachments;
@@ -106,22 +104,6 @@ public class MethodResource {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public User getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(User modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
 	public UUID getSeminarType() {
 		return seminarType;
 	}
@@ -133,8 +115,7 @@ public class MethodResource {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, title, content, attachments, methodLevels, 
-				methodTypes, seminarGoals, seminarType, createdAt, modifiedAt, createdBy,
-				modifiedBy);
+				methodTypes, seminarGoals, seminarType, createdAt, modifiedAt);
 	}
 
 	@Override
@@ -155,9 +136,7 @@ public class MethodResource {
 				&& Objects.equals(seminarGoals, other.seminarGoals)
 				&& Objects.equals(seminarType, other.seminarType)
 				&& Objects.equals(createdAt, other.createdAt) 
-				&& Objects.equals(modifiedAt, other.modifiedAt)
-				&& Objects.equals(createdBy, other.createdBy)
-				&& Objects.equals(modifiedBy, other.modifiedBy);
+				&& Objects.equals(modifiedAt, other.modifiedAt);
 	}
 
 	@Override
@@ -167,7 +146,6 @@ public class MethodResource {
 				.add("attachments", attachments).add("methodLevels", methodLevels)
 				.add("methodTypes", methodTypes).add("seminarGoals", seminarGoals)
 				.add("seminarType", seminarType).add("createdAt", createdAt)
-				.add("modifiedAt", modifiedAt).add("createdBy", createdBy)
-				.add("modifiedBy", modifiedBy).toString();
+				.add("modifiedAt", modifiedAt).toString();
 	}
 }

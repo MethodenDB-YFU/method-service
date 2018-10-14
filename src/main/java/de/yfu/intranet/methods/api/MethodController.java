@@ -1,16 +1,18 @@
 package de.yfu.intranet.methods.api;
 
+import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipal;
 import de.yfu.intranet.methods.api.resources.MethodResource;
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.exceptions.UserException;
 import de.yfu.intranet.methods.api.resources.mapper.MethodMapper;
 import de.yfu.intranet.methods.data.domain.Method;
-import de.yfu.intranet.methods.data.domain.User;
+//import de.yfu.intranet.methods.data.domain.User;
 import de.yfu.intranet.methods.service.MethodService;
-import de.yfu.intranet.methods.service.UserService;
+//import de.yfu.intranet.methods.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,15 +28,12 @@ public class MethodController {
 
 	private final MethodService methodService;
 	private final MethodMapper methodMapper;
-	private final UserService userService;
-	
+
 	@Autowired
 	public MethodController(final MethodService methodService,
-							final MethodMapper methodMapper,
-							final UserService userService) {
+							final MethodMapper methodMapper) {
 		this.methodService = methodService;
 		this.methodMapper = methodMapper;
-		this.userService = userService;
 	}
 
 	@GetMapping(
@@ -42,8 +41,9 @@ public class MethodController {
             produces = CONTENT_TYPE_METHOD
     )
 	public Set<Method> getAllMethods(
-	        @RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
-		return methodService.getAllMethods(userId);
+	        @RequestHeader(value = "X-User-ID", required = false) UUID userId,
+			PreAuthenticatedAuthenticationToken authToken) throws MethodException {
+		return methodService.getAllMethods();
 	}
 
 	@GetMapping(
@@ -52,8 +52,8 @@ public class MethodController {
     )
     public MethodResource getMethod(
             @PathVariable("methodId") UUID methodId,
-			@RequestHeader(value = "X-User-ID") UUID userId) throws MethodException {
-		return methodMapper.mapFromDataObject(methodService.getMethod(userId, methodId));
+			@RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
+		return methodMapper.mapFromDataObject(methodService.getMethod(methodId));
 	}
 
     @PostMapping(
@@ -62,15 +62,9 @@ public class MethodController {
             produces = CONTENT_TYPE_METHOD
     )
 	public ResponseEntity<MethodResource> createMethod(
-	        @RequestHeader("X-User-ID") UUID userId,
+	        @RequestHeader(value = "X-User-ID", required = false) UUID userId,
             @RequestBody @Valid final MethodResource methodResource) throws UserException {
-		final User createdBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
-		method.setCreatedBy(createdBy);
-		if (method.getAttachments() != null) {
-			method.getAttachments().forEach(m -> m.setCreatedBy(createdBy));
-		}
-
 		final Method createdMethod = methodService.createMethod(method);
 		return new ResponseEntity<>(methodMapper.mapFromDataObject(createdMethod), HttpStatus.CREATED);
 	}
@@ -82,14 +76,12 @@ public class MethodController {
     )
 	public ResponseEntity<MethodResource> updateMethod(
 	        @PathVariable("methodId") UUID methodId,
-            @RequestHeader("X-User-ID") UUID userId,
+            @RequestHeader(value = "X-User-ID", required = false) UUID userId,
             @RequestBody @Valid final MethodResource methodResource) throws MethodException, UserException {
 
-		final User modifiedBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
-		method.setModifiedBy(modifiedBy);
 		method.setId(methodId);
-		
+
 		Method updatedMethod = methodService.updateMethod(method);
 		return new ResponseEntity<>(methodMapper.mapFromDataObject(updatedMethod), HttpStatus.OK);
 	}
@@ -99,8 +91,8 @@ public class MethodController {
     )
 	public ResponseEntity<Void> deleteMethod(
 	        @PathVariable("methodId") UUID methodId,
-            @RequestHeader("X-User-ID") UUID userId) throws MethodException {
-		methodService.deleteMethod(userId, methodId);
+            @RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
+		methodService.deleteMethod(methodId);
 		return ResponseEntity.noContent().build();
 	}
 }

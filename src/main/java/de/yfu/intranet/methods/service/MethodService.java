@@ -12,11 +12,8 @@ import org.springframework.stereotype.Service;
 
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.data.domain.Method;
-import de.yfu.intranet.methods.data.domain.MethodLevel;
-import de.yfu.intranet.methods.data.domain.MethodType;
 import de.yfu.intranet.methods.data.repository.MethodLevelRepository;
 import de.yfu.intranet.methods.data.repository.MethodRepository;
-import de.yfu.intranet.methods.data.repository.MethodTypeRepository;
 
 @Service
 public class MethodService {
@@ -32,10 +29,7 @@ public class MethodService {
 		this.methodRepo = methodRepository;
 	}
 
-
-
-	public Set<Method> getAllMethods(UUID userId) throws MethodException {
-		LOGGER.info("Getting all Methods for User [{}]", userId);
+	public Set<Method> getAllMethods() throws MethodException {
 		Set<Method> methods = methodRepo.findAll();
 		if(methods == null) {
 			throw new MethodException("No methods found.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -43,8 +37,7 @@ public class MethodService {
 		return methods;
 	}
 	
-	public Method getMethod(UUID userId, UUID methodId) throws MethodException {
-		LOGGER.info("Getting Method [{}] for User [{}]", methodId, userId);
+	public Method getMethod(UUID methodId) throws MethodException {
 		Method method = methodRepo.findById(methodId).orElse(null);
 		if(method == null) {
 			throw new MethodException(String.format("Could not find method with id [%s]", methodId), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,12 +57,12 @@ public class MethodService {
 		throw new MethodException(format("No Method found for ID [%s].", method.getId()), HttpStatus.NOT_FOUND);
 	}
 
-    public void deleteMethod(UUID userId, UUID methodId) throws MethodException {
+    public void deleteMethod(UUID methodId) throws MethodException {
 		Method storedMethod = methodRepo.findById(methodId).orElse(null);
 		if (storedMethod == null) {
 			throw new MethodException(format("No Method found for ID [%s].", methodId), HttpStatus.NOT_FOUND);
 		}
-		LOGGER.info("Deleting Method [{}] by request of User [{}].", methodId, userId);
+		LOGGER.info("Deleting Method [{}]", methodId);
 		methodRepo.delete(storedMethod);
     }
 }

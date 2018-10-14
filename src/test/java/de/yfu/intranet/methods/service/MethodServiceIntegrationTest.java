@@ -2,7 +2,6 @@ package de.yfu.intranet.methods.service;
 
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.data.domain.Method;
-import de.yfu.intranet.methods.data.domain.User;
 import de.yfu.intranet.methods.data.repository.MethodLevelRepository;
 import de.yfu.intranet.methods.data.repository.MethodRepository;
 import de.yfu.intranet.methods.data.repository.MethodTypeRepository;
@@ -18,15 +17,11 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static de.yfu.intranet.methods.util.MethodObjectFactory.anyMethod;
-import static de.yfu.intranet.methods.util.UserObjectFactory.anyEditor;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MethodServiceIntegrationTest {
-
-    private static final User USER = anyEditor();
 
     @Mock
     MethodRepository methodRepository;
@@ -46,7 +41,7 @@ public class MethodServiceIntegrationTest {
 
     @Test
     public void persistMethod_returnsMethod_ifAllInfoIsProvided() {
-        Method method = anyMethod(USER);
+        Method method = anyMethod();
         when(methodRepository.save(method)).thenReturn(method);
         Method persistedMethod = methodService.createMethod(method);
         verify(methodRepository).save(method);
@@ -55,9 +50,9 @@ public class MethodServiceIntegrationTest {
 
     @Test
     public void getMethod_returnsMethod_ifMethodExists() throws MethodException {
-        Method method = anyMethod(USER);
+        Method method = anyMethod();
         when(methodRepository.findById(method.getId())).thenReturn(java.util.Optional.ofNullable(method));
-        Method result = methodService.getMethod(USER.getId(), method.getId());
+        Method result = methodService.getMethod(method.getId());
         verify(methodRepository).findById(method.getId());
         assertThat(result).isEqualTo(method);
     }
@@ -65,24 +60,24 @@ public class MethodServiceIntegrationTest {
     @Test
     public void getMethod_returnsEmptySet_ifNoMethodExistsWithGivenId() throws MethodException {
         when(methodRepository.findAll()).thenReturn(Collections.emptySet());
-        Set<Method> result = methodService.getAllMethods(USER.getId());
+        Set<Method> result = methodService.getAllMethods();
         verify(methodRepository).findAll();
         assertThat(result).isEqualTo(Collections.emptySet());
     }
 
     @Test
     public void getAllMethods_returnsMethods_ifMethodsExist() throws MethodException {
-        Set<Method> methods = Collections.singleton(anyMethod(USER));
+        Set<Method> methods = Collections.singleton(anyMethod());
         when(methodRepository.findAll()).thenReturn(methods);
-        Set<Method> result = methodService.getAllMethods(USER.getId());
+        Set<Method> result = methodService.getAllMethods();
         verify(methodRepository).findAll();
         assertThat(methods).isEqualTo(result);
     }
 
     @Test
     public void updateMethod_returnsUpdatedMethod_ifMethodHasId() throws MethodException {
-        final Method oldMethod = anyMethod(USER);
-        final Method newMethod = anyMethod(USER);
+        final Method oldMethod = anyMethod();
+        final Method newMethod = anyMethod();
         newMethod.setId(oldMethod.getId());
         when(methodRepository.findById(newMethod.getId())).thenReturn(java.util.Optional.ofNullable(oldMethod));
 

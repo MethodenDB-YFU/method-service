@@ -44,53 +44,44 @@ public class MethodObjectFactory {
         return methodLevelResource;
     }
 
-    public static Attachment anyAttachment(User anyAdmin) {
+    public static Attachment anyAttachment() {
         final Attachment attachment = new Attachment();
         attachment.setId(UUID.randomUUID());
         attachment.setContent("Any Attachment Content");
-        attachment.setCreatedBy(anyAdmin);
-        attachment.setModifiedBy(anyAdmin);
         return attachment;
     }
 
-    public static AttachmentResource anyAttachmentResource(User anyAdmin) {
+    public static AttachmentResource anyAttachmentResource() {
         final AttachmentResource attachmentResource = new AttachmentResource();
         attachmentResource.setId(UUID.randomUUID());
         attachmentResource.setContent("Any Attachment Resource Content");
-        attachmentResource.setCreatedBy(anyAdmin);
-        attachmentResource.setModifiedBy(anyAdmin);
         return attachmentResource;
     }
 
-    public static Method anyMethod(User anyAdmin) {
+    public static Method anyMethod() {
         final Method method = new Method();
         method.setId(UUID.randomUUID());
         method.setTitle("Any Method Title");
         method.setContent("Any Method Content");
-        method.setAttachments(Collections.singleton(anyAttachment(anyAdmin)));
+        method.setAttachments(Collections.singleton(anyAttachment()));
         method.setMethodLevels(Collections.singleton(anyMethodLevel()));
         method.setMethodTypes(Collections.singleton(anyMethodType()));
         method.setSeminarGoals(Collections.singleton(UUID.randomUUID()));
-        method.setCreatedBy(anyAdmin);
-        method.setModifiedBy(anyAdmin);
         return method;
     }
 
-    public static MethodResource anyMethodResource(
+    public static MethodResource anyMethodResource (
             MethodLevel anyMethodLevel,
             MethodType anyMethodType,
-            UUID anySeminarGoal,
-            User anyAdmin) {
+            UUID anySeminarGoal) {
         final MethodResource methodResource = new MethodResource();
         methodResource.setId(UUID.randomUUID());
         methodResource.setTitle("Any Method Resource Title");
         methodResource.setContent("Any Method Resource Content");
-        methodResource.setAttachments(Collections.singleton(anyAttachment(anyAdmin)));
+        methodResource.setAttachments(Collections.singleton(anyAttachment()));
         methodResource.setMethodLevels(Collections.singleton(anyMethodLevel));
         methodResource.setMethodTypes(Collections.singleton(anyMethodType));
         methodResource.setSeminarGoals(Collections.singleton(UUID.randomUUID()));
-        methodResource.setCreatedBy(anyAdmin);
-        methodResource.setModifiedBy(anyAdmin);
         return methodResource;
     }
 }

@@ -1,13 +1,11 @@
 package de.yfu.intranet.methods.api.resources;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.google.common.base.MoreObjects;
-import de.yfu.intranet.methods.data.domain.User;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
@@ -22,8 +20,6 @@ public class AttachmentResource {
 	private String content;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
-	private User createdBy;	
-	private User modifiedBy;
 
 	public String getTitle() {
 		return title;
@@ -49,28 +45,12 @@ public class AttachmentResource {
 		this.createdAt = createdAt;
 	}
 
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
-
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
-	}
-
-	public User getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(User modifiedBy) {
-		this.modifiedBy = modifiedBy;
 	}
 
 	public UUID getId() {
@@ -91,14 +71,12 @@ public class AttachmentResource {
 				com.google.common.base.Objects.equal(title, that.title) &&
 				com.google.common.base.Objects.equal(content, that.content) &&
 				com.google.common.base.Objects.equal(createdAt, that.createdAt) &&
-				com.google.common.base.Objects.equal(modifiedAt, that.modifiedAt) &&
-				com.google.common.base.Objects.equal(createdBy, that.createdBy) &&
-				com.google.common.base.Objects.equal(modifiedBy, that.modifiedBy);
+				com.google.common.base.Objects.equal(modifiedAt, that.modifiedAt);
 	}
 
 	@Override
 	public int hashCode() {
-		return com.google.common.base.Objects.hashCode(id, title, content, createdAt, modifiedAt, createdBy, modifiedBy);
+		return com.google.common.base.Objects.hashCode(id, title, content, createdAt, modifiedAt);
 	}
 
 	@Override
@@ -109,8 +87,6 @@ public class AttachmentResource {
 				.add("content", content)
 				.add("createdAt", createdAt)
 				.add("modifiedAt", modifiedAt)
-				.add("createdBy", createdBy)
-				.add("modifiedBy", modifiedBy)
 				.toString();
 	}
 }
