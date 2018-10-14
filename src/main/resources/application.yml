@@ -39,10 +39,16 @@ logging:
     org.springframework.web: INFO
   # file: /var/log/methods/app.log
 
-      
+azure:
+  activedirectory:
+    client-secret: t8lFHodtiXdZMU0p4P0SpkLVIEfhg8bkt35DLihC3DQ=
+    client-id: d08628b7-a0cd-4679-bdd7-f12d92f3cb0f
+    active-directory-groups: Editors,EDITOR
+
 server:
-  port: 8080
-  contextPath: /api
+  port: 8082
+  servlet:
+    contextPath: /api
 
 management:
   port: 7979
