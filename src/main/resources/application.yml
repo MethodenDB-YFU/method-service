@@ -46,7 +46,6 @@ azure:
     active-directory-groups: Editors,EDITOR
 
 server:
-  port: 8082
   servlet:
     contextPath: /api
 
