@@ -1,18 +1,25 @@
 FROM maven:3.6-jdk-11-slim AS builder
 
-# Copy source files
-COPY . /app
+LABEL maintainer="Alexander Senger <alexander.senher@yfu-deutschland.de>"
+LABEL version="0.0.1"
+
+# Copy pom first to allow for caching
+COPY ./pom.xml /app/pom.xml
 WORKDIR /app
 
 # Build all dependencies
 RUN mvn dependency:go-offline -B
 
+# Copy rest of files
+COPY . /app
+
 # Package for release, skip tests as there's no database
 RUN mvn -Dmaven.test.skip=true package
 
 
+
 # Final base image
-FROM openjdk:11-jdk-slim
+FROM openjdk:11-jre-slim
 
 # Copy build artifacts from builder image
 COPY --from=builder /app/target/method-service-*.jar /app/
