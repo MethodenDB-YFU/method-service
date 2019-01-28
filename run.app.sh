@@ -1,4 +1,4 @@
-mvn -Dmaven.test.skip=true  clean install
+#!/bin/bash
 
 docker build -t yfudeutschland/method-service .
 

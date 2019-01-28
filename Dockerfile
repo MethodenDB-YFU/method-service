@@ -1,14 +1,27 @@
-FROM maven:3.5-jdk-8-alpine AS builder
+FROM maven:3.6-jdk-11-slim AS builder
 
+# Copy source files
 COPY . /app
 WORKDIR /app
-RUN mvn -Dmaven.test.skip=true clean package
 
-FROM maven:3.5-jdk-8-alpine
+# Build all dependencies
+RUN mvn dependency:go-offline -B
 
-COPY --from=builder /app/target/method-service-0.0.1.jar /app/
+# build release
+RUN mvn -Dmaven.test.skip=true package
+
+
+# Final base image
+FROM openjdk:11-jdk-slim
+
+# Copy build artifacts
+COPY --from=builder /app/target/method-service-*.jar /app/
+
+# Copy start script
 COPY startup.sh /
 
+# Expose listening port
 EXPOSE 8080
 
+# Run
 CMD ["bin/bash", "startup.sh"]
