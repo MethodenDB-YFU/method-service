@@ -1,6 +1,6 @@
 FROM maven:3.6-jdk-11-slim AS builder
 
-LABEL maintainer="Alexander Senger <alexander.senher@yfu-deutschland.de>"
+LABEL maintainer="Alexander Senger <alexander.senger@yfu-deutschland.de>"
 LABEL version="0.0.1"
 
 # Copy pom first to allow for caching
