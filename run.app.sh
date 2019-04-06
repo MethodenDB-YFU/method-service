@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker build -t yfudeutschland/method-service .
+docker build --cache-from yfudeutschland/metohd-service-build-cache -t yfudeutschland/seminar-service .
 
 docker run -d \
     --name method_service \

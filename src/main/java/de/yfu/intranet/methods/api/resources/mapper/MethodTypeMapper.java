@@ -1,10 +1,10 @@
 package de.yfu.intranet.methods.api.resources.mapper;
 
-        import de.yfu.intranet.methods.api.resources.MethodTypeResource;
-        import de.yfu.intranet.methods.data.domain.MethodType;
-        import org.mapstruct.Mapper;
+import de.yfu.intranet.methods.api.resources.MethodTypeResource;
+import de.yfu.intranet.methods.data.domain.MethodType;
+import org.mapstruct.Mapper;
 
-        import java.util.Set;
+import java.util.Set;
 
 @Mapper
 public interface MethodTypeMapper {
