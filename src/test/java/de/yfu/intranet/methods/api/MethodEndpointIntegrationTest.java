@@ -70,11 +70,11 @@ public class MethodEndpointIntegrationTest {
     @Test
     public void getMethod_returnsMethod_ifMethodWithGivenIdExists() throws MethodException {
         Method anyMethod = anyMethod(USER);
-        when(methodService.getMethod(USER.getId(), anyMethod.getId())).thenReturn(anyMethod);
+        when(methodService.getMethod(anyMethod.getId())).thenReturn(anyMethod);
 
         MethodResource response = methodController.getMethod(anyMethod.getId(), USER.getId());
         Method method = methodMapper.mapToDataObject(response);
-        verify(methodService).getMethod(USER.getId(), anyMethod.getId());
+        verify(methodService).getMethod(anyMethod.getId());
         assertThat(anyMethod).isEqualToComparingFieldByField(method);
     }
 

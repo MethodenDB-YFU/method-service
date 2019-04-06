@@ -43,7 +43,7 @@ public class MethodController {
     )
 	public Set<Method> getAllMethods(
 	        @RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
-		return methodService.getAllMethods(userId);
+		return methodService.getAllMethods();
 	}
 
 	@GetMapping(
@@ -52,8 +52,8 @@ public class MethodController {
     )
     public MethodResource getMethod(
             @PathVariable("methodId") UUID methodId,
-			@RequestHeader(value = "X-User-ID") UUID userId) throws MethodException {
-		return methodMapper.mapFromDataObject(methodService.getMethod(userId, methodId));
+			@RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
+		return methodMapper.mapFromDataObject(methodService.getMethod(methodId));
 	}
 
     @PostMapping(

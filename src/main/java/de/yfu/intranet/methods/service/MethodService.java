@@ -2,7 +2,8 @@ package de.yfu.intranet.methods.service;
 
 import static java.lang.String.format;
 
-import java.util.*;
+import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,30 +13,20 @@ import org.springframework.stereotype.Service;
 
 import de.yfu.intranet.methods.exceptions.MethodException;
 import de.yfu.intranet.methods.data.domain.Method;
-import de.yfu.intranet.methods.data.domain.MethodLevel;
-import de.yfu.intranet.methods.data.domain.MethodType;
-import de.yfu.intranet.methods.data.repository.MethodLevelRepository;
 import de.yfu.intranet.methods.data.repository.MethodRepository;
-import de.yfu.intranet.methods.data.repository.MethodTypeRepository;
 
 @Service
 public class MethodService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MethodService.class);
-	private final MethodLevelRepository methodLevelRepo;
 	private final MethodRepository methodRepo; 
 
 	@Autowired
-	public MethodService(final MethodLevelRepository methodLevelRepository,
-			final MethodRepository methodRepository) {
-		this.methodLevelRepo = methodLevelRepository;
+	public MethodService(final MethodRepository methodRepository) {
 		this.methodRepo = methodRepository;
 	}
 
-
-
-	public Set<Method> getAllMethods(UUID userId) throws MethodException {
-		LOGGER.info("Getting all Methods for User [{}]", userId);
+	public Set<Method> getAllMethods() throws MethodException {
 		Set<Method> methods = methodRepo.findAll();
 		if(methods == null) {
 			throw new MethodException("No methods found.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -43,8 +34,7 @@ public class MethodService {
 		return methods;
 	}
 	
-	public Method getMethod(UUID userId, UUID methodId) throws MethodException {
-		LOGGER.info("Getting Method [{}] for User [{}]", methodId, userId);
+	public Method getMethod(UUID methodId) throws MethodException {
 		Method method = methodRepo.findById(methodId).orElse(null);
 		if(method == null) {
 			throw new MethodException(String.format("Could not find method with id [%s]", methodId), HttpStatus.INTERNAL_SERVER_ERROR);

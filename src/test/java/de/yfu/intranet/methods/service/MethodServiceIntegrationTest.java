@@ -40,7 +40,6 @@ public class MethodServiceIntegrationTest {
     @Before
     public void setUp() {
         methodService = new MethodService(
-                methodLevelRepository,
                 methodRepository);
     }
 
@@ -57,7 +56,7 @@ public class MethodServiceIntegrationTest {
     public void getMethod_returnsMethod_ifMethodExists() throws MethodException {
         Method method = anyMethod(USER);
         when(methodRepository.findById(method.getId())).thenReturn(java.util.Optional.ofNullable(method));
-        Method result = methodService.getMethod(USER.getId(), method.getId());
+        Method result = methodService.getMethod(method.getId());
         verify(methodRepository).findById(method.getId());
         assertThat(result).isEqualTo(method);
     }
@@ -65,7 +64,7 @@ public class MethodServiceIntegrationTest {
     @Test
     public void getMethod_returnsEmptySet_ifNoMethodExistsWithGivenId() throws MethodException {
         when(methodRepository.findAll()).thenReturn(Collections.emptySet());
-        Set<Method> result = methodService.getAllMethods(USER.getId());
+        Set<Method> result = methodService.getAllMethods();
         verify(methodRepository).findAll();
         assertThat(result).isEqualTo(Collections.emptySet());
     }
@@ -74,7 +73,7 @@ public class MethodServiceIntegrationTest {
     public void getAllMethods_returnsMethods_ifMethodsExist() throws MethodException {
         Set<Method> methods = Collections.singleton(anyMethod(USER));
         when(methodRepository.findAll()).thenReturn(methods);
-        Set<Method> result = methodService.getAllMethods(USER.getId());
+        Set<Method> result = methodService.getAllMethods();
         verify(methodRepository).findAll();
         assertThat(methods).isEqualTo(result);
     }
