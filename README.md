@@ -1,5 +1,5 @@
 # Methodendatenbank
-[![Build Status](https://travis-ci.org/MethodenDB-YFU/backend.svg?branch=1-write-tests)](https://travis-ci.org/MethodenDB-YFU/backend) [![codecov](https://codecov.io/gh/MethodenDB-YFU/backend/branch/master/graph/badge.svg)](https://codecov.io/gh/MethodenDB-YFU/backend)
+[![Build Status](https://semaphoreci.com/api/v1/alexsenger/method-service/branches/74-remove-user-id-header/badge.svg)](https://semaphoreci.com/alexsenger/method-service)
 
 Methodendatenbank für das YFU Intranet
 
