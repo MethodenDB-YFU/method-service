@@ -41,8 +41,7 @@ public class MethodController {
 	        path = "",
             produces = CONTENT_TYPE_METHOD
     )
-	public Set<Method> getAllMethods(
-	        @RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
+	public Set<Method> getAllMethods() throws MethodException {
 		return methodService.getAllMethods();
 	}
 
@@ -51,8 +50,7 @@ public class MethodController {
             produces = CONTENT_TYPE_METHOD
     )
     public MethodResource getMethod(
-            @PathVariable("methodId") UUID methodId,
-			@RequestHeader(value = "X-User-ID", required = false) UUID userId) throws MethodException {
+            @PathVariable("methodId") UUID methodId) throws MethodException {
 		return methodMapper.mapFromDataObject(methodService.getMethod(methodId));
 	}
 
@@ -62,8 +60,8 @@ public class MethodController {
             produces = CONTENT_TYPE_METHOD
     )
 	public ResponseEntity<MethodResource> createMethod(
-	        @RequestHeader("X-User-ID") UUID userId,
             @RequestBody @Valid final MethodResource methodResource) throws UserException {
+		final UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000000");
 		final User createdBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
 		method.setCreatedBy(createdBy);
@@ -82,9 +80,9 @@ public class MethodController {
     )
 	public ResponseEntity<MethodResource> updateMethod(
 	        @PathVariable("methodId") UUID methodId,
-            @RequestHeader("X-User-ID") UUID userId,
             @RequestBody @Valid final MethodResource methodResource) throws MethodException, UserException {
 
+		final UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000000");
 		final User modifiedBy = userService.findById(userId);
 		final Method method = methodMapper.mapToDataObject(methodResource);
 		method.setModifiedBy(modifiedBy);
@@ -98,8 +96,8 @@ public class MethodController {
             path = "/{methodId}"
     )
 	public ResponseEntity<Void> deleteMethod(
-	        @PathVariable("methodId") UUID methodId,
-            @RequestHeader("X-User-ID") UUID userId) throws MethodException {
+	        @PathVariable("methodId") UUID methodId) throws MethodException {
+		final UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000000");
 		methodService.deleteMethod(userId, methodId);
 		return ResponseEntity.noContent().build();
 	}

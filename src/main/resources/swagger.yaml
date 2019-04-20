@@ -1,14 +1,17 @@
 swagger: '2.0'
 info:
-  description: Api Documentation
+  description: API for YFU Germany methods
   version: '1.0'
-  title: Api Documentation
+  title: Method Service
   termsOfService: 'urn:tos'
-  contact: {}
+  contact: {
+    name: 'Alexander Senger',
+    email: 'alexander.senger@yfu-deutschland.de'
+  }
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0'
-host: '0.0.0.0:8080'
+host: '0.0.0.0:8082'
 basePath: /api
 tags:
   - name: method-controller
@@ -28,12 +31,6 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: X-User-ID
-          in: header
-          description: X-User-ID
-          required: false
-          type: string
       responses:
         '200':
           description: OK
@@ -57,11 +54,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: X-User-ID
-          in: header
-          description: X-User-ID
-          required: true
-          type: string
         - in: body
           name: methodResource
           description: methodResource
@@ -271,11 +263,6 @@ paths:
           description: methodId
           required: true
           type: string
-        - name: X-User-ID
-          in: header
-          description: X-User-ID
-          required: true
-          type: string
       responses:
         '200':
           description: OK
@@ -300,11 +287,6 @@ paths:
         - name: methodId
           in: path
           description: methodId
-          required: true
-          type: string
-        - name: X-User-ID
-          in: header
-          description: X-User-ID
           required: true
           type: string
         - in: body
@@ -339,11 +321,6 @@ paths:
         - name: methodId
           in: path
           description: methodId
-          required: true
-          type: string
-        - name: X-User-ID
-          in: header
-          description: X-User-ID
           required: true
           type: string
       responses:

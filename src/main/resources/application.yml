@@ -104,11 +104,9 @@ cors:
   - Authorization
   - Content-Type
   - X-Flow-ID
-  - X-User-ID
   - Accept
   exposedHeaders:
   - X-Flow-ID
-  - X-User-ID
   maxAge: 3600
   allowCredentials: true
 

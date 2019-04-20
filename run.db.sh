@@ -1,3 +1,5 @@
+#!/bin/bash
+
 docker run -d \
     --name method_service_db \
     --net-alias=db \

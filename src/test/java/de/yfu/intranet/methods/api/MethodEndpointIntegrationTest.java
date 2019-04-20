@@ -72,7 +72,7 @@ public class MethodEndpointIntegrationTest {
         Method anyMethod = anyMethod(USER);
         when(methodService.getMethod(anyMethod.getId())).thenReturn(anyMethod);
 
-        MethodResource response = methodController.getMethod(anyMethod.getId(), USER.getId());
+        MethodResource response = methodController.getMethod(anyMethod.getId());
         Method method = methodMapper.mapToDataObject(response);
         verify(methodService).getMethod(anyMethod.getId());
         assertThat(anyMethod).isEqualToComparingFieldByField(method);
